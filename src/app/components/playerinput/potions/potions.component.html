@@ -1,0 +1,20 @@
+<div class="boost">
+  <h3 class="boost-title">Combat Potions</h3>
+  <div class="potions-container">
+    <ng-container *ngFor="let potion of potions">
+      <div
+        *ngIf="herbloreLevel >= potion.minLevel"
+        class="potion"
+        [ngClass]="{ active: activePotion === potion.name }"
+        (click)="selectPotion(potion.name)"
+        [title]="potion.name"
+      >
+        <img
+          [attr.data-name]="potion.name"
+          class="getIconImg"
+          [src]="getIcon(potion.name)"
+        />
+      </div>
+    </ng-container>
+  </div>
+</div>

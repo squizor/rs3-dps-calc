@@ -1,0 +1,160 @@
+<div class="player-invention-tab" data-tab="invention">
+  <div class="invention-item-selector">
+    <div
+      class="selector-item"
+      *ngFor="let augment of inventionPerks"
+      (click)="selectInventionItem.emit(augment)"
+      [class.active]="augment === activeInventionItem"
+      [title]="augment.name"
+    >
+      <img
+        [attr.data-name]="getInventionItemIcon(augment)"
+        class="getIconImg"
+        [src]="getIconByName(getInventionItemIcon(augment))"
+      />
+      <span *ngIf="augment.name === 'Two-Handed'" class="two-handed-text">2H</span>
+    </div>
+    <div
+      class="selector-item add-item-button"
+      (click)="openAddItemModal()"
+      title="Add a custom item"
+      [class.disabled]="!isArmorLoaded"
+    >
+      <fa-icon [icon]="faPlus"></fa-icon>
+    </div>
+  </div>
+
+  <div class="invention-content">
+    <div class="invention-item" *ngIf="activeInventionItem">
+      <div class="item-header">
+        <div class="perk-icon">
+          <img
+            [attr.data-name]="getInventionItemIcon(activeInventionItem)"
+            class="getIconImg"
+            [src]="getIconByName(getInventionItemIcon(activeInventionItem))"
+          />
+          <span *ngIf="activeInventionItem.name === 'Two-Handed'" class="two-handed-text">2H</span>
+        </div>
+        <span class="item-name">{{ activeInventionItem.name }}</span>
+      </div>
+      <div class="item-details">
+        <div class="perk-slots-container">
+          <ng-container *ngFor="let slot of activeInventionItem.perkSlots; let i = index">
+            <div
+              class="perk-slot"
+              (click)="openPerkModal(slot, activeInventionItem, i)"
+              [ngClass]="{ 'two-slot': slot.selectedPerk?.slotsConsumed === 2 }"
+              *ngIf="!slot.occupiedByAdjacent"
+            >
+              {{ slot.selectedPerk?.name || 'None' }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="remove-button-container">
+        <ng-container *ngIf="itemPendingDeletion !== activeInventionItem; else confirmDelete">
+          <button
+            *ngIf="activeInventionItem.isCustom"
+            class="remove-button"
+            (click)="requestRemoveItem(activeInventionItem)"
+            title="Remove {{ activeInventionItem.name }}"
+          >
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </ng-container>
+        <ng-template #confirmDelete>
+          <div class="remove-confirm-buttons">
+            <button
+              class="confirm-btn"
+              (click)="confirmRemoveItem(activeInventionItem)"
+              title="Confirm remove"
+            >
+              <fa-icon [icon]="faCheck"></fa-icon>
+            </button>
+            <button class="cancel-btn" (click)="cancelRemoveItem()" title="Cancel">
+              <fa-icon [icon]="faTimes"></fa-icon>
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="placeholder-text" *ngIf="!activeInventionItem">
+      <p>Select an item to view its perks or add a new custom item.</p>
+    </div>
+  </div>
+
+  <div class="add-item-modal-overlay" *ngIf="isAddItemModalOpen" (click)="closeAddItemModal()">
+    <div class="add-item-modal" (click)="$event.stopPropagation()">
+      <div class="add-item-modal-header">
+        <h3>Add Invention Item</h3>
+        <button class="close-button" (click)="closeAddItemModal()">X</button>
+      </div>
+      <div class="add-item-modal-body">
+        <input
+          type="text"
+          placeholder="Search for an item..."
+          class="modal-search-input"
+          [(ngModel)]="addItemSearchTerm"
+        />
+        <div class="modal-item-list">
+          <div
+            *ngFor="let item of filteredAugmentableArmorPieces"
+            class="modal-item"
+            (click)="addInventionItem(item); closeAddItemModal()"
+          >
+            <img [src]="getIconByName(item.icon || item.name)" alt="" class="getIconImg" />
+            <span>{{ item.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="invention-modal-overlay" *ngIf="isInventionModalOpen" (click)="closeInventionModal()">
+    <div class="invention-modal" (click)="$event.stopPropagation()">
+      <div class="invention-modal-header">
+        <h3>Select Part for {{ selectedAugmentForModal?.name }}</h3>
+        <button class="close-button" (click)="closeInventionModal()">X</button>
+      </div>
+      <div class="invention-modal-current-selection">
+        <span>Current: {{ selectedAugmentForModal?.activeLongPart }}</span>
+      </div>
+      <div class="invention-modal-all-parts">
+        <div
+          class="part-item"
+          *ngFor="let longPart of selectedAugmentForModal?.longPartOptions"
+          [ngClass]="{ active: selectedAugmentForModal?.activeLongPart === longPart }"
+          (click)="selectLongPartFromModal(longPart)"
+        >
+          <div class="part-name">{{ longPart }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="perk-modal-overlay" *ngIf="isPerkModalOpen" (click)="closePerkModal()">
+    <div class="perk-modal" (click)="$event.stopPropagation()">
+      <div class="perk-modal-header">
+        <h3>Select Perk for {{ selectedSlotForModal?.name }}</h3>
+        <button class="close-button" (click)="closePerkModal()">X</button>
+      </div>
+      <div class="perk-modal-current-selection">
+        <span>Current: {{ selectedSlotForModal?.selectedPerk?.name || 'None' }}</span>
+      </div>
+      <div class="perk-modal-all-perks">
+        <div
+          class="perk-item"
+          *ngFor="let perkOption of selectedSlotForModal?.options"
+          [ngClass]="{ active: selectedSlotForModal?.selectedPerk?.name === perkOption.name }"
+          (click)="selectPerkFromModal(perkOption)"
+        >
+          <div class="perk-name">
+            {{ perkOption.name }} ({{ perkOption.slotsConsumed }} slot{{
+              perkOption.slotsConsumed === 1 ? '' : 's'
+            }})
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

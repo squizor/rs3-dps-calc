@@ -1,0 +1,27 @@
+.kpi-card {
+    background-color: var(--wiki-theme-dark);
+    border-radius: var(--border-radius, 0.75rem);
+    border: 1px solid var(--wiki-theme-bright);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header, .card-body {
+    padding: 1rem 1.5rem;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--wiki-theme-bright);
+}
+
+.card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.kpi-value {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+}

@@ -1,0 +1,20 @@
+<div class="main-chart-card">
+    <div class="card-header">
+        <h3 class="card-title">Damage Over Time</h3>
+    </div>
+    <div class="card-body" *ngIf="chartOptions">
+        <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis"
+            [yaxis]="chartOptions.yaxis"
+            [stroke]="chartOptions.stroke"
+            [tooltip]="chartOptions.tooltip"
+            [dataLabels]="chartOptions.dataLabels"
+            [fill]="chartOptions.fill"
+            [colors]="chartOptions.colors"
+            [legend]="chartOptions.legend"
+            [theme]="chartOptions.theme"
+        ></apx-chart>
+    </div>
+</div>

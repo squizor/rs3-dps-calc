@@ -1,0 +1,148 @@
+<div cdkDropListGroup>
+  <div class="timeline-wrapper">
+    <header class="timeline-header">
+      <h3 class="timeline-title">Rotation Timeline</h3>
+      <div class="header-actions">
+        <button class="clear-rotation-btn" (click)="clearRotation()">
+          Clear Rotation
+        </button>
+      </div>
+    </header>
+
+    <div class="timeline-container-outer">
+      <div
+        id="timeline-list"
+        cdkDropList
+        [cdkDropListData]="rotationInternal()"
+        [cdkDropListConnectedTo]="connectedTo"
+        [cdkDropListDisabled]="mergingStepIndex() !== null"
+        (cdkDropListDropped)="dropToTimeline($event)"
+        class="timeline-container-inner"
+      >
+        @for (step of rotationInternal(); track step.id; let stepIndex = $index) {
+
+        <div
+          cdkDrag
+          [cdkDragData]="step"
+          [cdkDragDisabled]="mergingStepIndex() !== null"
+          class="step-group"
+          [class.is-merged-group]="step.items.length > 1"
+          [class.step-group-merging]="mergingStepIndex() === stepIndex"
+          [class.step-group-disabled]="
+            mergingStepIndex() !== null && mergingStepIndex() !== stepIndex
+          "
+        >
+          <!-- This is the lightweight preview that is shown while dragging -->
+          <div *cdkDragPreview class="step-drag-preview">
+            @if(isAbility(step.items[0])) {
+            <img
+              [src]="'assets/' + step.items[0].icon"
+              [alt]="step.items[0].name"
+              class="item-icon"
+            />
+            } @else {
+            <span class="item-text-type">{{ step.items[0].type }}</span>
+            } @if(step.items.length > 1) {
+            <span class="merged-count-badge">+{{ step.items.length - 1 }}</span>
+            }
+          </div>
+
+          <div cdkDragHandle class="step-card-handle">
+            <div class="step-card">
+              <div class="step-card-content">
+                @if(step.items.length > 0) { @if(isAbility(step.items[0])) {
+                <img
+                  [src]="'assets/' + step.items[0].icon"
+                  [alt]="step.items[0].name"
+                  class="item-icon"
+                />
+                } @else {
+                <span class="item-text-type">{{ step.items[0].type }}</span>
+                } }
+              </div>
+            </div>
+
+            @if(mergingStepIndex() === null) {
+
+            <button
+              (mousedown)="$event.stopPropagation()"
+              (click)="removeStep(stepIndex)"
+              class="remove-button step-remove-button"
+            >
+              &times;
+            </button>
+            }
+
+            <button
+              (mousedown)="$event.stopPropagation()"
+              (click)="toggleMergeMode(stepIndex)"
+              class="merge-button"
+              [class.merge-button-active]="mergingStepIndex() === stepIndex"
+              [class.hidden]="mergingStepIndex() !== null && mergingStepIndex() !== stepIndex"
+            >
+              @if(mergingStepIndex() === stepIndex) {
+              <span class="merge-button-close">✕</span> } @else { + }
+            </button>
+          </div>
+
+          @for (item of step.items.slice(1); track item.instanceId; let i = $index) {
+
+          <div class="merged-item-card">
+            <div class="merged-item-content">
+              @if(isAbility(item)) {
+
+              <img [src]="'assets/' + item.icon" [alt]="item.name" class="item-icon" />
+
+              } @else {
+
+              <span class="item-text-type">{{ item.type }}</span>
+
+              }
+            </div>
+
+            <button
+              (click)="removeItem(stepIndex, i + 1)"
+              class="remove-button merged-remove-button"
+            >
+              &times;
+            </button>
+          </div>
+
+          } @if(mergingStepIndex() === stepIndex) {
+
+          <div
+            id="active-merge-slot"
+            class="merge-slot"
+            cdkDropList
+            [cdkDropListData]="step.items"
+            (cdkDropListDropped)="dropToMergeSlot($event)"
+          >
+            <span class="merge-slot-icon">📥</span>
+
+            <span class="merge-slot-text">Drop Here</span>
+          </div>
+
+          }
+
+          <!-- Arrow Connector -->
+          @if (stepIndex < rotationInternal().length - 1) {
+          <div
+            class="step-connector"
+            [style.--arrow-color]="getArrowColorForItem(step.items[0])"
+          ></div>
+          }
+        </div>
+
+        } @if (rotationInternal().length === 0 && mergingStepIndex() === null) {
+
+        <div class="empty-timeline-placeholder">
+          <div class="empty-timeline-icon">📥</div>
+
+          <p>Drag items here to start your rotation</p>
+        </div>
+
+        }
+      </div>
+    </div>
+  </div>
+</div>

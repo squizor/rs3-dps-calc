@@ -1,0 +1,134 @@
+[
+  {
+    "name": "Bandos tassets",
+    "defence_requirement": 70,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 22.1,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -228,
+      "magic": -428,
+      "necromancy": -428
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Bandos_tassets.png"
+  },
+  {
+    "name": "Torva platelegs",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 25.4,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -298,
+      "magic": -558,
+      "necromancy": -558
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Torva_platelegs.png"
+  },
+  {
+    "name": "Anima core legs of Zaros",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 25.4,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -298,
+      "magic": -558,
+      "necromancy": -558
+    },
+    "icon": "https://runescape.wiki/images/Anima_core_legs_of_Zaros.png"
+  },
+  {
+    "name": "Malevolent greaves",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 29,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -383,
+      "magic": -718,
+      "necromancy": -718
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Malevolent_greaves.png"
+  },
+  {
+    "name": "Masterwork melee platelegs",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 29,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -383,
+      "magic": -718,
+      "necromancy": -718
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Masterwork_melee_platelegs.png"
+  },
+  {
+    "name": "Trimmed masterwork melee platelegs",
+    "defence_requirement": 92,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 31,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -402,
+      "magic": -754,
+      "necromancy": -754
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_platelegs.png"
+  },
+  {
+    "name": "Vestments of havoc robe bottom",
+    "defence_requirement": 95,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 37,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -261,
+      "magic": -490,
+      "necromancy": -490
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Vestments_of_havoc_robe_bottom.png"
+  }
+]

@@ -1,0 +1,129 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.timeline-wrapper {
+  background-color: var(--wiki-theme-darkest);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 140px;
+  box-shadow: var(--shadow-inner);
+}
+
+.tick-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.tick-container {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--wiki-theme-dark);
+  min-height: 60px;
+  border: 1px solid var(--wiki-theme-bright);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &.cdk-drop-list-dragging,
+  &:hover {
+    border-color: var(--accent-color);
+  }
+}
+
+.ability-item-wrapper {
+  width: 48px;
+  height: 48px;
+  cursor: move;
+  margin: 0 2px;
+  border-radius: var(--radius-sm);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.ability-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.next-attack-dropzone {
+  width: 35px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  margin: 0 6px;
+  border: 2px dashed transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  .next-attack-arrow {
+    color: var(--text-secondary);
+    font-size: 2rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+}
+
+.cdk-drop-list-dragging .next-attack-dropzone {
+  border-color: var(--wiki-theme-brighter);
+}
+
+.next-attack-dropzone.cdk-drop-list-receiving {
+  background-color: var(--accent-color-translucent);
+  border-color: var(--accent-color);
+
+  .next-attack-arrow {
+    transform: scale(1.2);
+  }
+}
+
+.custom-placeholder {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-color-translucent);
+  border: 1px dashed var(--accent-color);
+  border-radius: 6px;
+}
+
+.custom-placeholder-arrow {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-color-translucent);
+  border: 2px dashed var(--accent-color);
+  border-radius: var(--radius-sm);
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: var(--shadow-lg);
+}
+
+.empty-timeline-placeholder {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}

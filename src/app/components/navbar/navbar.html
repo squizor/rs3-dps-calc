@@ -1,0 +1,11 @@
+<div class="navbar_container">
+  <div class="navbar_start" [style.backgroundImage]="'url(' + imgPath + ')'"></div>
+  <div class="navbar_end">
+    <fa-icon [icon]="faGear" class="faButton" tabindex="0" (click)="isSettingsModalOpen = true" />
+    <fa-icon [icon]="faGithub" class="faButton" tabindex="0" />
+  </div>
+</div>
+<app-settings-modal
+  *ngIf="isSettingsModalOpen"
+  (modalClosed)="isSettingsModalOpen = false"
+></app-settings-modal>

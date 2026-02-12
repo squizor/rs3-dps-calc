@@ -1,0 +1,222 @@
+@use '../../../styles/modals';
+@use '../helpers';
+
+:host {
+  --danger-color: #e53e3e;
+  --danger-hover-color: #c53030;
+  --danger-bg-light: rgba(229, 62, 62, 0.1);
+}
+
+.player-arch-tab {
+  .arch-container {
+    @include helpers.card;
+    position: relative;
+
+    .arch-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+
+      .quest-container {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .arch-level {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .preset-container {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      .dropdown-container {
+        @include helpers.dropdown;
+
+        .preset-option,
+        .quest-option {
+          @include helpers.dropdown-trigger;
+        }
+
+        .dropdown-items {
+          .dropdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+
+            span {
+              flex-grow: 1;
+              padding: 0.5rem;
+            }
+
+            .delete-container {
+              display: flex;
+              align-items: center;
+            }
+
+            .delete-preset,
+            .confirm-btn,
+            .cancel-btn {
+              background: transparent;
+              border: none;
+              color: var(--text-secondary);
+              cursor: pointer;
+              font-size: 1rem;
+              padding: 0.5rem;
+              border-radius: var(--radius-sm);
+              line-height: 1;
+              width: 2rem;
+              height: 2rem;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+
+              &:hover {
+                background-color: var(--hover-bg);
+              }
+            }
+
+            .delete-preset:hover {
+              color: var(--danger-color);
+            }
+
+            .preset-confirm-buttons {
+              display: flex;
+              gap: 0.25rem;
+              background-color: var(--input-bg);
+              border-radius: var(--radius-sm);
+              padding: 0.1rem;
+              border: 1px solid var(--border-color);
+            }
+
+            .confirm-btn:hover {
+              color: #38a169;
+            }
+
+            .cancel-btn:hover {
+              color: var(--danger-color);
+            }
+          }
+
+          .save-new {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 0.5rem;
+
+            input {
+              flex-grow: 1;
+              background-color: var(--input-bg);
+              border: 1px solid var(--border-color);
+              color: var(--text-primary);
+              padding: 0.5rem;
+              border-radius: var(--radius-sm);
+            }
+
+            button {
+              background-color: var(--active-color);
+              color: var(--wiki-theme-darkest);
+              border: none;
+              padding: 0.5rem 1rem;
+              border-radius: var(--radius-sm);
+              cursor: pointer;
+              &:hover {
+                filter: brightness(0.9);
+              }
+            }
+          }
+        }
+      }
+
+      .arch-level {
+        background-color: var(--input-bg);
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        white-space: nowrap;
+      }
+    }
+    .arch-body {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      .relic-slot {
+        background-color: var(--input-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+        gap: 0.5rem;
+        min-height: 120px;
+        text-align: center;
+
+        .relic-image-placeholder,
+        .getIconImg {
+          width: 50px;
+          height: 50px;
+          background-color: var(--hover-bg);
+          border-radius: var(--radius-sm);
+        }
+        .getIconImg {
+          background-color: transparent;
+        }
+        .relic-name {
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+        .relic-cost {
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+        &:hover {
+          background: var(--hover-bg);
+          border-color: var(--active-color);
+        }
+      }
+      .relic-item.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #3f3333;
+        border-color: #8f2d2d;
+
+        &:hover {
+          background-color: #3f3333;
+          border-color: #8f2d2d;
+        }
+      }
+    }
+  }
+
+  .clear-all-relics-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background-color: var(--input-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+      background-color: var(--danger-color);
+      border-color: var(--danger-hover-color);
+      color: var(--text-primary);
+    }
+  }
+}

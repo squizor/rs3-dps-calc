@@ -1,0 +1,135 @@
+[
+  {
+    "name": "Bandos chestplate",
+    "defence_requirement": 70,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 26.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -238,
+      "magic": -448,
+      "necromancy": -448
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Bandos_chestplate.png"
+  },
+  {
+    "name": "Torva platebody",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 30.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -311,
+      "magic": -584,
+      "necromancy": -584
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Torva_platebody.png"
+  },
+  {
+    "name": "Anima core body of Zaros",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 30.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -311,
+      "magic": -584,
+      "necromancy": -584
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Anima_core_body_of_Zaros.png"
+  },
+  {
+    "name": "Malevolent cuirass",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 34.8,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -400,
+      "magic": -751,
+      "necromancy": -751
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Malevolent_cuirass.png"
+  },
+  {
+    "name": "Masterwork melee platebody",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 34.8,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -400,
+      "magic": -751,
+      "necromancy": -751
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Masterwork_melee_platebody.png"
+  },
+  {
+    "name": "Trimmed masterwork melee platebody",
+    "defence_requirement": 92,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 36,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -420,
+      "magic": -789,
+      "necromancy": -789
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_platebody.png"
+  },
+  {
+    "name": "Vestments of havoc robe",
+    "defence_requirement": 95,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 42,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -273,
+      "magic": -512,
+      "necromancy": -512
+    },
+    "augmentable": true,
+    "icon": "https://runescape.wiki/images/Vestments_of_havoc_robe_top.png"
+  }
+]

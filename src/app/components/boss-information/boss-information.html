@@ -1,0 +1,22 @@
+<div class="boss-information-container">
+  <h3>{{ enemyData?.name || 'No Enemy Selected' }}</h3>
+
+  <div *ngIf="enemyData">
+    <p *ngIf="enemyData.weakness"><strong>Weakness:</strong> {{ enemyData.weakness }}</p>
+
+    <div *ngIf="affinities.length > 0" class="affinity-details">
+      <h4>Affinities:</h4>
+      <ul>
+        <li *ngFor="let affinity of affinities">
+          <strong>{{ affinity.style | titlecase }}:</strong> {{ affinity.value }}%
+        </li>
+      </ul>
+    </div>
+
+    <p><strong>Defense Level:</strong> {{ enemyData.defenceLevel }}</p>
+    <p><strong>Armor:</strong> {{ enemyData.armor }}</p>
+  </div>
+  <div *ngIf="!enemyData">
+    <p>Select an enemy to view its information.</p>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--wiki-theme-darker);
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  :host {
+    padding: 1rem;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  .dashboard-grid,
+  .kpi-grid {
+    gap: 1rem;
+  }
+}

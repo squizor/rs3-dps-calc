@@ -1,0 +1,70 @@
+.main_container {
+  display: grid;
+  grid-template-columns: 504px 1fr 1fr; // Fixed left, fluid middle and right
+  width: 100%;
+  height: 100%;
+  gap: 1px;
+  background: var(--wiki-theme-darkest);
+
+  .left_column,
+  .middle_column,
+  .right_column {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--wiki-theme-darker);
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--wiki-theme-darker);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 4px;
+      border: 2px solid var(--wiki-theme-darker);
+    }
+  }
+
+  .left_column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-padding);
+    justify-content: space-between;
+    padding: var(--button-padding);
+    height: 100%;
+    background-color: var(--wiki-theme-darker);
+  }
+
+  .middle_column {
+    display: flex;
+    flex-direction: column;
+    padding: var(--button-padding);
+    height: 100%;
+    background-color: var(--wiki-theme-darker);
+    min-width: 0;
+  }
+
+  .right_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--button-padding);
+    height: 100%;
+    background-color: var(--wiki-theme-darker);
+    min-width: 0;
+
+    app-dps-display {
+      flex: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main_container {
+    display: flex;
+    flex-direction: column;
+  }
+}

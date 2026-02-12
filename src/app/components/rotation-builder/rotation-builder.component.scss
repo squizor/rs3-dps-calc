@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--wiki-theme-darkest);
+  color: white;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.rotation-builder-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.content-area {
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--wiki-theme-bright);
+  padding-bottom: 1rem;
+}
+
+.title-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.back-link {
+    color: var(--text-color-light);
+    text-decoration: none;
+    &:hover {
+        color: var(--active);
+    }
+}

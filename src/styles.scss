@@ -1,0 +1,111 @@
+@import url('https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+html {
+  font-family: 'rubik', 'arial', 'sans-serif';
+  color: white;
+
+  --navbar-height: 5em;
+  --navbar-padding: 2em;
+  --section-padding: 2em;
+  --border-radius: 1em;
+  --button-padding: 1em;
+
+  --wiki-theme-darkest: #071022;
+  --wiki-theme-darker: #172136;
+  --wiki-theme-dark: #222e45;
+  --wiki-theme-bright: #313e59;
+  --wiki-theme-brighter: #596e96;
+  --wiki-theme-brightest: #8cabe6;
+
+  --active: #596e96;
+
+  --accent-color: #ffb700;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --neutral-color: var(--wiki-theme-bright);
+  --text-color-light: var(--wiki-theme-brighter);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--wiki-theme-darker);
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+button,
+input {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.getIconImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 768px) {
+  html {
+    --section-padding: 0.5em;
+  }
+}
+
+.two-handed-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--active);
+  color: var(--wiki-theme-darkest);
+  padding: 0.2em 0.5em;
+  border-radius: var(--border-radius) 0 var(--border-radius) 0;
+  font-size: 0.7em;
+  font-weight: bold;
+  z-index: 1;
+}
+
+/* Global Angular Material Tab Overrides */
+.mat-tab-label {
+  padding: 0 8px !important;
+  min-width: auto !important;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-out;
+}
+
+.mat-tab-label.mat-tab-label-active {
+  opacity: 1 !important;
+}
+
+.mat-tab-body-content {
+  padding-top: 1rem;
+  height: 100%;
+  overflow: auto;
+}
+
+.mat-ink-bar {
+  background-color: var(--accent-color) !important;
+}
+body.osrs-theme {
+  --wiki-theme-darkest: #4a3c2c;
+  --wiki-theme-darker: #5a4b3a;
+  --wiki-theme-dark: #6a5a4a;
+  --wiki-theme-bright: #8b7a69;
+  --wiki-theme-brighter: #ab9a89;
+  --wiki-theme-brightest: #dbcac0;
+  --active: #ab9a89;
+  --accent-color: #ff981f;
+}

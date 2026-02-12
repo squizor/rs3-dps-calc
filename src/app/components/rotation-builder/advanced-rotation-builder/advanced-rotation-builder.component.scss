@@ -1,0 +1,149 @@
+:host {
+  height: 100%;
+  display: block;
+}
+
+.advanced-builder-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
+  gap: 16px;
+  height: 100%;
+}
+
+.column {
+  height: 100%;
+  width: 100%;
+  background-color: var(--wiki-theme-dark);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--wiki-theme-bright);
+}
+
+.ability-list-panel {
+}
+
+.timeline-panel {
+  flex-grow: 1;
+}
+
+.info-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Adjust as needed */
+  width: 100%;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 16px;
+}
+
+
+
+.boss-info-container {
+    /* Specific styles for boss info if needed */
+    padding: 16px;
+}
+
+.trash-can-area {
+
+  margin-top: auto;
+
+  padding: 20px;
+
+  border-radius: var(--border-radius);
+
+  border: 2px dashed var(--border-color);
+
+  color: var(--text-secondary);
+
+  transition: all 0.2s ease-in-out;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+}
+
+
+
+.trash-can-area svg {
+
+  transition: all 0.2s ease-in-out;
+
+}
+
+
+
+/* Make trash can appealing only when dragging */
+
+.trash-can-area.cdk-drop-list-receiving {
+
+  background-color: var(--accent-color-dark);
+
+  border-color: var(--accent-color);
+
+  color: var(--text-primary);
+
+}
+
+
+
+.trash-can-area.cdk-drop-list-receiving svg {
+
+  transform: scale(1.2);
+
+}
+
+
+
+.sr-only {
+
+  position: absolute;
+
+  width: 1px;
+
+  height: 1px;
+
+  padding: 0;
+
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+
+  border-width: 0;
+
+}
+
+.timeline-actions {
+  padding-top: 10px;
+}
+
+.action-btn {
+  background-color: var(--wiki-theme-brighter);
+  border: 1px solid var(--wiki-theme-bright);
+  color: var(--text-color-light);
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--wiki-theme-bright);
+  }
+}

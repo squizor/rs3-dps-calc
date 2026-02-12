@@ -1,0 +1,182 @@
+@use '../_helpers.scss' as helpers;
+
+:host {
+}
+
+.equipment-search-container {
+  display: flex;
+  width: 100%;
+  margin: 0 0 1.5rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.search-input-wrapper .search-input {
+  flex-grow: 1;
+  padding: 0.7rem 0.8rem 0.7rem 3.8rem;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+
+  &:focus {
+    border-color: var(--active-color);
+  }
+}
+
+.stats-main-container {
+  @include helpers.card;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+}
+
+.stats-list-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding-right: 1.5rem;
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+
+  .stat-icon-item {
+    height: 3.5rem;
+    width: 3.5rem;
+    background: var(--input-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    padding: 0.5rem;
+
+    &:hover {
+      transform: scale(1.05);
+      border-color: var(--active-color);
+    }
+
+    &.active {
+      border-color: var(--active-color);
+      box-shadow: 0 0 10px rgba(var(--active-color-rgb), 0.7);
+    }
+  }
+}
+
+.stat-editor-container {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.editor-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+
+  .editor-stat-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .editor-title-group {
+    text-align: center;
+    h3 {
+      margin: 0;
+      text-transform: capitalize;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+.stat-value-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .stat-input {
+    width: 4rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 0.5rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--active-color);
+      box-shadow: 0 0 0 3px rgba(var(--active-color-rgb), 0.2);
+    }
+  }
+
+  .stepper-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--input-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: var(--active-color);
+      transform: scale(1.05);
+    }
+  }
+}
+
+.stat-editor-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+}

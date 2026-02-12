@@ -1,0 +1,24 @@
+<div class="dropdown-container" #spellDropdown>
+  <div class="spell-option" (click)="toggleSpellBookDropdown()">
+    <div>{{ activeSpellBook }}</div>
+    <fa-icon [icon]="faChevronDown" [class.rotate]="isSpellDropdownOpen" tabindex="0" />
+  </div>
+  <div class="dropdown-items" *ngIf="isSpellDropdownOpen">
+    <div class="dropdown-item" (click)="updateSpellBook.emit(ESpellBook.ANCIENT)">Ancients</div>
+    <div class="dropdown-item" (click)="updateSpellBook.emit(ESpellBook.STANDARD)">Standard</div>
+  </div>
+</div>
+<div class="spells-container">
+  <div
+    *ngFor="let spell of spells | filter : { spellBook: activeSpellBook }"
+    class="spell"
+    [ngClass]="{ active: activeSpells === spell.name }"
+    (click)="selectSpell.emit(spell.name)"
+  >
+    <img
+      [attr.data-name]="spell.name"
+      class="getIconImg"
+      [src]="getIcon(spell.name)"
+    />
+  </div>
+</div>

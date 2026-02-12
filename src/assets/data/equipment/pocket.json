@@ -1,0 +1,92 @@
+[
+  {
+    "name": "God book",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 5,
+      "ranged": 5,
+      "magic": 5,
+      "necromancy": 5
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Zamorak's_Book_of_Chaos.png"
+  },
+  {
+    "name": "Illuminated god book",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 7,
+      "ranged": 7,
+      "magic": 7,
+      "necromancy": 7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Illuminated_Book_of_Chaos.png"
+  },
+  {
+    "name": "Erethdor's Grimoire",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 7,
+      "ranged": 7,
+      "magic": 7,
+      "necromancy": 7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Erethdor's_grimoire.png"
+  },
+  {
+    "name": "Scripture of Ful",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 8,
+      "ranged": 8,
+      "magic": 8,
+      "necromancy": 8
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Scripture_of_Ful.png"
+  },
+  {
+    "name": "Underworld Grimoire 4",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 15,
+      "ranged": 15,
+      "magic": 15,
+      "necromancy": 15
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Underworld_Grimoire_4.png"
+  }
+]

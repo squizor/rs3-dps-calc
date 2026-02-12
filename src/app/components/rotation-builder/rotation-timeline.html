@@ -1,0 +1,49 @@
+
+    <div 
+      class="timeline-wrapper"
+      #timelineContainer
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      id="rotation-timeline"
+      [cdkDropListData]="rotation"
+      (cdkDropListDropped)="onDropTick($event)"
+    >
+      <div *ngFor="let tick of rotation; let i = index" class="tick-wrapper" cdkDrag [cdkDragData]="tick">
+        
+        <div
+          [id]="'tick-' + i"
+          cdkDropList
+          [cdkDropListData]="tick.items"
+          [cdkDropListConnectedTo]="allContainerIds"
+          class="tick-container"
+          (cdkDropListDropped)="onDropInTick($event)">
+          <div *ngFor="let item of tick.items" 
+            class="ability-item-wrapper" 
+            cdkDrag 
+            [cdkDragData]="item"
+            [title]="getItemTooltip(item)"
+          >
+            <div class="icon-container">
+              <img *ngIf="isAbility(item)" [src]="getIcon(item)" [alt]="getItemName(item)" class="ability-icon">
+              <fa-icon *ngIf="!isAbility(item)" [icon]="getIcon(item)!" class="ability-icon"></fa-icon>
+            </div>
+            <div *cdkDragPlaceholder class="custom-placeholder"></div>
+          </div>
+        </div>
+
+        <div 
+          [id]="'after-tick-' + i"
+          cdkDropList
+          [cdkDropListData]="{ type: 'after', index: i }"
+          [cdkDropListConnectedTo]="allContainerIds"
+          class="next-attack-dropzone"
+          (cdkDropListDropped)="onDropAfterTick($event)">
+            <div class="next-attack-arrow">&rarr;</div>
+            <div *cdkDragPlaceholder class="custom-placeholder-arrow"></div>
+        </div>
+      </div>
+      <div *ngIf="!rotation || rotation.length === 0" class="empty-timeline-placeholder">
+        <p>Drag abilities here to build your rotation.</p>
+      </div>
+    </div>
+  

@@ -1,0 +1,93 @@
+@mixin player-input-theme {
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --border-color: #071022;
+  --input-bg: #2e3a50;
+  --hover-bg: #1f2838;
+  --active-color: #ffb700;
+
+  --wiki-theme-darkest: #071022;
+  --wiki-theme-darker: #172136;
+  --wiki-theme-dark: #222e45;
+  --wiki-theme-bright: #313e59;
+  --wiki-theme-brighter: #596e96;
+  --wiki-theme-brightest: #8cabe6;
+
+  --radius-sm: 4px;
+  --radius: 8px;
+
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@mixin card {
+  background-color: var(--wiki-theme-darker);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@mixin dropdown-trigger {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+
+  fa-icon {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    &.rotate {
+      transform: rotateX(180deg);
+    }
+  }
+  &:hover {
+    border-color: var(--active-color);
+  }
+}
+
+@mixin dropdown {
+  position: relative;
+  .dropdown-trigger {
+    @include dropdown-trigger;
+  }
+  .dropdown-items {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    z-index: 100;
+    overflow: hidden;
+    animation: fadeInDown 0.2s ease-out;
+    box-shadow: var(--shadow-md);
+
+    .dropdown-item {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      &:hover {
+        background-color: var(--active-color);
+        color: var(--wiki-theme-darkest);
+      }
+    }
+  }
+}

@@ -1,0 +1,264 @@
+<div class="player-inputs">
+  <div class="player-builds">
+    <div class="player-build"><fa-icon [icon]="faPlus" class="faButton" tabindex="0" /></div>
+    <div class="player-build"><fa-icon [icon]="faPlus" class="faButton" tabindex="0" /></div>
+  </div>
+  <div class="player-info">
+    <div
+      *ngFor="let tab of tabs"
+      class="player-tab"
+      [ngClass]="{ active: activeTab === tab }"
+      (click)="selectTab(tab)"
+      [attr.data-name]="tab"
+    >
+      <img [attr.data-name]="tab" class="getIconImg" [src]="playerDataService.getIconByName(tab)" />
+    </div>
+  </div>
+  <div class="main-content-area">
+    <div class="tab-container">
+      <div class="player-equipment-tab" *ngIf="activeTab === eTabs.EQUIPMENT" data-tab="equipment">
+        <div class="equipment-search" #equipmentSearchDropdown>
+          <fa-icon [icon]="faSearch"></fa-icon>
+          <input
+            type="text"
+            [(ngModel)]="equipmentSearchQuery"
+            (ngModelChange)="filterAllArmor()"
+            (focus)="openSearchDropdown()"
+            placeholder="Search equipment..."
+          />
+          <fa-icon
+            [icon]="faTimes"
+            class="clear-search"
+            *ngIf="equipmentSearchQuery"
+            (click)="clearSearch()"
+          ></fa-icon>
+          <app-searchable-dropdown
+            [items]="availableArmors"
+            (itemSelected)="selectSearchedArmor($event)"
+            *ngIf="isSearchDropdownOpen"
+            [ngClass]="{ 'is-open': isSearchDropdownOpen }"
+          ></app-searchable-dropdown>
+        </div>
+        <div class="equipment-presets" #gearPresetDropdown>
+          <div class="preset-dropdown-container">
+            <button
+              class="preset-button"
+              (click)="isGearPresetDropdownOpen = !isGearPresetDropdownOpen"
+            >
+              Presets <fa-icon [icon]="faChevronDown"></fa-icon>
+            </button>
+            <div class="preset-dropdown" *ngIf="isGearPresetDropdownOpen">
+              <div
+                *ngFor="let preset of gearPresets"
+                class="preset-item"
+                (click)="loadGearPreset(preset)"
+              >
+                {{ preset.name }}
+                <fa-icon
+                  [icon]="faTimes"
+                  (click)="deleteGearPreset(preset.name); $event.stopPropagation()"
+                ></fa-icon>
+              </div>
+              <div class="preset-actions">
+                <input type="text" #presetNameInput placeholder="New preset name..." />
+                <button (click)="saveGearPreset(presetNameInput.value); presetNameInput.value = ''">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="equipment-grid">
+          <div
+            *ngFor="let slot of equipmentSlots"
+            class="slot"
+            [ngClass]="'slot-' + slot.name"
+            [class.disabled]="
+              ((slot.name === 'mainhand' || slot.name === 'offhand') &&
+                weaponStyleSetting === '2h') ||
+              (slot.name === 'twohand' && weaponStyleSetting === 'dual-wield')
+            "
+            (click)="onSlotClick(slot)"
+          >
+            <img
+              [attr.data-name]="
+                slot.name === 'twohand' && !slot.selectedArmor
+                  ? 'mainhand'
+                  : slot.selectedArmor?.name || slot.name
+              "
+              class="getIconImg"
+              [src]="
+                slot.selectedArmor?.icon ||
+                playerDataService.getIconByName(
+                  slot.name === 'twohand' && !slot.selectedArmor
+                    ? 'mainhand'
+                    : slot.selectedArmor?.name || slot.name
+                )
+              "
+              [title]="
+                slot.selectedArmor?.name || (slot.selectedArmor ? '' : 'Select ' + slot.name)
+              "
+            />
+            <span *ngIf="slot.name === 'twohand'" class="two-handed-text">2H</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="player-stats-tab" *ngIf="activeTab === eTabs.STATS" data-tab="stats">
+        <app-stats-input
+          [stats]="stats"
+          [getIcon]="playerDataService.getIconByName.bind(playerDataService)"
+          (statLevelChange)="onStatLevelChange($event)"
+          (lookupRsn)="lookupRsn($event)"
+        ></app-stats-input>
+
+        <app-potions
+          [potions]="potions"
+          [herbloreLevel]="herbloreLevel"
+          [activePotion]="activePotion"
+          [getIcon]="playerDataService.getIconByName.bind(playerDataService)"
+          (potionChange)="selectPotion($event)"
+        ></app-potions>
+      </div>
+      <div class="player-prayers-tab" *ngIf="activeTab === eTabs.PRAYERS" data-tab="prayers">
+        <app-prayers
+          [prayers]="prayers"
+          [activePrayerBook]="activePrayerBook"
+          [activePrayerDmg]="activePrayerDmg"
+          [activePrayerOverhead]="activePrayerOverhead"
+          [getIcon]="playerDataService.getIconByName.bind(playerDataService)"
+          (selectPrayer)="selectPrayer($event)"
+          (updatePrayerBook)="onPrayerBookChange($event)"
+        ></app-prayers>
+      </div>
+      <div class="player-spells-tab" *ngIf="activeTab === eTabs.SPELLS" data-tab="spells">
+        <app-spells
+          [spells]="spells"
+          [activeSpellBook]="activeSpellBook"
+          [activeSpells]="activeSpells"
+          [getIcon]="playerDataService.getIconByName.bind(playerDataService)"
+          (selectSpell)="onSelectSpell($event)"
+          (updateSpellBook)="onSpellBookChange($event)"
+        ></app-spells>
+      </div>
+      <app-invention
+        *ngIf="activeTab === eTabs.INVENTION"
+        [inventionPerks]="inventionPerks"
+        [activeInventionItem]="activeInventionItem"
+        [allPerkInstances]="allPerkInstances"
+        [isArmorLoaded]="isArmorLoaded"
+        [augmentableArmorPieces]="augmentableArmorPieces"
+        [getIconByName]="playerDataService.getIconByName.bind(playerDataService)"
+        [getInventionItemIcon]="getInventionItemIcon.bind(this)"
+        (selectInventionItem)="selectInventionItem($event)"
+        (calculateStats)="calculateStats()"
+        (addItem)="addInventionItem($event)"
+        (removeItem)="removeInventionItem($event)"
+        (saveAugments)="saveInventionAugments()"
+      ></app-invention>
+      <app-archaeology
+        *ngIf="activeTab === eTabs.ARCHAEOLOGY"
+        [archQuests]="archQuests"
+        [activeArchQuest]="activeArchQuest"
+        [totalMonolithLimit]="totalMonolithLimit"
+        [currentMonolithEnergy]="currentMonolithEnergy"
+        [archPresets]="archPresets"
+        [activeArchPreset]="activeArchPreset"
+        [archRelics]="archRelics"
+        [activeRelics]="activeRelics"
+        [getIconByName]="playerDataService.getIconByName.bind(playerDataService)"
+        (selectArchQuest)="selectArchQuest($event)"
+        (selectArchPreset)="selectArchPreset($event)"
+        (saveArchPreset)="saveArchPreset($event)"
+        (deleteArchPreset)="deleteArchPreset($event)"
+        (selectRelic)="selectRelic($event)"
+        (clearRelic)="clearRelic()"
+      ></app-archaeology>
+      <div class="player-summoning-tab" *ngIf="activeTab === eTabs.SUMMONING" data-tab="summoning">
+        <div class="summoning-container">
+          <div class="summoning-option">
+            <div
+              class="auto-scroll-toggle"
+              (click)="toggleAutoScroll()"
+              [ngClass]="{ active: isAutoScrollEnabled }"
+            >
+              Auto Scroll: {{ isAutoScrollEnabled ? 'On' : 'Off' }}
+            </div>
+            <div class="scroll-rate-input">
+              Rate (s/scroll):
+              <input type="number" [(ngModel)]="scrollRate" min="1" max="60" />
+            </div>
+          </div>
+          <div class="summoning-pouches">
+            <div
+              class="summoning-pouch"
+              *ngFor="let familiar of summoningFamiliars"
+              (click)="selectFamiliar(familiar)"
+              [class.active]="activeFamiliar === familiar.icon"
+            >
+              <img
+                [attr.data-name]="familiar.icon"
+                class="getIconImg"
+                [src]="playerDataService.getIconByName(familiar.icon)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="player-abilities-tab" *ngIf="activeTab === eTabs.ABILITIES" data-tab="abilities">
+        <app-ability-list [connectedTo]="['timeline-list']"></app-ability-list>
+      </div>
+    </div>
+
+    <div class="stats-footer">
+      <div
+        class="stats-display-container"
+        [ngClass]="'weapon-type-' + (weaponType || '').toLowerCase()"
+      >
+        <div class="stat-display-item damage-item">
+          <div class="stat-icon">
+            <fa-icon [icon]="faBolt"></fa-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Damage</span>
+            <span class="stat-value">{{ displayedDamage }}</span>
+          </div>
+        </div>
+        <div class="stat-display-item accuracy-item">
+          <div class="stat-icon">
+            <fa-icon [icon]="faBullseye"></fa-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Accuracy</span>
+            <span class="stat-value">{{ accuracy }}</span>
+          </div>
+        </div>
+        <div class="stat-display-item type-item">
+          <div class="stat-icon">
+            <img
+              class="getIconImg"
+              [src]="getStyleIcon(weaponStyle)"
+              *ngIf="getStyleIcon(weaponStyle)"
+            />
+            <fa-icon [icon]="faQuestionCircle" *ngIf="!getStyleIcon(weaponStyle)"></fa-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Style</span>
+            <span class="stat-value">{{ weaponStyle }}</span>
+          </div>
+        </div>
+        <div class="stat-display-item speed-item">
+          <div class="stat-icon">
+            <fa-icon [icon]="faTachometerAlt"></fa-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Speed</span>
+            <span class="stat-value"
+              >{{ weaponSpeed }}<ng-container *ngIf="weaponSpeed"> ticks</ng-container></span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

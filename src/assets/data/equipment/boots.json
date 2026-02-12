@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Bandos boots",
+    "defence_requirement": 70,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 11,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -51,
+      "magic": -97,
+      "necromancy": -97
+    },
+    "icon": "https://runescape.wiki/images/Bandos_boots.png"
+  },
+  {
+    "name": "Torva boots",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 12.7,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -67,
+      "magic": -127,
+      "necromancy": -127
+    },
+    "icon": "https://runescape.wiki/images/Torva_boots.png"
+  },
+  {
+    "name": "Laceration boots",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 13.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -76,
+      "magic": -144,
+      "necromancy": -144
+    },
+    "icon": "https://runescape.wiki/images/Laceration_boots.png"
+  },
+  {
+    "name": "Emberkeen boots",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 14.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -87,
+      "magic": -163,
+      "necromancy": -163
+    },
+    "icon": "https://runescape.wiki/images/Emberkeen_boots.png"
+  },
+  {
+    "name": "Masterwork melee boots",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 14.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -87,
+      "magic": -163,
+      "necromancy": -163
+    },
+    "icon": "https://runescape.wiki/images/Masterwork_melee_boots.png"
+  },
+  {
+    "name": "Enhanced laceration boots",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 14.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -87,
+      "magic": -163,
+      "necromancy": -163
+    },
+    "icon": "https://runescape.wiki/images/Enhanced_laceration_boots.png"
+  },
+  {
+    "name": "Trimmed masterwork melee boots",
+    "defence_requirement": 92,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 15,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -91,
+      "magic": -171,
+      "necromancy": -171
+    },
+    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_boots.png"
+  },
+  {
+    "name": "Vestments of havoc boots",
+    "defence_requirement": 95,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 19,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -59,
+      "magic": -111,
+      "necromancy": -111
+    },
+    "icon": "https://runescape.wiki/images/Vestments_of_havoc_boots.png"
+  }
+]

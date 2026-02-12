@@ -1,0 +1,235 @@
+@use '../../../styles/modals';
+@use '../helpers';
+
+:host {
+}
+
+.add-item-modal-body {
+  .modal-search-input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .modal-item-list {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+  }
+
+  .modal-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+
+    .getIconImg {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}
+
+.player-invention-tab {
+  @include helpers.card;
+
+  .invention-item-selector {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .selector-item,
+    .add-item-button {
+      position: relative;
+      height: 4.5rem;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--shadow-inner);
+
+      &:hover {
+        transform: translateY(-2px);
+        border-color: var(--active-color);
+        box-shadow: var(--shadow-sm);
+      }
+
+      &.active {
+        border-color: var(--active-color);
+        box-shadow: 0 0 10px var(--active-color);
+      }
+    }
+
+    .add-item-button {
+      border-style: dashed;
+      border-width: 2px;
+      background: transparent;
+      color: var(--text-secondary);
+
+      fa-icon {
+        font-size: 1.5rem;
+        transition: all 0.2s ease-out;
+      }
+
+      &:hover {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+        border-color: var(--active-color);
+        fa-icon {
+          transform: scale(1.1);
+        }
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        &:hover {
+          background: transparent;
+          border-color: var(--border-color);
+          fa-icon {
+            transform: none;
+          }
+        }
+      }
+    }
+  }
+
+  .invention-content {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+
+    .remove-button-container {
+      align-self: center;
+    }
+
+    .remove-button,
+    .confirm-btn,
+    .cancel-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0.25rem;
+      transition: all 0.2s ease-out;
+      border-radius: var(--radius-sm);
+      width: 2rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: var(--hover-bg);
+      }
+    }
+
+    .remove-button:hover {
+      color: var(--danger-color, #e53e3e);
+    }
+
+    .remove-confirm-buttons {
+      display: flex;
+      gap: 0.25rem;
+      background-color: var(--input-bg);
+      border-radius: var(--radius-sm);
+      padding: 0.25rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .confirm-btn:hover {
+      color: var(--success-color, #38a169);
+    }
+
+    .cancel-btn:hover {
+      color: var(--danger-color, #e53e3e);
+    }
+
+    .placeholder-text {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+  }
+
+  .invention-item {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+    position: relative;
+
+    .item-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      width: 5em;
+      text-align: center;
+
+      .perk-icon {
+        position: relative;
+        height: 4em;
+        width: 4em;
+        border-radius: var(--radius-sm);
+        background: var(--hover-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid var(--border-color);
+        padding: 0.5rem;
+      }
+
+      .item-name {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+    }
+
+    .item-details {
+      flex-grow: 1;
+      .perk-slots-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        .perk-slot {
+          background-color: var(--hover-bg);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-sm);
+          padding: 0.75rem;
+          cursor: pointer;
+          transition: all 0.2s ease-out;
+          &:hover {
+            border-color: var(--active-color);
+          }
+        }
+      }
+    }
+  }
+}

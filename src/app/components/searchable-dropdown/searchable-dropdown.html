@@ -1,0 +1,13 @@
+<div class="dropdown_items">
+  <div
+    class="dropdown_item"
+    *ngFor="let item of items | slice:0:100"
+    (click)="selectItem(item)"
+  >
+    <img [src]="item.icon" class="item-icon" />
+    {{ item.name }}
+  </div>
+  <div *ngIf="items.length === 0" class="dropdown_item--empty">
+    No equipment found.
+  </div>
+</div>

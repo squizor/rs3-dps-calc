@@ -1,0 +1,120 @@
+<div class="player-arch-tab" data-tab="arch">
+  <div class="arch-container">
+    <button *ngIf="isAnyRelicActive" class="clear-all-relics-btn" (click)="onClearAllRelics()">
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+    <div class="arch-header">
+      <div class="quest-container">
+        <div class="dropdown-container" #archQuestDropdown>
+          <div class="quest-option" (click)="openArchQuestDropdown()">
+            <div>{{ activeArchQuest }}</div>
+            <fa-icon
+              [icon]="faChevronDown"
+              [class.rotate]="isArchQuestDropdownOpen"
+              tabindex="0"
+            ></fa-icon>
+          </div>
+          <div class="dropdown-items" *ngIf="isArchQuestDropdownOpen">
+            <div
+              class="dropdown-item"
+              *ngFor="let quest of displayableArchQuests"
+              (click)="onSelectArchQuest(quest)"
+            >
+              {{ quest.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-level">Energy: {{ currentMonolithEnergy }} / {{ totalMonolithLimit }}</div>
+      <div class="preset-container">
+        <div class="dropdown-container" #archPresetDropdown>
+          <div class="preset-option" (click)="openArchPresetsDropdown()">
+            <div>{{ activeArchPreset?.name || 'Presets' }}</div>
+            <fa-icon
+              [icon]="faChevronDown"
+              [class.rotate]="isArchPresetDropdownOpen"
+              tabindex="0"
+            ></fa-icon>
+          </div>
+          <div class="dropdown-items" *ngIf="isArchPresetDropdownOpen">
+            <div class="dropdown-item" *ngFor="let preset of archPresets">
+              <span (click)="onSelectArchPreset(preset)">{{ preset.name }}</span>
+              <div class="delete-container">
+                <button
+                  class="delete-preset"
+                  (click)="confirmDeleteArchPreset(preset); $event.stopPropagation()"
+                >
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <div class="dropdown-item save-new">
+              <input
+                type="text"
+                [(ngModel)]="newArchPresetName"
+                placeholder="New preset name..."
+                (click)="$event.stopPropagation()"
+              />
+              <button (click)="confirmSaveArchPreset()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-body">
+      <div class="relic-slot" (click)="onOpenRelicModal(0)">
+        <img
+          *ngIf="activeRelics[0]"
+          [src]="getIconByName(activeRelics[0]!.icon)"
+          class="getIconImg"
+        />
+        <div *ngIf="!activeRelics[0]" class="relic-image-placeholder"></div>
+        <div class="relic-name">{{ activeRelics[0]?.name || 'Relic 1' }}</div>
+        <div class="relic-cost" *ngIf="activeRelics[0]?.cost">({{ activeRelics[0]?.cost }})</div>
+      </div>
+      <div class="relic-slot" (click)="onOpenRelicModal(1)">
+        <img
+          *ngIf="activeRelics[1]"
+          [src]="getIconByName(activeRelics[1]!.icon)"
+          class="getIconImg"
+        />
+        <div *ngIf="!activeRelics[1]" class="relic-image-placeholder"></div>
+        <div class="relic-name">{{ activeRelics[1]?.name || 'Relic 2' }}</div>
+        <div class="relic-cost" *ngIf="activeRelics[1]?.cost">({{ activeRelics[1]?.cost }})</div>
+      </div>
+      <div class="relic-slot" (click)="onOpenRelicModal(2)">
+        <img
+          *ngIf="activeRelics[2]"
+          [src]="getIconByName(activeRelics[2]!.icon)"
+          class="getIconImg"
+        />
+        <div *ngIf="!activeRelics[2]" class="relic-image-placeholder"></div>
+        <div class="relic-name">{{ activeRelics[2]?.name || 'Relic 3' }}</div>
+        <div class="relic-cost" *ngIf="activeRelics[2]?.cost">({{ activeRelics[2]?.cost }})</div>
+      </div>
+    </div>
+  </div>
+  <div class="relic-modal-overlay" *ngIf="isRelicModalOpen" (click)="isRelicModalOpen = false">
+    <div class="relic-modal" (click)="$event.stopPropagation()">
+      <div class="relic-modal-header">
+        <h3>Select Relic for Slot {{ selectedRelicSlot + 1 }}</h3>
+        <button class="close-button" (click)="isRelicModalOpen = false">X</button>
+      </div>
+      <div class="relic-modal-all-relics">
+        <div
+          class="relic-item"
+          *ngFor="let relic of archRelics"
+          [ngClass]="{
+            active: isRelicSelected(relic),
+            disabled: isRelicUnaffordable(relic),
+          }"
+          (click)="!isRelicUnaffordable(relic) && onSelectRelic(relic)"
+        >
+          <img [src]="getIconByName(relic.icon)" class="getIconImg" />
+          <div class="relic-name">{{ relic.name }}</div>
+          <div class="relic-cost">({{ relic.cost }})</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

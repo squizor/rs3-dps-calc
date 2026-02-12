@@ -1,0 +1,104 @@
+<div class="boss-info-card">
+    <div class="card-header card-header-flex">
+        <h3 class="card-title">Boss Information</h3>
+        <div class="sub-header-controls">
+          <div class="phase-selector" *ngIf="filteredPhases.length > 1">
+            <select id="phase" [ngModel]="selectedPhase" (ngModelChange)="selectPhase($event)">
+              <option *ngFor="let phase of filteredPhases" [ngValue]="phase">{{ phase.name }}</option>
+            </select>
+          </div>
+          <div class="mode-toggle" *ngIf="selectedEnemy?.hardModeStats">
+            <label class="toggle-switch">
+              <input type="checkbox" [(ngModel)]="isHardMode" (ngModelChange)="onHardModeToggle()" />
+              <span class="switch-slider"></span>
+            </label>
+            <span class="toggle-label">Hard Mode</span>
+          </div>
+        </div>
+    </div>
+    <div class="card-body" *ngIf="displayEnemy">
+        <div class="details-header">
+          <img *ngIf="displayEnemy.icon" [src]="displayEnemy.icon" [alt]="displayEnemy.name" class="enemy-icon">
+          
+          <div class="enemy-selector-container">
+            <div class="dropdown_container">
+              <div class="enemy_option" (click)="toggleDropdown()">
+                <input
+                  type="text"
+                  [(ngModel)]="searchQuery"
+                  (ngModelChange)="filterEnemies()"
+                  (input)="onSearchInput()"
+                  (click)="clearSearch()"
+                  placeholder="Search for an enemy..."
+                />
+                <fa-icon *ngIf="isLoading" [icon]="faSpinner" [class.fa-spin]="true"></fa-icon>
+                <fa-icon *ngIf="!isLoading" [icon]="faChevronDown" [class.rotate]="isDropdownOpen"></fa-icon>
+              </div>
+              <div class="dropdown_items" *ngIf="isDropdownOpen">
+                <ng-container *ngIf="!isLoading">
+                  <div
+                    class="dropdown_item"
+                    *ngFor="let enemy of filteredEnemies | slice:0:100"
+                    (click)="selectEnemy(enemy)"
+                  >
+                    {{ enemy.name }}
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="primary-stats">
+          <div class="stat-item">
+            <span class="stat-label">Life Points</span>
+            <span class="stat-value" [class.large-number]="isLargeNumber(displayEnemy.lifePoints)">{{ displayEnemy.lifePoints | number }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Defence</span>
+            <span class="stat-value">{{ displayEnemy.defenceLevel }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Armor</span>
+            <span class="stat-value">{{ displayEnemy.armor }}</span>
+          </div>
+          <div class="stat-item weakness-container">
+            <span class="stat-label">Weakness</span>
+            <div class="stat-value weakness-display" *ngIf="displayEnemy.weakness && displayEnemy.weakness !== 'Nothing'">
+                <img [src]="getWeaknessIcon(displayEnemy.weakness)" [alt]="displayEnemy.weakness" class="weakness-icon">
+                <span>{{ displayEnemy.weakness }}</span>
+            </div>
+            <div class="stat-value" *ngIf="!displayEnemy.weakness || displayEnemy.weakness === 'Nothing'">
+                <span>None</span>
+            </div>
+          </div>
+          <div class="stat-item" *ngFor="let affinity of affinities">
+            <span class="stat-label">{{ affinity.style | titlecase }} Affinity</span>
+            <span class="stat-value" [style.color]="affinity.color">{{ affinity.value }}</span>
+          </div>
+        </div>
+        
+        <div class="details-footer">
+            <div class="susceptibility-list" *ngIf="susceptibilityIcons.length > 0">
+              <span class="list-title">Susceptible To:</span>
+              <img *ngFor="let icon of susceptibilityIcons" [src]="icon.url" [title]="icon.name" class="susc-icon" />
+            </div>
+            <div class="secondary-stats">
+                <div class="enrage-control" *ngIf="displayEnemy.enrageLevel !== undefined">
+                  <label for="enrage">Enrage</label>
+                  <input type="number" id="enrage" class="enrage-input" min="0" max="4000" [(ngModel)]="enrageValue" (ngModelChange)="onEnrageChange()" />
+                </div>
+            
+                <div class="attributes-list">
+                  <span class="attribute-badge" [class.enabled]="displayEnemy.slayerHelmable">Slayer Task</span>
+                  <span class="attribute-badge" [class.enabled]="displayEnemy.poisonable">Poisonable</span>
+                  <span class="attribute-badge" [class.enabled]="displayEnemy.stunnable">Stunnable</span>
+                  <span class="attribute-badge" [class.enabled]="displayEnemy.reflectable">Reflectable</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body placeholder" *ngIf="!displayEnemy">
+        <p>Select an enemy to see its stats.</p>
+    </div>
+</div>

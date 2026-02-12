@@ -1,0 +1,156 @@
+<div class="ability-pool-container">
+  <div class="lists-container" [style.overflow-y]="listsContainerOverflow">
+    <h5 class="group-title">Actions</h5>
+    <div
+      class="actions-list"
+      cdkDropList
+      id="actions-list"
+      [cdkDropListData]="[]"
+      [cdkDropListConnectedTo]="connectedTo"
+      [cdkDropListSortingDisabled]="true"
+    >
+      <div class="action-group">
+        <div class="action-main-button">
+          <div class="ability-item action-button" (click)="toggleDropdown('gear')">
+            <img [src]="playerDataService.getIconByName('equipment')" class="ability-icon-small" />
+          </div>
+          <div class="gear-swap-dropdown" *ngIf="activeDropdown === 'gear'">
+            <div class="preset-item" (click)="showSavePreset()">Save current gear</div>
+            <div class="save-preset-form" *ngIf="isSavingPreset">
+              <input type="text" [(ngModel)]="newPresetName" placeholder="Preset name" />
+              <button (click)="saveCurrentGear()">Save</button>
+              <button (click)="isSavingPreset = false">Cancel</button>
+            </div>
+            <div
+              class="preset-item"
+              *ngFor="let preset of gearPresets$ | async"
+              (click)="applyGearPreset(preset)"
+            >
+              {{ preset.name }}
+              <span class="action-icons">
+                <button
+                  class="add-to-rotation-icon"
+                  (click)="addPresetToRotation(preset, $event)"
+                  aria-label="Add preset to rotation"
+                >
+                  +
+                </button>
+                <button
+                  class="delete-preset-icon"
+                  (click)="deleteGearPreset(preset.name, $event)"
+                  aria-label="Delete preset"
+                >
+                  x
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-group">
+        <div class="action-main-button">
+          <div class="ability-item action-button" (click)="toggleDropdown('prayer')">
+            <img [src]="playerDataService.getIconByName('prayer')" class="ability-icon-small" />
+          </div>
+          <div class="prayer-swap-modal" *ngIf="activeDropdown === 'prayer'">
+            <div class="modal-content action-grid">
+              <div
+                class="ability-item"
+                *ngFor="let prayer of availablePrayers$ | async"
+                cdkDrag
+                [cdkDragData]="getPrayerSwapAction(prayer)"
+                [title]="prayer.name"
+              >
+                <img
+                  [src]="playerDataService.getIconByName(prayer.name)"
+                  class="ability-icon-small"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-group">
+        <div class="action-main-button">
+          <div class="ability-item action-button" (click)="toggleDropdown('magic')">
+            <img [src]="playerDataService.getIconByName('magic')" class="ability-icon-small" />
+          </div>
+          <div class="magic-swap-modal" *ngIf="activeDropdown === 'magic'">
+            <div class="modal-content action-grid">
+              <div
+                class="ability-item"
+                *ngFor="let spell of availableSpells$ | async"
+                cdkDrag
+                [cdkDragData]="getMagicSwapAction(spell)"
+                [title]="spell.name"
+              >
+                <img
+                  [src]="playerDataService.getIconByName(spell.name)"
+                  class="ability-icon-small"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="action-group">
+        <div
+          class="ability-item pause-icon-container"
+          cdkDrag
+          [cdkDragData]="pauseAction"
+          (cdkDragStarted)="onDragStart()"
+        >
+          <fa-icon [icon]="faPause" class="ability-icon-small"></fa-icon>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="group-title">Abilities</h5>
+
+    <input
+      type="text"
+      placeholder="Search all abilities..."
+      [ngModel]="filterValue.value"
+      (ngModelChange)="filterValue.next($event)"
+      class="search-input"
+    />
+
+    <mat-tab-group (selectedTabChange)="selectTab(abilityTabs[$event.index].name)">
+      <mat-tab *ngFor="let tab of abilityTabs">
+        <ng-template mat-tab-label>
+          <img [src]="tab.icon" [title]="tab.name" class="ability-tab-icon" />
+        </ng-template>
+
+        <div
+          cdkDropList
+          id="ability-list"
+          [cdkDropListData]="(filteredAbilities$ | async) || []"
+          class="ability-grid"
+          [cdkDropListConnectedTo]="connectedTo"
+          [cdkDropListSortingDisabled]="true"
+        >
+          <div
+            class="ability-item"
+            *ngFor="let ability of filteredAbilities$ | async"
+            cdkDrag
+            [cdkDragData]="ability"
+            [title]="getAbilityTooltip(ability)"
+            (cdkDragStarted)="onDragStart()"
+          >
+            <img
+              *ngIf="ability.icon"
+              [src]="getIcon(ability)"
+              [alt]="ability.name"
+              class="ability-icon-small"
+            />
+          </div>
+          <div *ngIf="(filteredAbilities$ | async)?.length === 0" class="no-results">
+            No abilities found.
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

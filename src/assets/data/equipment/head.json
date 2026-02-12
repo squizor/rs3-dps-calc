@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Bandos helmet",
+    "defence_requirement": 70,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 17.7,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -207,
+      "magic": -389,
+      "necromancy": -389
+    },
+    "icon": "https://runescape.wiki/images/Bandos_helmet.png"
+  },
+  {
+    "name": "Torva full helm",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 20.3,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -271,
+      "magic": -508,
+      "necromancy": -508
+    },
+    "icon": "https://runescape.wiki/images/Torva_full_helm.png"
+  },
+  {
+    "name": "Anima core helm of Zaros",
+    "defence_requirement": 80,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 20.3,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -271,
+      "magic": -508,
+      "necromancy": -508
+    },
+    "icon": "https://runescape.wiki/images/Anima_core_helm_of_Zaros.png"
+  },
+  {
+    "name": "Jaws of the Abyss",
+    "defence_requirement": 85,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 21.6,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -307,
+      "magic": -577,
+      "necromancy": -577
+    },
+    "icon": "https://runescape.wiki/images/Jaws_of_the_Abyss.png"
+  },
+  {
+    "name": "Malevolent helm",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 23.2,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -348,
+      "magic": -653,
+      "necromancy": -653
+    },
+    "icon": "https://runescape.wiki/images/Malevolent_helm.png"
+  },
+  {
+    "name": "Masterwork melee helm",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 23.2,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -348,
+      "magic": -653,
+      "necromancy": -653
+    },
+    "icon": "https://runescape.wiki/images/Masterwork_melee_helm.png"
+  },
+  {
+    "name": "Trimmed masterwork melee helm",
+    "defence_requirement": 92,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 24,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -365,
+      "magic": -686,
+      "necromancy": -686
+    },
+    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_helm.png"
+  },
+  {
+    "name": "Vestments of havoc hood",
+    "defence_requirement": 95,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 28,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": -237,
+      "magic": -445,
+      "necromancy": -445
+    },
+    "icon": "https://runescape.wiki/images/Vestments_of_havoc_hood.png"
+  }
+]

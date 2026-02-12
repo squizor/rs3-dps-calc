@@ -1,0 +1,11 @@
+<div class="dashboard-grid">
+  <div class="kpi-grid">
+    <app-kpi-card title="Average DPM" [value]="kpi.avgDpm"></app-kpi-card>
+    <app-kpi-card title="TTK" [value]="ttk" unit="s"></app-kpi-card>
+    <app-kpi-card title="Hit Chance" [value]="currentHitChance" unit="%"></app-kpi-card>
+    <app-kpi-card title="Crit Chance" [value]="kpi.critChance" unit="%"></app-kpi-card>
+    <app-kpi-card title="Crit Damage" [value]="kpi.critDmg" unit="%"></app-kpi-card>
+  </div>
+  <app-damageovertime [chartOptions]="dotChartOptions"></app-damageovertime>
+  <app-bossinformation (enemyChange)="onEnemyChange($event)"></app-bossinformation>
+</div>

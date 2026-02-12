@@ -1,0 +1,62 @@
+.navbar_container {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: calc(var(--navbar-padding) / 2) var(--navbar-padding);
+  min-height: 5em;
+  color: white;
+  gap: 1em;
+  background: var(--wiki-theme-darkest);
+  border-bottom: 1px var(--wiki-theme-darkest) solid;
+
+  .navbar_start {
+    background-image: url('../../../assets/Squirrel-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 4em;
+  }
+
+  .navbar_end {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+
+    .faButton {
+      cursor: pointer;
+      font-size: 2em;
+      position: relative;
+      overflow: hidden;
+      opacity: 0.7;
+      transition: 0.5s ease-out;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+
+  &.active {
+    .faButton {
+      opacity: 1;
+      color: var(--accent-color);
+    }
+  }
+}
+
+.nav-spacer {
+  width: 1px;
+  height: 2em;
+  background-color: var(--wiki-theme-bright);
+  margin: 0 0.5em;
+  opacity: 0.5;
+}

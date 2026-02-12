@@ -1,0 +1,237 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--wiki-theme-darker);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--wiki-theme-bright);
+}
+
+.ability-pool-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: visible;
+  padding: 0.5rem;
+}
+
+.lists-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 0.5rem;
+  position: relative;
+}
+
+.lists-container::-webkit-scrollbar {
+  width: 8px;
+}
+.lists-container::-webkit-scrollbar-track {
+  background: var(--wiki-theme-darkest);
+  border-radius: 4px;
+}
+.lists-container::-webkit-scrollbar-thumb {
+  background: var(--wiki-theme-bright);
+  border-radius: 4px;
+}
+.lists-container::-webkit-scrollbar-thumb:hover {
+  background: var(--wiki-theme-brighter);
+}
+
+.group-title {
+  color: var(--text-color-light);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+  text-transform: uppercase;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--wiki-theme-bright);
+  letter-spacing: 0.5px;
+}
+
+.actions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex-shrink: 0;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.action-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.action-main-button {
+  position: relative;
+}
+
+.ability-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--wiki-theme-dark);
+  border: 1px solid var(--wiki-theme-bright);
+  border-radius: var(--border-radius);
+  cursor: move;
+  transition: border-color 0.2s ease-out;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+
+  &:hover {
+    border-color: var(--accent-color);
+  }
+
+  &.action-button {
+    cursor: pointer;
+  }
+}
+
+.ability-icon-small {
+  width: 36px;
+  height: 36px;
+}
+
+.pause-icon {
+  font-size: 1.5rem;
+}
+
+.search-input {
+  margin: 1rem 0;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--wiki-theme-darkest);
+  border: 1px solid var(--wiki-theme-bright);
+  border-radius: var(--border-radius);
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: var(--text-color-light);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 183, 0, 0.3);
+  }
+}
+
+.ability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--text-color-light);
+  padding: 2rem;
+}
+
+.ability-tab-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.gear-swap-dropdown,
+.prayer-swap-modal,
+.magic-swap-modal {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  background-color: var(--wiki-theme-dark);
+  border: 1px solid var(--wiki-theme-bright);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  z-index: 100;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.preset-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: var(--text-color-light);
+  border-radius: var(--border-radius);
+  transition:
+    background-color 0.2s ease-out,
+    color 0.2s ease-out;
+  &:hover {
+    background-color: var(--wiki-theme-bright);
+    color: white;
+  }
+}
+
+.action-icons {
+  display: flex;
+  margin-left: auto;
+  gap: 0.75rem;
+}
+.add-to-rotation-icon,
+.delete-preset-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  color: var(--text-color-light);
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s ease-out;
+  &:hover {
+    color: var(--accent-color);
+  }
+}
+
+.save-preset-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-top: 1px solid var(--wiki-theme-bright);
+  margin-top: 0.5rem;
+  input {
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--wiki-theme-bright);
+    background-color: var(--wiki-theme-darkest);
+    color: white;
+  }
+  button {
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--accent-color);
+    color: black;
+    cursor: pointer;
+    transition: opacity 0.2s ease-out;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.pause-icon-container {
+  fa-icon {
+    font-size: 2rem;
+  }
+}

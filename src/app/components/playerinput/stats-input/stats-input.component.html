@@ -1,0 +1,66 @@
+<div class="stats-input-container">
+  <div class="equipment-search-container">
+      <div class="search-input-wrapper">
+        <fa-icon
+          [icon]="FA_SEARCH"
+          class="search-icon"
+          (click)="lookupRsn.emit(rsn)"
+        ></fa-icon>
+        <input
+          type="text"
+          [(ngModel)]="rsn"
+          placeholder="Enter RSN"
+          (keyup.enter)="lookupRsn.emit(rsn)"
+          class="search-input"
+        />
+      </div>
+    </div>
+
+  <div class="stats-main-container">
+    <div class="stats-list-container">
+      <div
+        class="stat-icon-item"
+        *ngFor="let stat of stats"
+        (click)="selectStat(stat)"
+        [class.active]="stat === selectedStat"
+      >
+        <img
+          [attr.data-name]="stat.iconName"
+          class="getIconImg"
+          [src]="getIcon(stat.iconName)"
+        />
+      </div>
+    </div>
+
+    <div class="stat-editor-container" *ngIf="selectedStat">
+      <div class="editor-header">
+        <img
+          [src]="getIcon(selectedStat.iconName)"
+          class="getIconImg editor-stat-icon"
+        />
+        <div class="editor-title-group">
+          <h3>{{ selectedStat.name }}</h3>
+          <p class="editor-subtitle">Max level: {{ selectedStat.maxLevel }}</p>
+        </div>
+      </div>
+      <div class="stat-value-container">
+        <button class="stepper-btn" (click)="decrementStat()">
+          <fa-icon [icon]="FA_MINUS"></fa-icon>
+        </button>
+        <input
+          [(ngModel)]="selectedStat.level"
+          (change)="onStatValueChange(selectedStat)"
+          type="number"
+          class="stat-input"
+        />
+        <button class="stepper-btn" (click)="incrementStat()">
+          <fa-icon [icon]="FA_PLUS"></fa-icon>
+        </button>
+      </div>
+      <div class="stat-editor-description">
+        <p>Select a stat to edit its level.</p>
+      </div>
+    </div>
+  </div>
+</div>
+

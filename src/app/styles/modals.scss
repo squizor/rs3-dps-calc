@@ -1,0 +1,172 @@
+@use '../components/playerinput/helpers';
+
+%modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+%modal-content {
+  @include helpers.card;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+%modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+}
+
+%modal-item-grid {
+  overflow-y: auto;
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+%modal-item {
+  padding: 1.25rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+
+  .getIconImg {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+  }
+
+  .relic-name,
+  .perk-name,
+  .part-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .relic-cost {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  &:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--active-color);
+  }
+
+  &.active {
+    background-color: var(--active-color);
+    color: var(--wiki-theme-darkest);
+  }
+}
+
+.invention-modal-overlay,
+.perk-modal-overlay,
+.relic-modal-overlay,
+.preset-modal-overlay,
+.add-item-modal-overlay {
+  @extend %modal-overlay;
+
+  .invention-modal,
+  .perk-modal,
+  .relic-modal,
+  .preset-modal,
+  .add-item-modal {
+    @extend %modal-content;
+
+    .invention-modal-header,
+    .perk-modal-header,
+    .relic-modal-header,
+    .preset-modal-header,
+    .add-item-modal-header {
+      @extend %modal-header;
+    }
+
+    .invention-modal-all-parts,
+    .perk-modal-all-perks,
+    .relic-modal-all-relics {
+      @extend %modal-item-grid;
+
+      .part-item,
+      .perk-item,
+      .relic-item {
+        @extend %modal-item;
+      }
+    }
+
+    .clear-relic-button {
+      margin-top: 1.5rem;
+      background-color: var(--hover-bg);
+      color: var(--text-primary);
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+
+    .preset-modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      input {
+        width: 100%;
+      }
+
+      .preset-modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        .cancel-button {
+          background-color: var(--hover-bg);
+          color: var(--text-primary);
+          &:hover {
+            filter: brightness(1.2);
+          }
+        }
+      }
+    }
+
+    .add-item-modal-body {
+      min-height: 300px;
+    }
+  }
+}

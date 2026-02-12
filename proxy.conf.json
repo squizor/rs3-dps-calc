@@ -1,0 +1,18 @@
+{
+  "/api": {
+    "target": "http://services.runescape.com",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/hiscore": {
+    "target": "https://secure.runescape.com/m=hiscore",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/hiscore": ""
+    }
+  }
+}

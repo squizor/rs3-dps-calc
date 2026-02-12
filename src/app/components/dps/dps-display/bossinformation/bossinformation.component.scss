@@ -1,0 +1,416 @@
+.data-card {
+  background-color: var(--wiki-theme-dark);
+  border-radius: var(--border-radius, 0.75rem);
+  border: 1px solid var(--wiki-theme-bright);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.boss-info-card {
+  @extend .data-card;
+  height: 100%;
+}
+
+.card-header,
+.card-body {
+  padding: 1rem 1.5rem;
+}
+
+.card-header {
+  border-bottom: 1px solid var(--wiki-theme-bright);
+}
+
+.card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+%dropdown-styles {
+  .dropdown_container {
+    position: relative;
+    width: 100%;
+  }
+
+  .dropdown_items {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--wiki-theme-darker);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    z-index: 1000;
+    overflow-y: auto;
+    max-height: 15em;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .dropdown_item {
+    padding: 0.75em 1em;
+    cursor: pointer;
+    color: var(--white);
+    font-size: 0.95em;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background: var(--accent-color);
+      color: var(--wiki-theme-dark);
+    }
+
+    &:first-child {
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+    }
+
+    &:last-child {
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+    }
+  }
+}
+
+.boss-info-card {
+  .card-header.card-header-flex {
+    .sub-header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+  }
+
+  .phase-selector {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    label {
+      font-weight: bold;
+    }
+
+    select {
+      background: var(--wiki-theme-darker);
+      border: 1px solid var(--wiki-theme-bright);
+      color: var(--white);
+      padding: 0.5em 2em 0.5em 1em;
+      border-radius: var(--border-radius);
+
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+
+      background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 0.5em top 50%;
+      background-size: 1.5em;
+
+      font-size: 1em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: var(--accent-color);
+        background-color: var(--wiki-theme-dark);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.5);
+      }
+    }
+  }
+
+  .card-body {
+    padding: 1.5rem;
+
+    &.placeholder {
+      p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .details-header {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-bottom: 1em;
+
+      .enemy-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+        border: 1px solid var(--wiki-theme-bright);
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+
+      .enemy-selector-container {
+        flex-grow: 1;
+        @extend %dropdown-styles;
+
+        .enemy_option {
+          padding: 0.5em 1em;
+          display: flex;
+          align-items: center;
+          border: 1px solid var(--wiki-theme-bright);
+          border-radius: var(--border-radius);
+          transition: all 0.2s ease;
+          cursor: pointer;
+          background-color: var(--wiki-theme-darker);
+
+          &:hover {
+            background-color: var(--wiki-theme-dark);
+            border-color: var(--accent-color);
+          }
+
+          &:focus-within {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.5);
+          }
+
+          input {
+            background: none;
+            border: none;
+            color: var(--white);
+            width: 100%;
+            font-size: 1.2em;
+            font-weight: 500;
+            padding: 0;
+            cursor: pointer;
+
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.5);
+            }
+
+            &:focus {
+              outline: none;
+              cursor: text;
+            }
+          }
+
+          fa-icon {
+            padding: 0 0.5em;
+            color: var(--wiki-theme-brighter);
+            font-size: 1.2em;
+            transition: transform 0.2s ease;
+
+            &.rotate {
+              transform: rotate(180deg);
+            }
+          }
+        }
+      }
+    }
+
+    .primary-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1em;
+      margin-bottom: 1.5em;
+      text-align: center;
+      grid-auto-rows: 1fr;
+
+      .stat-item {
+        background: var(--wiki-theme-darker);
+        padding: 1em;
+        border-radius: var(--border-radius);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .stat-label {
+        font-size: 0.8em;
+        color: var(--text-color-light);
+        margin-bottom: 0.5em;
+      }
+
+      .stat-value {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: var(--accent-color);
+
+        &.large-number {
+          font-size: 1em;
+        }
+      }
+    }
+
+    .weakness-container {
+      .stat-value {
+        color: white;
+      }
+    }
+
+    .weakness-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+
+      .weakness-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .details-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1.5em;
+      padding-top: 1.5em;
+      border-top: 1px solid var(--wiki-theme-bright);
+    }
+
+    .secondary-stats {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1rem;
+      flex-grow: 1;
+    }
+
+    .enrage-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+
+      label {
+        font-weight: bold;
+        font-size: 0.9em;
+      }
+
+      .enrage-input {
+        width: 80px;
+        background: var(--wiki-theme-darker);
+        border: 1px solid var(--wiki-theme-bright);
+        color: var(--white);
+        padding: 0.5em;
+        border-radius: var(--border-radius);
+        text-align: center;
+        font-weight: bold;
+
+        appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+
+    .attributes-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5em;
+      justify-content: flex-end;
+
+      .attribute-badge {
+        padding: 0.4em 0.8em;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 500;
+        background-color: var(--neutral-color, #5a5a5a);
+        color: white;
+
+        &.enabled {
+          background-color: var(--success-color, #28a745);
+        }
+
+        &.disabled {
+          background-color: var(--danger-color, #dc3545);
+          text-decoration: line-through;
+        }
+      }
+    }
+
+    .susceptibility-list {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .list-title {
+        font-weight: 500;
+        font-size: 0.9em;
+        color: var(--text-color-light);
+      }
+      .susc-icon {
+        height: 28px;
+        width: auto;
+        transition: transform 0.2s ease;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
+
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .toggle-label {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--white);
+  }
+}
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--wiki-theme-bright);
+    transition: 0.4s;
+    border-radius: 24px;
+
+    &:before {
+      position: absolute;
+      content: '';
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+  }
+
+  input:checked + .switch-slider {
+    background-color: var(--accent-color);
+  }
+
+  input:checked + .switch-slider:before {
+    transform: translateX(20px);
+  }
+}

@@ -1,0 +1,24 @@
+<div class="dropdown-container" #prayerDropdown>
+  <div class="prayer-option" (click)="togglePrayerBookDropdown()">
+    <div>{{ activePrayerBook }}</div>
+    <fa-icon [icon]="faChevronDown" [class.rotate]="isPrayerDropdownOpen" tabindex="0" />
+  </div>
+  <div class="dropdown-items" *ngIf="isPrayerDropdownOpen">
+    <div class="dropdown-item" (click)="updatePrayerBook.emit(EPrayerBook.CURSES)">Curses</div>
+    <div class="dropdown-item" (click)="updatePrayerBook.emit(EPrayerBook.STANDARD)">Standard</div>
+  </div>
+</div>
+<div class="prayers-container">
+  <div
+    *ngFor="let prayer of prayers | filter : { prayerBook: activePrayerBook }"
+    class="prayer"
+    [ngClass]="{ active: isPrayerActive(prayer) }"
+    (click)="selectPrayer.emit(prayer)"
+  >
+    <img
+      [attr.data-name]="prayer.name"
+      class="getIconImg"
+      [src]="getIcon(prayer.name)"
+    />
+  </div>
+</div>
