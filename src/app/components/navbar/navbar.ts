@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { faGithub, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear, faTable } from '@fortawesome/free-solid-svg-icons';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [FontAwesomeModule, RouterLink, RouterLinkActive, SettingsModalComponent, CommonModule],
+  imports: [FontAwesomeModule, SettingsModalComponent, CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   standalone: true,

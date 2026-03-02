@@ -38,7 +38,8 @@ export class PlayerDataService {
   private activePotion = new BehaviorSubject<string>('none');
   private activeFamiliar = new BehaviorSubject<{ name: string } | null>(null);
   private gearPresets = new BehaviorSubject<IGearPreset[]>([]);
-
+  private boss = new BehaviorSubject<any>(null);
+  
   public equipmentSlots$ = this.equipmentSlots.asObservable();
   public prayers$ = this.prayers.asObservable();
   public spells$ = this.spells.asObservable();
@@ -51,6 +52,7 @@ export class PlayerDataService {
   public activePotion$ = this.activePotion.asObservable();
   public activeFamiliar$ = this.activeFamiliar.asObservable();
   public gearPresets$ = this.gearPresets.asObservable();
+  public boss$ = this.boss.asObservable();
 
   private readonly EQUIPMENT_SLOTS = 'equipment_slots';
   private readonly WEAPON_STYLE = 'weapon_style';
@@ -59,6 +61,7 @@ export class PlayerDataService {
   private readonly ACTIVE_POTION = 'active_potion';
   private readonly ACTIVE_FAMILIAR = 'active_familiar';
   private readonly GEAR_PRESETS = 'gear_presets';
+  private readonly BOSS = 'boss';
   private isBrowser: boolean;
 
   constructor() {
@@ -71,12 +74,37 @@ export class PlayerDataService {
       this.loadActivePotion();
       this.loadActiveFamiliar();
       this.loadGearPresets();
+      this.loadBoss();
+    }
+  }
+
+  updateBoss(boss: any) {
+    this.boss.next(boss);
+    if (this.isBrowser) {
+      localStorage.setItem(this.BOSS, JSON.stringify(boss));
+    }
+  }
+
+  private loadBoss() {
+    if (this.isBrowser) {
+      const savedBoss = localStorage.getItem(this.BOSS);
+      if (savedBoss && savedBoss !== 'null' && savedBoss !== 'undefined') {
+        try {
+           this.boss.next(JSON.parse(savedBoss));
+        } catch (e) {
+           console.error('Failed to parse saved boss', e);
+        }
+      }
     }
   }
 
   updateEquipment(slots: IEquipmentSlot[]) {
     this.equipmentSlots.next(slots);
     this.saveEquipment(slots);
+  }
+
+  public getActiveEquipment() {
+      return this.equipmentSlots.getValue();
   }
 
   private saveEquipment(slots: IEquipmentSlot[]) {
@@ -89,7 +117,8 @@ export class PlayerDataService {
     if (this.isBrowser) {
       const savedSlots = localStorage.getItem(this.EQUIPMENT_SLOTS);
       if (savedSlots) {
-        this.equipmentSlots.next(JSON.parse(savedSlots));
+        const slots: IEquipmentSlot[] = JSON.parse(savedSlots);
+        this.equipmentSlots.next(slots.filter(s => s.name !== 'aura'));
       } else {
         const defaultSlots: IEquipmentSlot[] = [
           { name: 'head', selectedArmor: null, isDropdownOpen: false },
@@ -101,7 +130,6 @@ export class PlayerDataService {
           { name: 'necklace', selectedArmor: null, isDropdownOpen: false },
           { name: 'ring', selectedArmor: null, isDropdownOpen: false },
           { name: 'ammo', selectedArmor: null, isDropdownOpen: false },
-          { name: 'aura', selectedArmor: null, isDropdownOpen: false },
           { name: 'pocket', selectedArmor: null, isDropdownOpen: false },
           { name: 'mainhand', selectedArmor: null, isDropdownOpen: false },
           { name: 'offhand', selectedArmor: null, isDropdownOpen: false },
@@ -117,6 +145,10 @@ export class PlayerDataService {
     if (this.isBrowser) {
       localStorage.setItem(this.WEAPON_STYLE, style);
     }
+  }
+
+  public getWeaponStyle() {
+      return this.weaponStyle.getValue();
   }
 
   private loadWeaponStyle() {
@@ -157,6 +189,10 @@ export class PlayerDataService {
     if (this.isBrowser) {
       localStorage.setItem(this.ACTIVE_PRAYERS, JSON.stringify(activePrayers));
     }
+  }
+
+  public getActivePrayers(): IActivePrayer[] {
+      return this.activePrayers.getValue();
   }
 
   private loadActivePrayers() {
@@ -244,9 +280,8 @@ export class PlayerDataService {
     pause: 'Pause_icon',
 
     provoke: 'Provoke',
-
-    aura: 'Aura_slot',
     head: 'Head_slot',
+    'jaws of the abyss': 'Jaws_of_the_Abyss',
     pocket: 'Pocket_slot',
     cape: 'Back_slot',
     necklace: 'Neck_slot',
@@ -358,7 +393,12 @@ export class PlayerDataService {
       return name;
     }
 
-    const mappedIconValue = this.icons[name.toLowerCase()];
+    let mappedIconValue = this.icons[name.toLowerCase()];
+    
+    // Fallback: try stripping spaces (e.g. "Smoke Barrage" -> "smokebarrage")
+    if (!mappedIconValue) {
+        mappedIconValue = this.icons[name.toLowerCase().replace(/ /g, '')];
+    }
 
     if (mappedIconValue) {
       if (mappedIconValue.startsWith('http://') || mappedIconValue.startsWith('https://')) {
@@ -378,5 +418,33 @@ export class PlayerDataService {
     }
 
     return '';
+  }
+
+  // --- Full Loadout Persistence Helpers ---
+
+  public snapshotState() {
+    return {
+        equipment: this.equipmentSlots.getValue(),
+        activePrayers: this.activePrayers.getValue(),
+        activePotion: this.activePotion.getValue(),
+        activeFamiliar: this.activeFamiliar.getValue(),
+        weaponStyle: this.weaponStyle.getValue(),
+        inputSets: this.inputSets.getValue(),
+        stats: this.stats.getValue(),
+        boss: this.boss.getValue(),
+    };
+  }
+
+  public restoreState(state: any) {
+    if (!state) return;
+
+    if (state.equipment) this.updateEquipment(state.equipment);
+    if (state.activePrayers) this.updateActivePrayers(state.activePrayers);
+    if (state.activePotion) this.updateActivePotion(state.activePotion);
+    if (state.activeFamiliar) this.updateActiveFamiliar(state.activeFamiliar);
+    if (state.weaponStyle) this.updateWeaponStyle(state.weaponStyle);
+    if (state.inputSets) this.updateInputSets(state.inputSets);
+    if (state.stats) this.updateStats(state.stats);
+    if (state.boss) this.updateBoss(state.boss);
   }
 }

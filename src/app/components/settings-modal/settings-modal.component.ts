@@ -30,8 +30,30 @@ import { FormsModule } from '@angular/forms';
               </button>
             </div>
           </div>
+
+          <div class="setting-row">
+            <div class="setting-label-group">
+                <label for="cooldownText">Cooldown Text</label>
+                <p class="setting-description">
+                  Show remaining time on ability icons.
+                </p>
+            </div>
+            <div class="mode-toggle">
+              <button 
+                [class.active]="showCooldownText" 
+                (click)="toggleCooldownText(true)">
+                On
+              </button>
+              <button 
+                [class.active]="!showCooldownText" 
+                (click)="toggleCooldownText(false)">
+                Off
+              </button>
+            </div>
+          </div>
+
           <p class="setting-description">
-            Change the application's theme.
+            Change the application's theme and display settings.
           </p>
         </div>
       </div>
@@ -136,9 +158,15 @@ export class SettingsModalComponent {
   private settingsService = inject(SettingsService);
 
   currentTheme: Theme = 'rs3';
+  showCooldownText = true;
 
   constructor() {
     this.settingsService.theme$.subscribe(theme => this.currentTheme = theme);
+    this.settingsService.showCooldownText$.subscribe(show => this.showCooldownText = show);
+  }
+
+  toggleCooldownText(show: boolean) {
+      this.settingsService.setShowCooldownText(show);
   }
 
   setTheme(theme: Theme) {

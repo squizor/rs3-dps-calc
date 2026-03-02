@@ -1,20 +1,17 @@
-<div class="boost">
-  <h3 class="boost-title">Combat Potions</h3>
-  <div class="potions-container">
-    <ng-container *ngFor="let potion of potions">
-      <div
-        *ngIf="herbloreLevel >= potion.minLevel"
-        class="potion"
-        [ngClass]="{ active: activePotion === potion.name }"
-        (click)="selectPotion(potion.name)"
-        [title]="potion.name"
-      >
-        <img
-          [attr.data-name]="potion.name"
-          class="getIconImg"
-          [src]="getIcon(potion.name)"
-        />
-      </div>
-    </ng-container>
+<div class="section-label">COMBAT POTIONS</div>
+  <div class="potions-grid">
+    <div
+      *ngFor="let potion of potions"
+      class="potion-item"
+      [class.disabled]="herbloreLevel < potion.minLevel"
+      [class.active]="activePotion === potion.name"
+      (click)="herbloreLevel >= potion.minLevel && selectPotion(potion.name)"
+      [title]="potion.name + (herbloreLevel < potion.minLevel ? ' (Requires Level ' + potion.minLevel + ')' : '')"
+    >
+      <img
+        [attr.data-name]="potion.name"
+        class="potion-icon"
+        [src]="getIcon(potion.name)"
+      />
+    </div>
   </div>
-</div>

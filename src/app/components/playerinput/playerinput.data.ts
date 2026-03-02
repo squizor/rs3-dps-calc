@@ -47,7 +47,7 @@ export const PRAYERS: IPrayer[] = [
   },
   {
     name: 'eclipsedsoul',
-    type: 'dmg',
+    type: 'overhead',
     prayerBook: EPrayerBook.STANDARD,
     style: 'necromancy',
     level: 66,
@@ -150,7 +150,7 @@ export const PRAYERS: IPrayer[] = [
     prayerBook: EPrayerBook.CURSES,
     style: 'melee',
     level: 99,
-    accuracyBoost: 0.02,
+    accuracyBoost: 0.12,
     damageBoost: 0.12,
   },
   {
@@ -159,7 +159,7 @@ export const PRAYERS: IPrayer[] = [
     prayerBook: EPrayerBook.CURSES,
     style: 'magic',
     level: 99,
-    accuracyBoost: 0.02,
+    accuracyBoost: 0.12,
     damageBoost: 0.12,
   },
   {
@@ -168,7 +168,7 @@ export const PRAYERS: IPrayer[] = [
     prayerBook: EPrayerBook.CURSES,
     style: 'ranged',
     level: 99,
-    accuracyBoost: 0.02,
+    accuracyBoost: 0.12,
     damageBoost: 0.12,
   },
   {
@@ -177,7 +177,7 @@ export const PRAYERS: IPrayer[] = [
     prayerBook: EPrayerBook.CURSES,
     style: 'necromancy',
     level: 99,
-    accuracyBoost: 0.02,
+    accuracyBoost: 0.12,
     damageBoost: 0.12,
   },
   {

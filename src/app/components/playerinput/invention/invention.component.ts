@@ -7,6 +7,9 @@ import {
   faTrash,
   faCheck,
   faTimes,
+  faHammer,
+  faBolt,
+  faShieldAlt,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { IInventionAugment, IInventionPerkSlot, IPerk, IArmor } from '../playerinput.model';
@@ -37,6 +40,9 @@ export class InventionComponent implements OnInit {
   faTrash: IconDefinition = faTrash;
   faCheck: IconDefinition = faCheck;
   faTimes: IconDefinition = faTimes;
+  faHammer: IconDefinition = faHammer;
+  faSword: IconDefinition = faBolt; // Using Bolt for "Power/Weapon" if Sword is missing
+  faShieldAlt: IconDefinition = faShieldAlt;
 
   addItemSearchTerm = '';
   itemPendingDeletion: IInventionAugment | null = null;
@@ -50,14 +56,7 @@ export class InventionComponent implements OnInit {
     );
   }
 
-  isAddItemModalOpen = false;
-  isPerkModalOpen = false;
-  isInventionModalOpen = false;
-  selectedSlotForModal: IInventionPerkSlot | null = null;
-  selectedAugmentForPerkModal: IInventionAugment | null = null;
-  selectedSlotIndexForModal: number | null = null;
-  selectedAugmentForModal: IInventionAugment | null = null;
-
+  // Methods restored from previous version
   ngOnInit(): void {
     if (this.inventionPerks) {
       this.inventionPerks.forEach((augment) => this.updateAugmentPerkSlotsState(augment));
@@ -91,58 +90,105 @@ export class InventionComponent implements OnInit {
     this.removeItem.emit(itemToRemove);
     this.itemPendingDeletion = null;
   }
+  
+  // Invention Part Modal (different from Perk Modal)
+  openInventionModal(augment: IInventionAugment): void {
+    this.selectedAugmentForModal = augment;
+    this.isInventionModalOpen = true;
+  }
 
-  openPerkModal(
-    targetSlot: IInventionPerkSlot,
-    currentAugment: IInventionAugment,
-    currentSlotIndex: number,
+  closeInventionModal(): void {
+    this.isInventionModalOpen = false;
+    this.selectedAugmentForModal = null;
+  }
+
+  selectLongPartFromModal(longPart: string): void {
+    if (this.selectedAugmentForModal) {
+      this.selectedAugmentForModal.activeLongPart = longPart;
+    }
+    this.closeInventionModal();
+  }
+
+  // Properties for modals
+  isAddItemModalOpen = false;
+  isInventionModalOpen = false;
+  selectedAugmentForModal: IInventionAugment | null = null;
+  
+  // Property for new dropdown search
+  perkSearchTerm = '';
+
+  // Dropdown State
+  activeAugmentIndex: number | null = null;
+  activeSlotIndex: number | null = null;
+  
+  // Helper to get currently active slot
+  get activeSlot(): IInventionPerkSlot | null {
+      if (this.activeAugmentIndex === null || this.activeSlotIndex === null) return null;
+      if (!this.inventionPerks[this.activeAugmentIndex]) return null;
+      return this.inventionPerks[this.activeAugmentIndex].perkSlots[this.activeSlotIndex];
+  }
+
+  togglePerkDropdown(
+    augment: IInventionAugment, 
+    augmentIndex: number, 
+    slot: IInventionPerkSlot, 
+    slotIndex: number
   ): void {
-    this.selectedSlotForModal = targetSlot;
-    this.selectedAugmentForPerkModal = currentAugment;
-    this.selectedSlotIndexForModal = currentSlotIndex;
-
-    if (currentSlotIndex === 0) {
-      targetSlot.options = this.allPerkInstances.filter(
-        (perk) =>
-          perk.name === 'None' ||
-          (perk.slotsConsumed === 2 &&
-            currentAugment.perkSlots.length > 1 &&
-            !currentAugment.perkSlots[1].occupiedByAdjacent) ||
-          perk.slotsConsumed === 1,
-      );
-    } else if (currentSlotIndex === 1) {
-      const firstSlotPerk = currentAugment.perkSlots[0].selectedPerk;
-      if (firstSlotPerk && firstSlotPerk.slotsConsumed === 2) {
-        targetSlot.options = [this.getPerkByName('None')!];
-      } else {
-        targetSlot.options = this.allPerkInstances.filter(
-          (perk) => perk.name === 'None' || perk.slotsConsumed === 1,
-        );
+      // If clicking the already open slot, close it
+      if (this.activeAugmentIndex === augmentIndex && this.activeSlotIndex === slotIndex) {
+          this.closeDropdown();
+          return;
       }
-    }
 
-    this.isPerkModalOpen = true;
+      // Open new slot
+      this.activeAugmentIndex = augmentIndex;
+      this.activeSlotIndex = slotIndex;
+      this.perkSearchTerm = ''; // Reset search
+      
+      // Update the options for this slot (reusing the existing logic logic, but adapting for the new state if needed)
+      // Actually, filteredPerkOptions relies on `activeSlot` now.
+      
+      // We need to set the options on the slot object itself, similar to before.
+      const type = this.getAugmentType(augment.name);
+      
+      if (slotIndex === 0) {
+        slot.options = this.allPerkInstances.filter(
+          (perk) =>
+            (perk.name === 'None' || perk.type === 'utility' || perk.type === type) &&
+            (perk.name === 'None' ||
+              (perk.slotsConsumed === 2 &&
+                augment.perkSlots.length > 1 &&
+                !augment.perkSlots[1].occupiedByAdjacent) ||
+              perk.slotsConsumed === 1),
+        );
+      } else if (slotIndex === 1) {
+        const firstSlotPerk = augment.perkSlots[0].selectedPerk;
+        if (firstSlotPerk && firstSlotPerk.slotsConsumed === 2) {
+            slot.options = [this.getPerkByName('None')!];
+        } else {
+            slot.options = this.allPerkInstances.filter(
+            (perk) =>
+                (perk.name === 'None' || perk.type === 'utility' || perk.type === type) &&
+                (perk.name === 'None' || perk.slotsConsumed === 1),
+            );
+        }
+      }
   }
 
-  closePerkModal(): void {
-    this.isPerkModalOpen = false;
-    this.selectedSlotForModal = null;
-    this.selectedAugmentForPerkModal = null;
-    this.selectedSlotIndexForModal = null;
+  closeDropdown(): void {
+    this.activeAugmentIndex = null;
+    this.activeSlotIndex = null;
+    this.perkSearchTerm = '';
   }
 
-  selectPerkFromModal(perk: IPerk): void {
-    if (
-      !this.selectedSlotForModal ||
-      !this.selectedAugmentForPerkModal ||
-      this.selectedSlotIndexForModal === null
-    ) {
-      return;
-    }
+  selectPerkFromDropdown(perk: IPerk): void {
+    if (this.activeAugmentIndex === null || this.activeSlotIndex === null) return;
 
-    const currentSlot = this.selectedSlotForModal;
-    const augment = this.selectedAugmentForPerkModal;
-    const slotIndex = this.selectedSlotIndexForModal;
+    const augment = this.inventionPerks[this.activeAugmentIndex];
+    if (!augment) return;
+
+    const currentSlot = augment.perkSlots[this.activeSlotIndex];
+    const slotIndex = this.activeSlotIndex;
     const otherSlotIndex = slotIndex === 0 ? 1 : 0;
     const otherSlot = augment.perkSlots[otherSlotIndex];
 
@@ -158,8 +204,8 @@ export class InventionComponent implements OnInit {
     } else {
       if (perk.slotsConsumed === 2) {
         if (slotIndex === 1) {
-          alert('2-slot perks can only be applied to the first slot (Perk 1/3/5/7/9).');
-          this.closePerkModal();
+          // This case should be filtered out by UI usually, but good safeguard
+          this.closeDropdown();
           return;
         }
         if (otherSlot && otherSlot.selectedPerk && otherSlot.selectedPerk.name !== 'None') {
@@ -180,11 +226,57 @@ export class InventionComponent implements OnInit {
         currentSlot.occupiedByAdjacent = false;
       }
     }
-    this.closePerkModal();
+    this.closeDropdown();
     this.updateAugmentPerkSlotsState(augment);
     this.calculateStats.emit();
     this.saveAugments.emit();
   }
+
+  get filteredPerkOptions(): IPerk[] {
+    const slot = this.activeSlot;
+    if (!slot) return [];
+    
+    let options = slot.options || [];
+    if (this.perkSearchTerm) {
+      options = options.filter((p) =>
+        p.name.toLowerCase().includes(this.perkSearchTerm.toLowerCase()),
+      );
+    }
+    
+    // Ensure "None" is always at the top
+    return options.sort((a, b) => {
+        if (a.name === 'None') return -1;
+        if (b.name === 'None') return 1;
+        return 0; // Keep original order for others
+    });
+  }
+  
+  // ... existing helpers ...
+
+  getAugmentType(augmentName: string): 'weapon' | 'armor' {
+    const name = augmentName.toLowerCase();
+    if (name.includes('weapon')) return 'weapon';
+    if (name.includes('armour') || name.includes('body') || name.includes('leg')) return 'armor';
+    return 'weapon'; // Default fallback
+  }
+
+  getRomanRank(rank: number | undefined): string {
+    if (!rank) return '';
+    return rank.toString();
+  }
+
+  getSlotIcon(): IconDefinition {
+      // Used for header icon if we still needed it, but context is now local
+      // keeping for safety or refactoring later
+      if (this.activeAugmentIndex === null) return this.faHammer;
+      const augment = this.inventionPerks[this.activeAugmentIndex];
+      const type = this.getAugmentType(augment.name);
+      return type === 'weapon' ? this.faSword : this.faShieldAlt;
+  }
+  
+  // ... existing modal handlers (can be removed or kept if needing a hybrid approach, but we are replacing)
+  // For cleanliness, I will remove the old 'openPerkModal', 'closePerkModal', 'selectPerkFromModal' placeholders 
+  // by mostly replacing this block.
 
   getPerkByName(name: string): IPerk | undefined {
     return this.allPerkInstances.find((perk) => perk.name === name);
@@ -203,20 +295,5 @@ export class InventionComponent implements OnInit {
     }
   }
 
-  openInventionModal(augment: IInventionAugment): void {
-    this.selectedAugmentForModal = augment;
-    this.isInventionModalOpen = true;
-  }
 
-  closeInventionModal(): void {
-    this.isInventionModalOpen = false;
-    this.selectedAugmentForModal = null;
-  }
-
-  selectLongPartFromModal(longPart: string): void {
-    if (this.selectedAugmentForModal) {
-      this.selectedAugmentForModal.activeLongPart = longPart;
-    }
-    this.closeInventionModal();
-  }
 }

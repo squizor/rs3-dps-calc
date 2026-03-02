@@ -1,17 +1,48 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+
+  @media screen and (max-width: 1740px) {
+    font-size: 0.95rem;
+  }
+  @media screen and (max-width: 900px) {
+    font-size: 0.9rem;
+    height: auto; 
+    overflow-y: visible; 
+  }
+}
+
 .main_container {
   display: grid;
-  grid-template-columns: 504px 1fr 1fr; // Fixed left, fluid middle and right
-  width: 100%;
+  grid-template-columns: minmax(480px, 600px) 1fr minmax(420px, 550px);
+  grid-template-rows: min-content 1fr;
   height: 100%;
+  width: 100%;
+  max-width: 2560px;
+  margin: 0 auto;
   gap: 1px;
   background: var(--wiki-theme-darkest);
 
   .left_column,
   .middle_column,
   .right_column {
-    overflow-y: auto;
+    background-color: var(--wiki-theme-darker);
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .left_column,
+  .middle_column {
     scrollbar-width: thin;
-    scrollbar-color: var(--border-color) var(--wiki-theme-darker);
+    scrollbar-color: var(--border-color, #313e59) var(--wiki-theme-darker);
+    grid-row: 1 / span 2;
+
+    @media screen and (max-width: 900px) {
+       &::-webkit-scrollbar { width: 4px; }
+    }
 
     &::-webkit-scrollbar {
       width: 8px;
@@ -22,7 +53,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: var(--border-color);
+      background-color: var(--wiki-theme-bright);
       border-radius: 4px;
       border: 2px solid var(--wiki-theme-darker);
     }
@@ -32,10 +63,14 @@
     display: flex;
     flex-direction: column;
     gap: var(--section-padding);
-    justify-content: space-between;
     padding: var(--button-padding);
     height: 100%;
-    background-color: var(--wiki-theme-darker);
+    overflow-y: auto; 
+
+    @media screen and (max-width: 1376px) {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
   }
 
   .middle_column {
@@ -43,28 +78,227 @@
     flex-direction: column;
     padding: var(--button-padding);
     height: 100%;
-    background-color: var(--wiki-theme-darker);
-    min-width: 0;
+    overflow-y: auto;
   }
 
   .right_column {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: var(--button-padding);
     height: 100%;
-    background-color: var(--wiki-theme-darker);
-    min-width: 0;
+    overflow-y: auto;
+    grid-row: 1;
 
     app-dps-display {
       flex: 1;
+      display: flex;
     }
   }
-}
 
-@media screen and (max-width: 900px) {
-  .main_container {
+  .chart_column {
+    grid-row: 2;
+    grid-column: 3;
     display: flex;
     flex-direction: column;
+    background-color: var(--wiki-theme-dark);
+    border-top: 1px solid var(--wiki-theme-bright);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: auto; // Will be dictated by grid until expanded
+
+    .chart-header {
+      display: none; // Native desktop has no header
+      padding: 0.75rem 1rem;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      background-color: var(--wiki-theme-darker);
+      border-bottom: 1px solid transparent;
+      user-select: none;
+
+      &:hover {
+        background-color: var(--wiki-theme-darkest);
+      }
+
+      .header-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      
+      .toggle-icon {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        transition: transform 0.2s ease;
+      }
+    }
+
+    .chart-content-wrapper {
+      display: flex; // Always visible on native desktop
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+    }
+
+    .chart-content {
+      flex: 1;
+      padding: var(--button-padding);
+      min-height: 0; // Allows shrinking
+      animation: slideDown 0.2s ease-out;
+      height: 100%;
+    }
+
+    &.expanded {
+      .chart-header {
+        border-bottom-color: var(--wiki-theme-bright);
+      }
+      .chart-content-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  // --- Responsive Breakpoints ---
+
+  @media screen and (max-width: 1740px) {
+    grid-template-columns: minmax(420px, 480px) 1fr minmax(380px, 450px);
+    grid-template-rows: 1fr auto; // Chart row takes only needed space (header height) unless expanded
+    gap: 1px;
+
+    .left_column {
+      grid-row: 1 / span 2;
+      grid-column: 1;
+    }
+
+    .middle_column {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    .right_column {
+      grid-row: 1;
+      grid-column: 3;
+    }
+
+    .chart_column {
+      grid-row: 2;
+      grid-column: 2 / span 2; // Spans underneath BOTH Middle and Right
+      border-top: 2px solid var(--wiki-theme-darkest);
+      
+      .chart-header {
+        display: flex; // Reveal the accordion header on smaller screens
+      }
+
+      .chart-content-wrapper {
+        display: none; // Hide the chart by default on small screens
+      }
+
+      &.expanded {
+        height: 350px; // Give it room to render when opened
+        
+        .chart-content-wrapper {
+          display: flex; // Show chart when expanded
+        }
+      }
+    }
+  }
+
+  // Tablet Layout (2-Column: Left Actions, Right Timeline over DPS) - 901px to 1400px
+  @media screen and (max-width: 1400px) and (min-width: 901px) {
+    grid-template-columns: minmax(350px, 400px) 1fr;
+    grid-template-rows: minmax(280px, 40vh) 1fr auto; // Timeline | DPS | Chart
+    gap: 1px;
+
+    .left_column {
+      grid-row: 1 / span 2;
+      grid-column: 1;
+    }
+
+    .middle_column {
+      grid-row: 1;
+      grid-column: 2;
+      border-bottom: 2px solid var(--wiki-theme-darkest);
+      position: static;
+    }
+
+    .right_column {
+      grid-row: 2;
+      grid-column: 2;
+      border-top: none;
+    }
+
+    .chart_column {
+      grid-row: 3;
+      grid-column: 1 / span 2;
+      border-top: 2px solid var(--wiki-theme-darkest);
+      
+      .chart-header {
+        display: flex;
+      }
+      .chart-content-wrapper {
+        display: none;
+      }
+      &.expanded {
+        height: 350px;
+        .chart-content-wrapper { display: flex; }
+      }
+    }
+  }
+
+  // Tablet & Mobile Vertical Stack (< 900px)
+  @media screen and (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    overflow-y: visible;
+
+    // Reset default grid behavior so they just stack naturally
+    .left_column, .middle_column, .right_column, .chart_column {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      flex-shrink: 0;
+    }
+
+    .left_column {
+      // Left column as screen 1
+      min-height: calc(100vh - var(--navbar-height));
+      border-bottom: 2px solid var(--wiki-theme-darkest);
+    }
+
+    .middle_column {
+      // Middle column as screen 2
+      min-height: calc(100vh - var(--navbar-height));
+      border-bottom: 2px solid var(--wiki-theme-darkest);
+      position: static; // Remove sticky
+    }
+
+    .right_column {
+      // Right column as screen 3
+      padding-top: 1rem;
+      border-top: 2px solid var(--wiki-theme-bright);
+    }
+
+    .chart_column {
+      // Always show chart natively without dropdown below desktop
+      height: 400px;
+      clear: both;
+      
+      .chart-header {
+        display: none !important; 
+      }
+
+      .chart-content-wrapper {
+        display: flex !important; 
+      }
+    }
   }
 }

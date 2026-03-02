@@ -1,11 +1,69 @@
 <div class="dashboard-grid">
-  <div class="kpi-grid">
-    <app-kpi-card title="Average DPM" [value]="kpi.avgDpm"></app-kpi-card>
-    <app-kpi-card title="TTK" [value]="ttk" unit="s"></app-kpi-card>
-    <app-kpi-card title="Hit Chance" [value]="currentHitChance" unit="%"></app-kpi-card>
-    <app-kpi-card title="Crit Chance" [value]="kpi.critChance" unit="%"></app-kpi-card>
-    <app-kpi-card title="Crit Damage" [value]="kpi.critDmg" unit="%"></app-kpi-card>
+  <div class="kpi-grid" [class.expanded]="isKpiExpanded()">
+    <!-- Mobile toggle header (hidden on desktop) -->
+    <div class="mobile-kpi-header" (click)="isKpiExpanded.set(!isKpiExpanded())">
+      <span class="header-title">Useful Information</span>
+      <span class="toggle-icon">{{ isKpiExpanded() ? '▼' : '▲' }}</span>
+    </div>
+    
+    <!-- Wrapper for collapsible content -->
+    <div class="kpi-content">
+      <app-kpi-card title="Average DPM" [value]="kpi.avgDpm"></app-kpi-card>
+      <app-kpi-card title="TTK" [value]="ttk" unit="s"></app-kpi-card>
+      <app-kpi-card title="Hit Chance" [value]="kpi.hitChance" unit="%"></app-kpi-card>
+      <app-kpi-card title="Crit Chance" [value]="kpi.critChance" unit="%"></app-kpi-card>
+      <app-kpi-card title="Crit Damage" [value]="kpi.critDmg" unit="%" class="crit-dmg-kpi"></app-kpi-card>
+    </div>
   </div>
-  <app-damageovertime [chartOptions]="dotChartOptions"></app-damageovertime>
-  <app-bossinformation (enemyChange)="onEnemyChange($event)"></app-bossinformation>
-</div>
+  <!-- Damage Over Time Chart extracted to main-content -->
+  @if (sets[selectedSetIndex]) {
+    <app-bossinformation 
+      (enemyChange)="onEnemyChange($event)"
+      [debuffs]="sets[selectedSetIndex].userInput.debuffs"
+      (debuffsChange)="onDebuffChange($event)"
+    ></app-bossinformation>
+  }
+
+  @if (selectedTick(); as tick) {
+    <div class="tick-inspector">
+      <div class="inspector-header">
+          <h4>State at {{ tick.time | number:'1.1-1' }}s</h4>
+          <button class="close-btn" (click)="selectedTick.set(null)">×</button>
+      </div>
+      
+      <div class="inspector-grid">
+           <div class="stat-box">
+               <label>Ability</label>
+               <span class="value">{{ tick.name }}</span>
+           </div>
+           <div class="stat-box">
+               <label>Damage</label>
+               <span class="value highlight">{{ tick.damage | number:'1.0-0' }}</span>
+           </div>
+           <div class="stat-box">
+               <label>Adrenaline</label>
+               <span class="value">{{ tick.adrenaline }}%</span>
+           </div>
+           
+           <div class="stat-box full-width">
+               <label>Active Buffs</label>
+               <div class="tag-list">
+                   @for (buff of tick.activeBuffs; track buff) {
+                       <span class="tag buff">{{ buff }}</span>
+                   }
+                   @if (tick.activeBuffs.length === 0) { <span class="empty">None</span> }
+               </div>
+           </div>
+           
+           <div class="stat-box full-width">
+               <label>Cooldowns</label>
+               <div class="tag-list">
+                   @for (cd of tick.cooldowns; track cd.name) {
+                       <span class="tag cooldown">{{ cd.name }} ({{ cd.secondsRemaining }}s)</span>
+                   }
+                   @if (tick.cooldowns.length === 0) { <span class="empty">None</span> }
+               </div>
+           </div>
+      </div>
+    </div>
+  }

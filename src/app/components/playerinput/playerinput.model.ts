@@ -41,6 +41,8 @@ export interface IPerk {
   slotsConsumed: number; // e.g., 1, 2
   type?: string; // e.g., 'weapon', 'armor'
   maxRank?: number; // Max rank for this perk definition
+  dpsMod?: number; // Percentage damage increase (e.g. 0.01 for 1%)
+  critChanceMod?: number; // Critical strike chance increase (e.g. 0.01 for 1%)
 }
 
 export interface IInventionPerkSlot {

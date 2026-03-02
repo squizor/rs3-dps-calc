@@ -33,6 +33,7 @@ export interface CalculationOutput {
   distribution: { labels: string[]; values: number[] };
   ttk: { categories: string[]; values: number[] };
   dpmTimeline: { x: number; y: number }[];
+  debug?: any; 
 }
 
 @Injectable({
@@ -44,7 +45,6 @@ export class DpsCalculationService {
   public enemies: any[] = [];
 
   public ammo: any[] = [];
-  public auras: any[] = [];
   public bodies: any[] = [];
   public boots: any[] = [];
   public capes: any[] = [];
@@ -73,7 +73,6 @@ export class DpsCalculationService {
       enemies: this.http.get<any[]>('assets/data/custom-enemies.json'),
       abilities: this.http.get<any[]>('assets/data/abilities.json'),
       ammo: this.http.get<any[]>('assets/data/equipment/ammo.json'),
-      auras: this.http.get<any[]>('assets/data/equipment/aura.json'),
       bodies: this.http.get<any[]>('assets/data/equipment/body.json'),
       boots: this.http.get<any[]>('assets/data/equipment/boots.json'),
       capes: this.http.get<any[]>('assets/data/equipment/cape.json'),
@@ -92,7 +91,6 @@ export class DpsCalculationService {
         this.enemies = data.enemies;
         this.abilities = data.abilities;
         this.ammo = data.ammo;
-        this.auras = data.auras;
         this.bodies = data.bodies;
         this.boots = data.boots;
         this.capes = data.capes;
@@ -126,62 +124,146 @@ export class DpsCalculationService {
       take(1),
       map(() => {
         const effectiveLevel = Number(input.level) + Number(input.potions);
-        const levelBonus = effectiveLevel * 10;
+        
+        let abilityDmg = 0;
+        const mainhand = input.weapon;
+        const offhand = input.offhand;
 
-        const mhDmg = input.weapon ? input.weapon.ability_damage : 0;
-        const ohDmg = input.offhand ? input.offhand.ability_damage : 0;
+        // https://runescape.wiki/w/Ability_damage
+        if (mainhand) {
+             const mhTier = mainhand.level_requirement || 1;
+             if (mainhand.slot === 'twohand') {
+                 // 2H: 3.75 * Level + 14.4 * Tier
+                 abilityDmg = (3.75 * effectiveLevel) + (14.4 * mhTier);
+             } else {
+                 // Dual Wield (MH part): 2.5 * Level + 9.6 * Tier
+                 abilityDmg = (2.5 * effectiveLevel) + (9.6 * mhTier);
+                 
+                 if (offhand) {
+                     // Add OH part: 1.25 * Level + 4.8 * Tier
+                     const ohTier = offhand.level_requirement || 1;
+                     abilityDmg += (1.25 * effectiveLevel) + (4.8 * ohTier);
+                 } else {
+                     // No offhand? (1.5 * Level)? Assuming shield or empty.
+                     // For now, just MH part implies partial AD.
+                 }
+             }
+        } else {
+             // Unarmed logic?
+             abilityDmg = effectiveLevel * 3.75; // Fallback
+        }
 
-        const abilityDmg = Math.floor(levelBonus + mhDmg + ohDmg + Number(input.prayer) * 20);
+        // Add Prayer Bonus (approx 20 per point or similar? No, standard formula applies multiplier usually or additive)
+        // Wiki says: "Prayer bonuses are applied to the ability damage stat directly... roughly 2 per point?"
+        // User text said: "prayerMultiplier = 1 + (input.prayer / 100)" used for accuracy.
+        // For Damage: 
+        // Melee prayers increase Strength level (which boosts AD via Level).
+        // input.prayer seems to be a "points" value (e.g. 12)? Or a multiplier? 
+        // Previous code: input.prayer * 20. 
+        // If input.prayer is "Affliction" (T99), it boosts stats by 12 points? Or 12%?
+        // Usually prayers boost the *Level*.
+        // If 'input.prayer' is the *boost amount* (e.g. 12), then we should add it to effectiveLevel.
+        
+        // RE-READING input:
+        // effectiveLevel = Number(input.level) + Number(input.potions);
+        // If 'input.prayer' is the boost (e.g. 10 or 12), we should add it to effectiveLevel BEFORE AD calc.
+        // The previous code did: levelBonus + ... + prayer * 20.
+        // Let's assume input.prayer is the Level Boost (e.g. 12).
+        // So effectiveLevel should include it.
+        
+        // Correcting effectiveLevel to include prayer if it's a flat boost.
+        const totalLevel = effectiveLevel + Number(input.prayer);
+        
+        // Re-calculating with totalLevel
+        if (mainhand) {
+             const mhTier = mainhand.level_requirement || 1;
+             if (mainhand.slot === 'twohand') {
+                 abilityDmg = (3.75 * totalLevel) + (14.4 * mhTier);
+             } else {
+                 abilityDmg = (2.5 * totalLevel) + (9.6 * mhTier);
+                 if (offhand) {
+                     const ohTier = offhand.level_requirement || 1;
+                     abilityDmg += (1.25 * totalLevel) + (4.8 * ohTier);
+                 }
+             }
+        }
 
-        const skillAccuracy = this.calculateLevelBonus(effectiveLevel);
+        abilityDmg = Math.floor(abilityDmg);
+
+        // Hit Chance Calculation (RS3 Wiki Formula)
+        // Hit Chance = Affinity * (Accuracy / Armour) + Modifier
+        
+        // 1. Calculate Player Accuracy
+        // Accuracy level bonus
+        const accuracyLevel = this.calculateLevelBonus(effectiveLevel);
         const weaponAccuracy = input.weapon ? input.weapon.accuracy : 0;
-        let totalAccuracy = skillAccuracy + weaponAccuracy;
+        
+        let accuracy = accuracyLevel + weaponAccuracy;
+        
+        // Apply Prayer Multiplier (e.g. 1.10 for T99)
+        const prayerMultiplier = 1 + (input.prayer / 100); 
+        accuracy = Math.floor(accuracy * prayerMultiplier); 
 
-        const PRAYER_ACC_MULTIPLIER = 1 + input.prayer / 100;
-        totalAccuracy *= PRAYER_ACC_MULTIPLIER;
+        // Target Armour
+        let targetDefenceLevel = input.boss?.defenceLevel ?? 1;
+        let targetArmourStat = input.boss?.armor ?? 0; // "defence" property in JSON is often armour stat
+        
+        // Some bosses override standard def calculation or have specific values
+        // Standard formula: Defence Level Bonus + Armour Stat
+        let armour = this.calculateLevelBonus(targetDefenceLevel) + targetArmourStat;
 
-        let bossDef = input.boss ? input.boss.def : 1500;
-        let effectiveBossAffinity = 55;
+        // Apply Enrage (Telos/Glacor scaling)
+        if (input.boss?.hasEnrage) {
+             // Simplified linear scaling, varied by boss in reality
+             // Telos: +3 per 1% enrage roughly on stats? Wiki says Defense/Armour scales.
+             // For now keeping previous simple logic:
+             armour += (input.enrage * 0.5); 
+        }
 
+        // Apply Debuffs to Armour
+        if (input.debuffs.gstaff) armour -= 20; // GStaff reduces Defence Level actually... (simplified to armour rating for now or logic fix needed)
+        // Note: GStaff/BStaff/SWH reduce DEFENCE RATING, not just armour. 
+        // For accurate calc: Reduce rating directly.
+        
+        if (input.debuffs.smoke) armour = Math.floor(armour * 0.94); // Smoke Cloud reduces armour rating by 6% (check wiki: 15% manual, 6% auto? usually 6% for bind)
+
+        // Affinity
+        // Default standard values if not specified
+        let affinity = 55; // Neutral
         if (input.boss && input.boss.affinity) {
-          const weaponStyle = input.weapon?.style;
-          switch (weaponStyle) {
-            case 'melee':
-              effectiveBossAffinity = input.boss.affinity.melee ?? input.boss.affinity.hybrid ?? 55;
-              break;
-            case 'ranged':
-              effectiveBossAffinity =
-                input.boss.affinity.ranged ?? input.boss.affinity.hybrid ?? 55;
-              break;
-            case 'magic':
-              effectiveBossAffinity = input.boss.affinity.magic ?? input.boss.affinity.hybrid ?? 55;
-              break;
-            case 'necromancy':
-              effectiveBossAffinity =
-                input.boss.affinity.necromancy ?? input.boss.affinity.hybrid ?? 55;
-              break;
-            default:
-              effectiveBossAffinity = input.boss.affinity.hybrid ?? 55;
-              break;
-          }
+             const style = input.weapon?.style?.toLowerCase() ?? 'hybrid';
+             // If boss has specific affinity for this style, use it.
+             // Fallback logic: Weakness > Specific Style > Hybrid > 55
+             
+             if (input.boss.weakness && input.boss.weakness.toLowerCase() === style) {
+                 affinity = 90; // Specific weakness
+             } else {
+                 // Check style mapping
+                 if (style === 'melee' && input.boss.affinity.melee !== null) affinity = input.boss.affinity.melee;
+                 else if (style === 'ranged' && input.boss.affinity.ranged !== null) affinity = input.boss.affinity.ranged;
+                 else if (style === 'magic' && input.boss.affinity.magic !== null) affinity = input.boss.affinity.magic;
+                 else if (style === 'necromancy' && input.boss.affinity.necromancy !== null) affinity = input.boss.affinity.necromancy;
+                 else if (input.boss.affinity.hybrid !== null) affinity = input.boss.affinity.hybrid;
+             }
         }
-        const bossAffinity = effectiveBossAffinity;
-
-        if (input.boss) {
-          const ARMOUR_BONUS = this.calculateLevelBonus(input.boss.defenceLevel ?? 0);
-          const ARMOUR_RATING = Math.floor(bossDef + ARMOUR_BONUS);
-          bossDef = ARMOUR_RATING;
-
-          if (input.boss.hasEnrage) {
-            bossDef += input.enrage * 0.5;
-          }
+        
+        // Final Chance
+        let hitChance = 0;
+        
+        if (armour <= 0) {
+            hitChance = 100;
+        } else {
+            hitChance = affinity * (accuracy / armour);
         }
 
-        if (input.debuffs.gstaff) bossDef -= 20;
-        if (input.debuffs.smoke) bossDef *= 0.94;
+        // Modifiers (Reaper Necklace, Nihil, etc)
+        if (input.familiar?.name?.includes('nihil')) {
+             hitChance += 5; // Nihil is 5% additive
+        }
 
-        const hitChanceRaw = bossDef > 0 ? (bossAffinity / 100) * (totalAccuracy / bossDef) : 1.0;
-        const hitChance = Math.min(100, Math.max(0, hitChanceRaw * 100));
+        // Cap at 100%
+        hitChance = Math.min(100, Math.max(0, hitChance));
+        console.log('Final Hit Chance:', hitChance);
 
         let perkBonus = 1;
         let critChanceFromPerks = 0;

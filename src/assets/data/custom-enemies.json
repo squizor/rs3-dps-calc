@@ -47,6 +47,27 @@
     }
   },
   {
+    "name": "Custom Target",
+    "combatLevel": 1,
+    "lifePoints": 200000,
+    "slayerHelmable": true,
+    "weakness": "None",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 1,
+    "armor": 0,
+    "susceptibleTo": ["inqstaff", "terrasaur", "hexhunter"],
+    "icon": "assets/Squirrel-logo.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": 55,
+      "ranged": 55,
+      "magic": 55
+    }
+  },
+  {
     "name": "Combat Dummy",
     "combatLevel": 1,
     "lifePoints": 100000,
@@ -61,7 +82,7 @@
     "susceptibleTo": "",
     "icon": "https://runescape.wiki/images/Training_dummy.png",
     "affinity": {
-      "hybrid": 1,
+      "hybrid": 90,
       "melee": null,
       "ranged": null,
       "magic": null

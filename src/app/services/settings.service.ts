@@ -20,6 +20,7 @@ export class SettingsService {
       const initialTheme = localStorage.getItem(this.STORAGE_KEY) as Theme || 'rs3';
       this.theme.next(initialTheme);
       this.applyTheme(initialTheme);
+      this.loadCooldownTextSetting();
     }
   }
 
@@ -38,5 +39,26 @@ export class SettingsService {
     } else {
       body.classList.remove('osrs-theme');
     }
+  }
+
+  // --- Cooldown Text Setting ---
+  private readonly COOLDOWN_TEXT_KEY = 'show_cooldown_text';
+  private showCooldownText = new BehaviorSubject<boolean>(true);
+  public showCooldownText$ = this.showCooldownText.asObservable();
+
+  public setShowCooldownText(show: boolean) {
+      this.showCooldownText.next(show);
+      if (this.isBrowser) {
+          localStorage.setItem(this.COOLDOWN_TEXT_KEY, String(show));
+      }
+  }
+
+  private loadCooldownTextSetting() {
+      if (this.isBrowser) {
+          const saved = localStorage.getItem(this.COOLDOWN_TEXT_KEY);
+          if (saved !== null) {
+              this.showCooldownText.next(saved === 'true');
+          }
+      }
   }
 }

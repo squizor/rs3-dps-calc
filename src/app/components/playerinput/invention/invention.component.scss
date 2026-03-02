@@ -1,8 +1,7 @@
 @use '../../../styles/modals';
+@use 'sass:color';
 @use '../helpers';
 
-:host {
-}
 
 .add-item-modal-body {
   .modal-search-input {
@@ -47,189 +46,536 @@
 }
 
 .player-invention-tab {
-  @include helpers.card;
+  // We don't need the generic card style if we are using custom panels
+  // @include helpers.card; 
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 
+  // --- 1. The "Tray" (Item Selector) ---
   .invention-item-selector {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--wiki-theme-darkest); // Recessed tray
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); // Inner depth
+
+    @media screen and (max-width: 1250px) {
+      gap: 0.35rem;
+      padding: 0.5rem;
+      .selector-item, .add-item-button {
+        width: 40px;
+        height: 40px;
+        .getIconImg { width: 28px; height: 28px; }
+      }
+    }
 
     .selector-item,
     .add-item-button {
       position: relative;
-      height: 4.5rem;
+      width: 48px; // Slightly larger than potions (40px)
+      height: 48px;
       background-color: var(--input-bg);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
+      border-radius: 4px; // Square-ish like inventory
       cursor: pointer;
       transition: all 0.2s ease-out;
-      padding: 0.5rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: var(--shadow-inner);
+      overflow: hidden;
+
+      .getIconImg {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
+        transition: transform 0.2s ease;
+      }
+
+      .two-handed-text {
+        position: absolute;
+        bottom: 1px;
+        right: 2px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 1px 2px #000;
+        pointer-events: none;
+      }
 
       &:hover {
         transform: translateY(-2px);
-        border-color: var(--active-color);
-        box-shadow: var(--shadow-sm);
+        border-color: var(--text-secondary);
+        background-color: color.adjust(#2e3a50, $lightness: 10%);
+
+        .getIconImg {
+          transform: scale(1.1);
+        }
       }
 
       &.active {
         border-color: var(--active-color);
-        box-shadow: 0 0 10px var(--active-color);
+        box-shadow: 0 0 0 1px var(--active-color), inset 0 0 10px rgba(var(--active-color), 0.2);
+        background-color: rgba(255, 183, 0, 0.1); 
+
+        .getIconImg {
+          filter: drop-shadow(0 0 4px var(--active-color));
+        }
       }
     }
 
     .add-item-button {
       border-style: dashed;
-      border-width: 2px;
-      background: transparent;
-      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.03);
 
       fa-icon {
-        font-size: 1.5rem;
-        transition: all 0.2s ease-out;
+        color: var(--text-muted);
+        font-size: 1rem;
       }
 
       &:hover {
-        background: var(--hover-bg);
-        color: var(--text-primary);
         border-color: var(--active-color);
+        background: rgba(255, 183, 0, 0.05);
         fa-icon {
-          transform: scale(1.1);
+          color: var(--text-primary);
         }
       }
 
       &.disabled {
+        opacity: 0.3;
         cursor: not-allowed;
-        opacity: 0.5;
-        &:hover {
-          background: transparent;
-          border-color: var(--border-color);
-          fa-icon {
-            transform: none;
-          }
-        }
+        &:hover { transform: none; border-color: var(--border-color); }
       }
     }
   }
 
+  // --- 2. The "Inspector" (Minimalist) ---
   .invention-content {
-    border-top: 1px solid var(--border-color);
-    padding-top: 1.5rem;
-
-    .remove-button-container {
-      align-self: center;
-    }
-
-    .remove-button,
-    .confirm-btn,
-    .cancel-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 0.25rem;
-      transition: all 0.2s ease-out;
-      border-radius: var(--radius-sm);
-      width: 2rem;
-      height: 2rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      &:hover {
-        background-color: var(--hover-bg);
-      }
-    }
-
-    .remove-button:hover {
-      color: var(--danger-color, #e53e3e);
-    }
-
-    .remove-confirm-buttons {
-      display: flex;
-      gap: 0.25rem;
-      background-color: var(--input-bg);
-      border-radius: var(--radius-sm);
-      padding: 0.25rem;
-      border: 1px solid var(--border-color);
-    }
-
-    .confirm-btn:hover {
-      color: var(--success-color, #38a169);
-    }
-
-    .cancel-btn:hover {
-      color: var(--danger-color, #e53e3e);
-    }
-
-    .placeholder-text {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-secondary);
-    }
-  }
-
-  .invention-item {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
     display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    align-items: center;
-    position: relative;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeIn 0.3s ease-out;
 
-    .item-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      width: 5em;
-      text-align: center;
-
-      .perk-icon {
-        position: relative;
-        height: 4em;
-        width: 4em;
-        border-radius: var(--radius-sm);
-        background: var(--hover-bg);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid var(--border-color);
-        padding: 0.5rem;
-      }
-
-      .item-name {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--text-secondary);
-      }
-    }
-
-    .item-details {
-      flex-grow: 1;
-      .perk-slots-container {
+    .inspector-panel {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        .perk-slot {
-          background-color: var(--hover-bg);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-sm);
-          padding: 0.75rem;
-          cursor: pointer;
-          transition: all 0.2s ease-out;
-          &:hover {
-            border-color: var(--active-color);
-          }
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background-color: var(--wiki-theme-darkest);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-inner);
+    }
+
+    .inspector-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        
+        .inspector-icon {
+            width: 48px;
+            height: 48px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            
+            .getIconImg {
+                width: 40px;
+                height: 40px;
+                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            }
         }
-      }
+
+        .inspector-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            
+            .item-name {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                letter-spacing: 0.5px;
+            }
+            
+            .item-type-label {
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+        }
+        
+        .remove-action { // Align delete button properly 
+             margin-left: auto;
+             
+             .remove-button, .confirm-btn, .cancel-btn {
+                background: transparent;
+                border: none;
+                color: var(--text-muted);
+                cursor: pointer;
+                transition: color 0.2s;
+                font-size: 1rem;
+                &:hover { color: var(--danger-color, #e53e3e); }
+             }
+             
+             .remove-confirm-buttons { display: flex; gap: 0.5rem; }
+        }
+    }
+
+    .inspector-slots {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        
+        .perk-socket-wrapper {
+            position: relative; // Anchor for dropdown
+            display: block; // Or grid-item
+            
+            &.active {
+                z-index: 100; // Bring above siblings when open
+            }
+        }
+        
+        .perk-socket {
+            background: rgba(0,0,0,0.2); // "Socket" recession
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            height: 48px; // Standard input height
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+
+            // Inner gloss
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            
+            &.empty {
+                 // No default animation
+            }
+
+            &:hover, &.dropdown-open {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: var(--text-secondary);
+                transform: translateY(-1px);
+                
+                &.empty {
+                     animation: socket-pulse 2s infinite ease-in-out;
+                }
+            }
+            
+            &.dropdown-open {
+                border-color: var(--active-color); // Highlight when open
+            }
+
+            .socket-inner {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .perk-label {
+                font-weight: 500;
+                color: var(--text-primary);
+                font-size: 0.95rem;
+            }
+            
+            .empty-label {
+                color: var(--text-muted);
+                font-style: italic;
+                font-size: 0.9rem;
+            }
+            
+            .rank-badge {
+                font-size: 0.9rem; // Increased from 0.7rem
+                background: linear-gradient(135deg, #FFD700, #DAA520); // Gold
+                color: #000;
+                font-weight: 700;
+                padding: 1px 5px;
+                border-radius: 4px;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                min-width: 1.5rem;
+                text-align: center;
+                font-family: serif; 
+            }
+            
+            &.filled {
+                background: linear-gradient(to bottom, color.adjust(#2e3a50, $lightness: 5%), #2e3a50);
+                border-color: var(--active-color);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                
+                // Highlight line at top
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 1px;
+                    background: rgba(255,255,255,0.1);
+                }
+            }
+            
+            &.two-slot {
+                // grid-column: span 2; // handled by parent if needed, but wrapper breaks grid span unless wrapper spans
+            }
+        }
+        
+        // --- Inline Dropdown Menu ---
+        .perk-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            width: 100%; 
+            min-width: 100%;
+            max-width: 120%; // Allow slight overflow if needed, but keep it constrained
+            max-height: 350px;
+            background-color: var(--hover-bg); // Dark solid bg
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 0.15s ease-out;
+
+            .dropdown-search-container {
+                padding: 0.5rem;
+                border-bottom: 1px solid var(--border-color);
+                background: rgba(0,0,0,0.2);
+                
+                .dropdown-search-input {
+                    width: 100%;
+                    padding: 0.5rem 0.75rem;
+                    background: var(--input-bg);
+                    border: 1px solid var(--border-color);
+                    border-radius: 4px;
+                    color: white;
+                    font-size: 0.9rem;
+                    
+                    &:focus {
+                        outline: none;
+                        border-color: var(--active-color);
+                    }
+                }
+            }
+            
+            .dropdown-items-list {
+                overflow-y: auto;
+                flex: 1;
+                
+                .dropdown-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.6rem 1rem;
+                    border-bottom: 1px solid rgba(255,255,255,0.03);
+                    cursor: pointer;
+                    transition: background 0.1s;
+                    
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.1); // Neutral hover to keep accent text visible
+                    }
+                    
+                    &.selected {
+                        background-color: rgba(var(--active-color-rgb), 0.3); // Increased opacity for brightness
+                        border-left: 4px solid var(--active-color); // Thicker border
+                        box-shadow: inset 0 0 10px rgba(var(--active-color-rgb), 0.2); // Inner glow
+                        
+                        .item-name { 
+                            color: #fff; 
+                            text-shadow: 0 0 8px rgba(var(--active-color-rgb), 0.8); // Stronger glow
+                            font-weight: 700;
+                        }
+                    }
+                    
+                    .item-name {
+                        font-weight: 500;
+                        color: var(--text-primary);
+                        display: flex; gap: 0.5rem; align-items: center;
+                    }
+                    
+                    .item-rank {
+                        font-size: 0.9rem; // Increased from 0.7rem
+                        font-weight: 700;
+                        color: var(--active-color);
+                        font-family: serif;
+                    }
+                    
+                    .item-stats {
+                        display: flex; gap: 4px;
+                        .stat {
+                            font-size: 0.7rem;
+                            padding: 1px 4px;
+                            border-radius: 2px;
+                            font-family: monospace;
+                            
+                            &.dps { background: rgba(255, 100, 100, 0.2); color: #ffadad; }
+                            &.crit { background: rgba(255, 200, 50, 0.2); color: #ffdf80; }
+                        }
+                    }
+                }
+                
+                .empty-state {
+                    padding: 1.5rem;
+                    text-align: center;
+                    color: var(--text-muted);
+                    font-style: italic;
+                    font-size: 0.9rem;
+                }
+            }
+        }
     }
   }
+}
+
+// Backdrop for closing dropdowns
+.dropdown-backdrop {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 50; // Below dropdown (1000) but above everything else
+    cursor: default;
+}
+
+// --- 3. Perk Modal Polish (Command Palette) ---
+.perk-modal-overlay {
+  background: rgba(0, 0, 0, 0.6); // Dimmest backdrop
+  backdrop-filter: blur(8px); // Focus blur
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 1001;
+  display: flex; justify-content: center; align-items: flex-start; // Align to top-ish
+  padding-top: 15vh; // Command Palette position
+  animation: fadeIn 0.2s ease-out;
+}
+
+.command-palette {
+  background: rgba(20, 25, 35, 0.95); // Deep dark glass
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+  border-radius: 12px;
+  width: 600px;
+  max-width: 90vw;
+  max-height: 60vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+
+  // Unified Header
+  .palette-header {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+
+      .header-icon-wrapper {
+          display: flex; align-items: center; justify-content: center;
+          width: 24px; height: 24px; margin-right: 1rem;
+          color: var(--text-muted);
+          
+          .context-icon { font-size: 1.2rem; }
+      }
+
+      .palette-search-input {
+          flex: 1;
+          background: transparent;
+          border: none;
+          font-size: 1.2rem;
+          color: #fff;
+          font-weight: 300;
+          outline: none;
+          
+          &::placeholder { color: rgba(255,255,255,0.3); }
+      }
+      
+      .palette-close {
+          background: transparent; border: none; color: rgba(255,255,255,0.2); 
+          cursor: pointer; transition: color 0.2s;
+          &:hover { color: #fff; }
+      }
+  }
+
+  // Results List
+  .palette-results {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+
+      .result-item {
+          padding: 0.75rem 1rem;
+          margin-bottom: 2px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.1s ease;
+          display: flex;
+          align-items: center;
+          border-left: 3px solid transparent; // Selection marker
+          
+          .result-content {
+              display: flex; justify-content: space-between; align-items: center; width: 100%;
+          }
+
+          .name-section {
+              display: flex; align-items: center; gap: 0.75rem;
+              .perk-name { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }
+              .rank-badge {
+                  background: rgba(255, 215, 0, 0.15); color: #ffd700;
+                  font-size: 0.7rem; padding: 2px 6px; border-radius: 4px;
+                  font-family: serif; letter-spacing: 0.5px; border: 1px solid rgba(255, 215, 0, 0.2);
+              }
+          }
+
+          .stats-section {
+              display: flex; gap: 0.5rem;
+              .stat-pill {
+                   font-family: 'Consolas', monospace; font-size: 0.75rem; 
+                   padding: 2px 8px; border-radius: 4px;
+                   &.dps { background: rgba(255, 99, 71, 0.1); color: #ff6347; }
+                   &.crit { background: rgba(0, 191, 255, 0.1); color: #00bfff; }
+              }
+          }
+
+          // Hover State
+          &:hover {
+              background: rgba(255,255,255,0.05);
+              .name-section .perk-name { color: var(--text-primary); }
+          }
+
+          // Active/Selected State (Neon)
+          &.active {
+              background: linear-gradient(90deg, rgba(var(--active-color-rgb), 0.1), transparent);
+              border-left-color: var(--active-color);
+              
+              .name-section .perk-name { color: #fff; text-shadow: 0 0 10px rgba(var(--active-color-rgb), 0.5); }
+              .header-icon-wrapper { color: var(--active-color); }
+          }
+      }
+      
+      .empty-state {
+          padding: 2rem; text-align: center; color: var(--text-muted); font-style: italic;
+      }
+  }
+}
+
+// ... (Existing Keyframes)
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes socket-pulse {
+    0% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border-color: var(--border-color); }
+    50% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 8px rgba(255, 255, 255, 0.1); border-color: var(--text-secondary); }
+    100% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border-color: var(--border-color); }
 }

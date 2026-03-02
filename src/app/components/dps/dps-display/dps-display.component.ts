@@ -9,10 +9,16 @@ import {
   OnDestroy,
   inject,
   effect,
+  signal,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgApexchartsModule } from 'ng-apexcharts';
+
 import { forkJoin, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -28,7 +34,7 @@ import { DatabaseService } from '../../../services/database.service';
 import { PlayerDataService } from '../../../services/player-data.service';
 import { DamageTick, RotationDpsService } from '../../../services/rotation-dps.service';
 import { SimulationService } from '../../../services/simulation.service';
-import { Boss } from '../../../types/equipment.types';
+import { Boss, Weapon } from '../../../types/equipment.types';
 import { Ability } from '../../../types/abilities';
 
 // Components
@@ -41,7 +47,6 @@ import { KpiCardComponent } from './kpi-card/kpi-card.component';
   standalone: true,
   imports: [
     CommonModule,
-    NgApexchartsModule,
     FormsModule,
     DamageovertimeComponent,
     BossinformationComponent,
@@ -54,88 +59,182 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
   @Input() sets: InputSet[] = [];
   @Input() selectedSetIndex: number = 0;
 
+  public isBrowser: boolean;
   public dotChartOptions: ChartOptions;
 
   public kpi = {
     avgDpm: '0',
     critChance: 0,
     critDmg: 0,
+    hitChance: 0,
   };
 
   public ttk: number = 0;
 
   public currentHitChance: number = 0;
-  displayEnemy: IEnemy | null = null;
+  displayEnemy: any | null = null; // Use appropriate type if available, e.g. IEnemy | Boss
   private activeFamiliar: { name: string } | null = null;
 
   private readonly chartColors = ['#8cabe6', '#48c9b0', '#a569bd', '#5499c7'];
   private statsSubscription: Subscription;
 
-  private rotationDpsService = inject(RotationDpsService);
+  public rotationDpsService = inject(RotationDpsService);
   private simulationService = inject(SimulationService);
+  
+  public selectedTick = signal<DamageTick | null>(null);
+  public isKpiExpanded = signal<boolean>(false);
 
   constructor(
     private calculationService: DpsCalculationService,
     private databaseService: DatabaseService,
     private playerDataService: PlayerDataService,
+    private cdRef: ChangeDetectorRef
   ) {
+    this.isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
     this.dotChartOptions = this.getEmptyChartOptions();
+    
+    // Add event listener for chart selection
+    this.dotChartOptions.chart.events = {
+        dataPointSelection: (event: any, chartContext: any, config: any) => {
+             const points = config.w.config.series?.[0]?.data;
+             const selectedPoint = points?.[config.dataPointIndex];
+             if (selectedPoint?.meta?.tickIndex !== undefined) {
+                 this.selectTickByIndex(selectedPoint.meta.tickIndex);
+             }
+        },
+        markerClick: (event: any, chartContext: any, config: any) => {
+             const points = config.w.config.series?.[0]?.data;
+             const selectedPoint = points?.[config.dataPointIndex];
+             if (selectedPoint?.meta?.tickIndex !== undefined) {
+                 this.selectTickByIndex(selectedPoint.meta.tickIndex);
+             }
+        }
+    };
+
     this.statsSubscription = new Subscription();
+
+    const bossSignal = toSignal(this.playerDataService.boss$, { initialValue: null });
 
     effect(() => {
       const damageTicks = this.rotationDpsService.damageOverTime();
+      const dpm = this.rotationDpsService.projectedDpm$();
+      const rotationDuration = this.rotationDpsService.projectedDuration$();
+      const currentBoss = bossSignal();
+      const bossHP = currentBoss?.lifePoints ?? 200000;
+
+      let totalDamage = 0;
+      if (damageTicks && damageTicks.length > 0) {
+        totalDamage = damageTicks.reduce((sum, tick) => sum + tick.damage, 0);
+      }
+
+      if (dpm > 0 && totalDamage > 0 && rotationDuration > 0) {
+        const timeToKill = (bossHP / totalDamage) * rotationDuration;
+        this.ttk = parseFloat(timeToKill.toFixed(1));
+      } else {
+        this.ttk = 0;
+      }
+
+      this.kpi.avgDpm = Math.floor(dpm).toLocaleString();
 
       if (damageTicks && damageTicks.length > 0) {
-        const totalDamage = damageTicks.reduce((sum, tick) => sum + tick.damage, 0);
-        const totalDuration = damageTicks[damageTicks.length - 1].time;
-
-        if (totalDuration > 0) {
-          const dps = totalDamage / totalDuration;
-          const dpm = dps * 60;
-          this.kpi.avgDpm = Math.floor(dpm).toLocaleString();
-        } else {
-          this.kpi.avgDpm = '0';
-        }
+        // Transform data for the line graph
+        
+        let runningTotalDamage = 0;
+        // Start at 0,0
+        const chartData: any[] = [{ x: 0, y: 0 }];
+        
+        damageTicks.forEach((tick, index) => {
+            const t = tick.time;
+            const d = tick.damage;
+            runningTotalDamage += d;
+            
+            // Calculate Cumulative DPM
+            // For T=0 (or very close), avoid infinity.
+            const currentDpm = t > 0.1 ? (runningTotalDamage / t) * 60 : 0;
+            
+            // We omit points at T=0 to avoid skewed graph scaling
+            if (t > 0.1) {
+                chartData.push({
+                    x: t,
+                    y: Math.floor(currentDpm),
+                    meta: {
+                        damage: d,
+                        tickIndex: index,
+                        name: tick.name
+                    }
+                });
+            }
+        });
 
         this.dotChartOptions = {
           ...this.dotChartOptions,
           series: [
             {
-              name: 'Rotation Damage',
-              data: damageTicks.map((tick: DamageTick) => ({
-                x: tick.time,
-                y: tick.damage,
-              })),
+              name: 'DPM',
+              data: chartData,
             },
           ],
+          colors: ['#8cabe6'],
+          stroke: {
+            curve: 'smooth', // Smooth line for "Line Graph" feel
+            width: 3,
+            colors: ['#8cabe6'], 
+          },
+          yaxis: {
+            show: true,
+            tickAmount: 5,
+            labels: {
+              style: { colors: '#8cabe6', fontSize: '12px' },
+              formatter: (val: number) => (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : `${val}`),
+            },
+          },
+          tooltip: {
+             ...this.dotChartOptions.tooltip,
+             y: {
+                 formatter: (val: number, opts?: any) => {
+                     // val is DPM
+                     if (opts && opts.dataPointIndex !== undefined && opts.w?.config?.series?.[0]?.data) {
+                         const point = opts.w.config.series[0].data[opts.dataPointIndex];
+                         const meta = point.meta;
+                         
+                         if (meta) {
+                             // Show DPM and the Hit that caused the update
+                             return `${val.toLocaleString()} (Hit: ${meta.damage.toLocaleString()})`;
+                         }
+                     }
+                     return `${val.toLocaleString()}`;
+                 },
+                 title: { formatter: () => 'DPM: ' }
+             }
+          }
         };
       } else {
-        this.kpi.avgDpm = '0';
-        this.dotChartOptions = {
-          ...this.dotChartOptions,
-          series: [],
-        };
-      }
-    });
-
-    effect(() => {
-      const rotation = this.rotationDpsService.rotation$();
-      const abilities = rotation
-        .flatMap((tick) => tick.items)
-        .filter((item) => 'skill' in item) as Ability[];
-      const bossHp = this.displayEnemy?.lifePoints ?? 0;
-
-      if (abilities.length > 0 && bossHp > 0) {
-        this.simulationService.runSimulation(abilities, bossHp).subscribe((result) => {
-          this.ttk = result.ttk;
-        });
-      } else {
-        this.ttk = 0;
+         this.dotChartOptions = {
+            ...this.dotChartOptions,
+            series: []
+         };
       }
     });
   }
 
+  private selectTickByIndex(index: number) {
+      const ticks = this.rotationDpsService.damageOverTime();
+      if (ticks && ticks[index]) {
+          this.selectedTick.set(ticks[index]);
+          this.cdRef.detectChanges();
+      }
+  }
+
   ngOnInit(): void {
+    // Subscribe to Boss Changes
+    this.playerDataService.boss$.subscribe((boss) => {
+        this.displayEnemy = boss;
+        if (this.displayEnemy && this.sets.length > 0) {
+           this.sets.forEach(set => set.userInput.boss = this.displayEnemy);
+           this.processSets(); 
+        }
+    });
+
     this.playerDataService.calculatedStats$.subscribe((stats) => {
       this.currentHitChance = stats.hitChance;
     });
@@ -143,6 +242,125 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
     this.playerDataService.activeFamiliar$.subscribe((familiar) => {
       this.activeFamiliar = familiar;
       this.processSets();
+    });
+
+    this.playerDataService.equipmentSlots$.subscribe((slots) => {
+        if (this.sets.length > 0 && this.sets[this.selectedSetIndex]) {
+             const set = this.sets[this.selectedSetIndex];
+             // Extract weapon info
+             const mainhand = slots.find(s => s.name === 'mainhand')?.selectedArmor;
+             const offhand = slots.find(s => s.name === 'offhand')?.selectedArmor;
+             const twohand = slots.find(s => s.name === 'twohand')?.selectedArmor;
+             
+             // We need to know the active style to prioritize correctly if both slots have data
+             // But we don't have style synchronously here? 
+             // We can subscribe to weaponStyle$ or just assume DW if mainhand is present and recently interacted with?
+             // Better: Check if twohand is non-null. If user selected MH, 2H slot *should* be cleared by PlayerInput.
+             // If it isn't, we have ambiguity. 
+             // BUT, if we use the same logic as RotationDpsService (style preference), we need style.
+             
+             // For now, let's stick to: if 2H is present, use it? 
+             // NO, that caused the bug!
+             // If I have DW active, I want DW.
+             
+             // Let's rely on the fact that PlayerInput *should* clear the inactive slot.
+             // If it doesn't, we have a problem.
+             
+             // However, to fix "stuck on 2H", we should prefer Mainhand if it was the last interaction?
+             // Actually, let's just use 2H if enabled.
+             // Wait, if 2H slot has an item, DOES IT MEAN IT'S ACTIVE?
+             // In RS3-DPS-Calc, usually selecting MH clears 2H.
+             // If the user says "If I change active style... it still takes 2H", it implies 2H slot isn't cleared.
+             
+             // Let's try to get style from service? We are inside a subscription, we can't easily get another stream value synchronously without `withLatestFrom`.
+             // But we can use `this.playerDataService.getActiveEquipment()`? No that's the same data.
+             
+
+             // If Mainhand is populated, use that?
+             // If BOTH are populated, we have a conflict.
+             
+             if (twohand && !mainhand) {
+                 set.userInput.weapon = twohand as unknown as Weapon;
+                 set.userInput.offhand = null;
+
+             } else if (twohand && mainhand) {
+                 const currentStyle = this.playerDataService.getWeaponStyle();
+                 if (currentStyle === '2h') {
+                      set.userInput.weapon = twohand as unknown as Weapon;
+                      set.userInput.offhand = null;
+                 } else {
+                      set.userInput.weapon = mainhand as unknown as Weapon;
+                      set.userInput.offhand = offhand ? (offhand as unknown as Weapon) : null;
+                 }
+             } else {
+                 set.userInput.weapon = null;
+                 set.userInput.offhand = null;
+             }
+             this.processSets();
+        }
+    });
+
+
+    this.playerDataService.activePrayers$.subscribe((prayers) => {
+        if (this.sets.length > 0 && this.sets[this.selectedSetIndex]) {
+             const set = this.sets[this.selectedSetIndex];
+
+             if (this.displayEnemy) set.userInput.boss = this.displayEnemy;
+             
+             this.processSets();
+        }
+    });
+
+
+    this.playerDataService.activePotion$.subscribe((potion) => {
+        if (this.sets.length > 0 && this.sets[this.selectedSetIndex]) {
+            const set = this.sets[this.selectedSetIndex];
+            
+            if (this.displayEnemy) set.userInput.boss = this.displayEnemy;
+
+            const level = set.userInput.level || 99;
+            let potionBoost = 0;
+            const potionName = potion.toLowerCase();
+
+            // Logic mirrors RotationDpsService / PlayerInput
+            if (potionName.includes('overload')) {
+                if (potionName.includes('elder')) potionBoost = Math.floor(level * 0.17) + 5;
+                else if (potionName.includes('supreme')) potionBoost = Math.floor(level * 0.16) + 4;
+                else potionBoost = Math.floor(level * 0.15) + 3;
+            } else if (potionName.includes('extreme')) {
+                 potionBoost = Math.floor(level * 0.15) + 3;
+            } else if (potionName.includes('super')) {
+                 potionBoost = Math.floor(level * 0.12) + 2;
+            } else if (potionName !== 'none') {
+                 potionBoost = Math.floor(level * 0.08) + 1;
+            }
+
+            set.userInput.potions = potionBoost;
+            
+
+            if (!set.userInput.weapon) {
+                 const currentSlots = this.playerDataService.getActiveEquipment();
+                 // We need to know which style is active to pick 2H or MH/OH
+                 // But wait, set.userInput doesn't have style info separately? 
+                 // It relies on weapon.style.
+                 // Let's try to pick 2H first if populated, else Mainhand.
+                 const twohand = currentSlots.find(s => s.name === 'twohand')?.selectedArmor;
+                 const mainhand = currentSlots.find(s => s.name === 'mainhand')?.selectedArmor;
+                 
+                 // How do we know preference? 
+                 // We can check if `twohand` is selected.
+                 if (twohand) {
+                     set.userInput.weapon = twohand as any;
+                     set.userInput.offhand = null;
+                 } else if (mainhand) {
+                     set.userInput.weapon = mainhand as any;
+                     set.userInput.offhand = currentSlots.find(s => s.name === 'offhand')?.selectedArmor as any;
+                 }
+                 // If still nothing, we can't do much.
+            }
+
+            this.processSets();
+        }
     });
 
     this.statsSubscription = this.playerDataService.stats$.subscribe((stats) => {
@@ -178,6 +396,8 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   setDefaultSets() {
+    if (!this.isBrowser) return;
+    
     forkJoin({
       weapons: this.databaseService.getWeapons(),
       enemies: this.databaseService.getEnemies(),
@@ -187,8 +407,9 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
       const defaultBoss: Boss = {
         name: defaultEnemy.name,
         def: defaultEnemy.armor || 0,
+        armor: defaultEnemy.armor || 0,
         defenceLevel: defaultEnemy.defenceLevel,
-        affinity: { hybrid: 55, melee: 55, ranged: 55, magic: 55, necromancy: 55 },
+        affinity: defaultEnemy.affinity || { hybrid: 55, melee: 55, ranged: 55, magic: 55, necromancy: 55 },
         phases: [],
         hasEnrage: !!defaultEnemy.enrageLevel,
       };
@@ -232,12 +453,21 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
     this.playerDataService.updateInputSets(this.sets);
   }
 
+  onDebuffChange(debuffs: { vuln: boolean; smoke: boolean; gstaff: boolean }) {
+    const set = this.sets[this.selectedSetIndex];
+    if (set) {
+      set.userInput.debuffs = debuffs;
+      this.processSets();
+    }
+  }
+
   private processSets(): void {
     if (!this.sets || this.sets.length === 0) {
       return;
     }
 
     const displayEnemy = this.displayEnemy;
+    
     this.sets.forEach((set) => {
       set.userInput.familiar = this.activeFamiliar ?? undefined;
       if (displayEnemy) {
@@ -251,12 +481,28 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         set.userInput.boss = {
           name: displayEnemy.name,
           def: displayEnemy.armor || 0,
+          armor: displayEnemy.armor || 0,
           defenceLevel: displayEnemy.defenceLevel,
           affinity: displayEnemy.affinity || defaultAffinity,
           phases: [],
           hasEnrage: !!displayEnemy.enrageLevel,
         };
         set.userInput.enrage = displayEnemy.enrageLevel ?? 0;
+      }
+      
+      // Sync prayers
+      const activePrayers = this.playerDataService.getActivePrayers();
+      if (activePrayers) {
+          const prayerBoostPct = activePrayers
+              .filter(p => p.isActive)
+              .reduce((acc, curr) => {
+                  const boostVal = curr.damageBoost || (curr as any).boost || 0;
+                  return acc + boostVal;
+              }, 0);
+          
+          set.userInput.prayer = Math.round(prayerBoostPct * 100);
+      } else {
+          console.warn('[DpsDisplay] No active prayers found in service!');
       }
     });
 
@@ -271,65 +517,112 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private updateKpiDisplay(result: CalculationOutput): void {
+    const prevHitChance = this.currentHitChance;
     this.kpi.avgDpm = result.dpm.toLocaleString();
     this.kpi.critChance = result.critChance ? parseFloat((result.critChance * 100).toFixed(2)) : 0;
     this.kpi.critDmg = result.critDmg ? parseFloat(((result.critDmg - 1) * 100).toFixed(2)) : 0;
+    this.currentHitChance = parseFloat(result.hitChance.toFixed(1));
+    this.kpi.hitChance = this.currentHitChance; // Sync to kpi object
+    
+    this.cdRef.markForCheck();
   }
 
   private configureDotChart(): void {
+    const isDark = true; // align with theme
+    
     this.dotChartOptions = {
       ...this.getEmptyChartOptions(),
       chart: {
-        height: 350,
-        type: 'area',
+        height: '100%', // Use full container height
+        type: 'area', // Area chart allows for fill
+        fontFamily: 'Inter, sans-serif',
         toolbar: { show: false },
         zoom: { enabled: false },
         background: 'transparent',
+        animations: {
+          enabled: true,
+          speed: 800,
+          animateGradually: { enabled: true, delay: 150 },
+          dynamicAnimation: { enabled: true, speed: 350 }
+        }
       },
-      theme: { mode: 'dark' },
-      colors: this.chartColors,
+      theme: { mode: isDark ? 'dark' : 'light' },
+      colors: ['#8cabe6'], // --wiki-theme-brightest
       dataLabels: { enabled: false },
+      
+      // The "Theme" line
       stroke: {
         curve: 'stepline',
-        width: 2,
+        width: 3,
+        colors: ['#8cabe6'], // --wiki-theme-brightest
       },
+      
+      // Gradient Fill below the line
       fill: {
         type: 'gradient',
         gradient: {
-          opacityFrom: 0.7,
-          opacityTo: 0.2,
+          shade: 'dark',
+          type: 'vertical',
+          shadeIntensity: 0.5,
+          gradientToColors: ['#172136'], // --wiki-theme-darker (fades into background)
+          inverseColors: true,
+          opacityFrom: 0.6,
+          opacityTo: 0.1,
+          stops: [0, 100]
         },
       },
+      
+      // Clean Grid
+      grid: {
+        show: true,
+        borderColor: 'rgba(255, 255, 255, 0.05)',
+        strokeDashArray: 4,
+        xaxis: { lines: { show: true } },
+        yaxis: { lines: { show: true } },
+        padding: { top: 0, right: 20, bottom: 0, left: 10 }
+      },
+
       xaxis: {
         type: 'numeric',
-        labels: {
-          formatter: (val: string) => `${parseFloat(val).toFixed(1)}s`,
-          style: { colors: 'rgba(255, 255, 255, 0.7)' },
-        },
+        tooltip: { enabled: false },
         axisBorder: { show: false },
-      },
-      yaxis: {
-        min: 0,
+        axisTicks: { show: false },
         labels: {
-          formatter: (val: number) => (val / 1000).toFixed(0) + 'k',
-          style: { colors: 'rgba(255, 255, 255, 0.7)' },
+          style: { colors: '#8cabe6', fontSize: '12px' }, // --wiki-theme-brightest
+          formatter: (val: string) => `${parseFloat(val).toFixed(0)}s`,
         },
       },
+      
+      yaxis: {
+        show: true,
+        tickAmount: 5,
+        labels: {
+          style: { colors: '#8cabe6', fontSize: '12px' }, // --wiki-theme-brightest
+          formatter: (val: number) => (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : `${val}`),
+        },
+      },
+      
       tooltip: {
         theme: 'dark',
-        x: { formatter: (val: number) => `Tick at ${val.toFixed(1)}s` },
-        y: { formatter: (val: number) => `${val.toLocaleString()} damage` },
+        style: { fontSize: '13px', fontFamily: 'Rubik, sans-serif' },
+        x: { formatter: (val: number) => `Time: ${val.toFixed(1)}s` },
+        y: { 
+          formatter: (val: number) => `${val.toLocaleString()} dmg`,
+          title: { formatter: () => '' } 
+        },
+        marker: { show: true },
       },
-      legend: {
-        show: true,
-        position: 'top',
-        horizontalAlign: 'left',
+      
+      // Markers on hover only (or sparse)
+      markers: {
+        size: 0,
+        colors: ['#ffb700'], // --accent-color (Gold) for contrast
+        strokeColors: '#fff',
+        strokeWidth: 2,
+        hover: { size: 5, sizeOffset: 3 }
       },
-      title: { text: '' },
-      markers: {},
-      annotations: {},
-      plotOptions: {},
-      labels: [],
+      
+      legend: { show: false },
     };
   }
 
@@ -350,6 +643,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
       legend: {},
       labels: [],
       colors: [],
+      grid: {},
       theme: { mode: 'dark' },
     };
   }

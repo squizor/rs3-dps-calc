@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   isPlatformBrowser
-} from "./chunk-PQMW3IFD.js";
+} from "./chunk-JQFL4IXM.js";
 import "./chunk-JOW5UT56.js";
 import {
   ChangeDetectionStrategy,
@@ -9,20 +9,22 @@ import {
   NgModule,
   NgZone,
   PLATFORM_ID,
-  inject,
   input,
   output,
   setClassMetadata,
-  signal,
   viewChild,
   ɵɵNgOnChangesFeature,
   ɵɵdefineComponent,
-  ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdomElement,
   ɵɵqueryAdvance,
   ɵɵviewQuerySignal
-} from "./chunk-J7GEQPQA.js";
+} from "./chunk-WGW2UYYE.js";
+import {
+  inject,
+  signal,
+  ɵɵdefineInjector
+} from "./chunk-L6OI4N73.js";
 import {
   require_cjs
 } from "./chunk-7SULSMEY.js";

@@ -1,8 +1,5 @@
 <div class="main-chart-card">
-    <div class="card-header">
-        <h3 class="card-title">Damage Over Time</h3>
-    </div>
-    <div class="card-body" *ngIf="chartOptions">
+    <div class="card-body" *ngIf="chartOptions && isBrowser">
         <apx-chart
             [series]="chartOptions.series"
             [chart]="chartOptions.chart"

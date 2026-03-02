@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragPreview, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { faPause, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -20,6 +20,8 @@ import { PlayerDataService } from '../../../services/player-data.service';
 import { RotationService } from '../../../services/rotation.service';
 import { IGearPreset, IPrayer, ISpell, IEquipmentSlot } from '../../playerinput/playerinput.model';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RotationDpsService } from '../../../services/rotation-dps.service';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'app-ability-list',
@@ -29,6 +31,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     CdkDropList,
     CdkDrag,
+    CdkDragPreview,
     AsyncPipe,
     NgFor,
     CommonModule,
@@ -42,12 +45,13 @@ export class AbilityListComponent implements OnInit {
 
   faPause: IconDefinition = faPause;
 
-  activeDropdown: 'gear' | 'prayer' | 'magic' | null = null;
+  activeDropdown: 'gear' | 'prayer' | 'magic' | 'potions' | null = null;
   isSavingPreset = false;
   newPresetName = '';
 
   availablePrayers$: Observable<IPrayer[]> = new Observable<IPrayer[]>();
   availableSpells$: Observable<ISpell[]> = new Observable<ISpell[]>();
+  availablePotions$: Observable<Ability[]> = new Observable<Ability[]>();
 
   get listsContainerOverflow(): 'visible' | 'auto' {
     return this.activeDropdown !== null ? 'visible' : 'auto';
@@ -58,6 +62,9 @@ export class AbilityListComponent implements OnInit {
   private abilityService = inject(AbilityService);
   public playerDataService = inject(PlayerDataService);
   private rotationService = inject(RotationService);
+  public rotationDpsService = inject(RotationDpsService); // Public for template access
+  public settingsService = inject(SettingsService); // Public for template access
+  
   private allAbilities$: Observable<Ability[]> = this.abilityService.getAbilities();
   public gearPresets$: Observable<IGearPreset[]> = this.playerDataService.gearPresets$;
   abilityTabs: { name: string; icon: string }[] = [];
@@ -91,9 +98,18 @@ export class AbilityListComponent implements OnInit {
     this.availablePrayers$ = this.playerDataService.prayers$;
 
     this.availableSpells$ = this.playerDataService.spells$;
+
+    this.availablePotions$ = this.allAbilities$.pipe(
+      map((abilities) =>
+        abilities.filter((ability) => {
+            const nameLower = ability.name.toLowerCase();
+            return nameLower.includes('adrenaline') && nameLower.includes('potion');
+        })
+      )
+    );
   }
 
-  toggleDropdown(type: 'gear' | 'prayer' | 'magic') {
+  toggleDropdown(type: 'gear' | 'prayer' | 'magic' | 'potions') {
     if (this.activeDropdown === type) {
       this.activeDropdown = null;
     } else {
@@ -128,16 +144,34 @@ export class AbilityListComponent implements OnInit {
 
   addPresetToRotation(preset: IGearPreset, event: MouseEvent) {
     event.stopPropagation();
-    const GEAR_SWAPS: GearSwap[] = preset.equipment
-      .filter((slot: IEquipmentSlot) => slot.selectedArmor)
+    const actions = this.getGearPresetAction(preset);
+    this.rotationService.addGearSwapsToRotation(actions);
+  }
+
+  addAbilityToTimeline(item: any, event?: MouseEvent) {
+    if (event) {
+       event.stopPropagation();
+       event.preventDefault();
+    }
+    this.rotationService.addAbilityToRotation(item);
+  }
+
+  getGearPresetAction(preset: IGearPreset): GearSwap[] {
+    return preset.equipment
+      .filter((slot: IEquipmentSlot) => slot.selectedArmor && slot.selectedArmor.name !== 'None')
       .map((slot: IEquipmentSlot) => ({
         type: 'gear_swap',
         slot: slot.name,
         itemName: slot.selectedArmor!.name,
       }));
-
-    this.rotationService.addGearSwapsToRotation(GEAR_SWAPS);
   }
+
+  // --- Potions ---
+  getPotionAction(potion: Ability): Ability {
+    // Potions are just abilities in the system now
+    return potion;
+  }
+
 
   showSavePreset() {
     this.isSavingPreset = true;
@@ -192,6 +226,38 @@ export class AbilityListComponent implements OnInit {
     return `${ability.name} - ${ability.type}
 Damage: ${ability.damage.min}-${ability.damage.max}
 Cooldown: ${ability.cooldown} ticks`;
+  }
+
+  getCooldownPercent(ability: Ability): number {
+      const cooldowns = this.rotationDpsService.cooldownsAtCursor$();
+      const expiry = cooldowns.get(ability.name);
+      if (!expiry) return 100; // Not on cooldown -> Fully visible (100% elapsed)
+      
+      const currentTick = this.rotationDpsService.cursorTick();
+      if (expiry <= currentTick) return 100; // Expired -> Fully visible
+      
+      const remaining = expiry - currentTick;
+      // Calculate percentage ELAPSED (0 to 100)
+      // 0% elapsed = 0% colored (Black)
+      // 100% elapsed = 100% colored (Full Color)
+      const elapsed = ability.cooldown - remaining;
+      return (elapsed / ability.cooldown) * 100;
+  }
+
+  getCooldownText(ability: Ability): string {
+      const cooldowns = this.rotationDpsService.cooldownsAtCursor$();
+      const expiry = cooldowns.get(ability.name);
+      if (!expiry) return '';
+      
+      const currentTick = this.rotationDpsService.cursorTick();
+      if (expiry <= currentTick) return '';
+      
+      const remainingTicks = expiry - currentTick;
+      const remainingSeconds = remainingTicks * 0.6;
+      
+      // Formatting: if < 1s, show "0.Xs", else show "X.Xs" or just integers?
+      // "2s" off.
+      return remainingSeconds.toFixed(1) + 's';
   }
 
   private filterAbilities(abilities: Ability[], filterText: string, activeTab: string): Ability[] {

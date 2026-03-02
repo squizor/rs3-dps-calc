@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSearch, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { IStat } from '../../../types/stat.types';
 
 @Component({
@@ -19,20 +19,11 @@ export class StatsInputComponent implements OnInit {
   @Output() lookupRsn = new EventEmitter<string>();
 
   rsn: string = '';
-  selectedStat: IStat | null = null;
 
   FA_SEARCH = faSearch;
-  FA_PLUS = faPlus;
-  FA_MINUS = faMinus;
 
   ngOnInit(): void {
-    if (this.stats.length > 0) {
-      this.selectedStat = this.stats[0];
-    }
-  }
-
-  selectStat(stat: IStat): void {
-    this.selectedStat = stat;
+    // No initialization needed for selection
   }
 
   onStatValueChange(stat: IStat): void {
@@ -48,19 +39,5 @@ export class StatsInputComponent implements OnInit {
     stat.level = newValue;
 
     this.statLevelChange.emit({ stat, newValue });
-  }
-
-  incrementStat(): void {
-    if (this.selectedStat) {
-      this.selectedStat.level++;
-      this.onStatValueChange(this.selectedStat);
-    }
-  }
-
-  decrementStat(): void {
-    if (this.selectedStat) {
-      this.selectedStat.level--;
-      this.onStatValueChange(this.selectedStat);
-    }
   }
 }

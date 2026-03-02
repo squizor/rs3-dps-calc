@@ -6,6 +6,22 @@
     <app-advanced-rotation-builder />
   </div>
   <div class="right_column">
-    <app-dps-display />
+    <app-dps-display #dpsDisplay />
+  </div>
+  <div class="chart_column" [class.expanded]="isChartVisible()">
+    <div class="chart-header" (click)="isChartVisible.set(!isChartVisible())">
+        <span class="header-title">Damage Over Time Chart</span>
+        <span class="toggle-icon">{{ isChartVisible() ? '▼' : '▶' }}</span>
+    </div>
+
+    <div class="chart-content-wrapper">
+        <div class="chart-content">
+            @defer (when isBrowser) {
+                <app-damageovertime [chartOptions]="dpsDisplay.dotChartOptions"></app-damageovertime>
+            } @placeholder {
+                <div style="height: 300px; display: flex; align-items: center; justify-content: center; color: #8cabe6;">Loading chart...</div>
+            }
+        </div>
+    </div>
   </div>
 </section>

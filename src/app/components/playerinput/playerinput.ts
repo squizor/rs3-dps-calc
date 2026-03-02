@@ -12,6 +12,9 @@ import {
   faCrosshairs,
   faWandMagicSparkles,
   faTimes,
+  faCheck,
+  faTrash,
+  faHelmetSafety,
 } from '@fortawesome/free-solid-svg-icons';
 import { Wikiapi } from '../../services/wikiapi';
 import { ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
@@ -52,6 +55,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchableDropdownComponent } from '../searchable-dropdown/searchable-dropdown';
 import { forkJoin, map } from 'rxjs';
 import { PRAYERS, SPELLS, INVENTION_AUGMENTS, ARCH_QUESTS, ARCH_RELICS } from './playerinput.data';
+import { RotationPersistenceService } from '../../services/rotation-persistence.service';
+import { PlayerBuild } from '../../types/player-build.types';
+import { RotationDpsService } from '../../services/rotation-dps.service';
 
 @Component({
   selector: 'app-playerinput',
@@ -84,6 +90,9 @@ export class PlayerinputComponent implements OnInit {
   faCrosshairs: IconDefinition = faCrosshairs;
   faWandMagicSparkles: IconDefinition = faWandMagicSparkles;
   faTimes: IconDefinition = faTimes;
+  faCheck: IconDefinition = faCheck;
+  faTrash: IconDefinition = faTrash;
+  faHelmetSafety: IconDefinition = faHelmetSafety;
 
   activeTab: ETabs = ETabs.STATS;
   eTabs = ETabs;
@@ -127,6 +136,9 @@ export class PlayerinputComponent implements OnInit {
   isArchQuestDropdownOpen: boolean = false;
   isArchPresetDropdownOpen: boolean = false;
   isGearPresetDropdownOpen: boolean = false;
+  gearPresets: IGearPreset[] = [];
+  presetNameInput: string = '';
+  presetPendingDeletion: string | null = null;
 
   activeFamiliar: string | null = null;
 
@@ -134,14 +146,136 @@ export class PlayerinputComponent implements OnInit {
   private readonly INVENTION_AUGMENTS_STORAGE_KEY = 'rs3-dps-calculator-invention-augments';
   private readonly ACTIVE_TAB_STORAGE_KEY = 'rs3-dps-calculator-active-tab';
 
+  playerBuilds: PlayerBuild[] = [];
+  activeBuildId: string | null = null;
+
+
   constructor(
     private elementRef: ElementRef,
     private http: Wikiapi,
     private hiscoresService: HiscoresService,
     private httpClient: HttpClient,
     public playerDataService: PlayerDataService,
+    private rotationPersistenceService: RotationPersistenceService,
+    private rotationDpsService: RotationDpsService,
     @Inject(PLATFORM_ID) private platformId: object,
   ) {}
+
+
+
+
+  refreshBuilds() {
+    const buildNames = this.rotationPersistenceService.getSavedBuilds();
+    this.playerBuilds = buildNames.map(name => this.rotationPersistenceService.loadBuild(name)).filter((b): b is PlayerBuild => !!b);
+  }
+
+  getUniqueBuildName(): string {
+      let counter = 1;
+      while (true) {
+          const name = `Build ${counter}`;
+          if (!this.playerBuilds.some(b => b.name === name)) {
+              return name;
+          }
+          counter++;
+      }
+  }
+
+  createBuild() {
+      const name = this.getUniqueBuildName();
+
+      const emptyState = {
+          equipment: [
+            { name: 'head', selectedArmor: null, isDropdownOpen: false },
+            { name: 'body', selectedArmor: null, isDropdownOpen: false },
+            { name: 'legs', selectedArmor: null, isDropdownOpen: false },
+            { name: 'gloves', selectedArmor: null, isDropdownOpen: false },
+            { name: 'boots', selectedArmor: null, isDropdownOpen: false },
+            { name: 'cape', selectedArmor: null, isDropdownOpen: false },
+            { name: 'necklace', selectedArmor: null, isDropdownOpen: false },
+            { name: 'ring', selectedArmor: null, isDropdownOpen: false },
+            { name: 'ammo', selectedArmor: null, isDropdownOpen: false },
+            { name: 'pocket', selectedArmor: null, isDropdownOpen: false },
+            { name: 'mainhand', selectedArmor: null, isDropdownOpen: false },
+            { name: 'offhand', selectedArmor: null, isDropdownOpen: false },
+            { name: 'twohand', selectedArmor: null, isDropdownOpen: false },
+          ],
+          activePrayers: [],
+          activePotion: 'none',
+          activeFamiliar: null,
+          weaponStyle: 'dual-wield' as const,
+          inputSets: [],
+          stats: this.stats, 
+          boss: null
+      };
+      
+      const newBuild: PlayerBuild = {
+          id: crypto.randomUUID(),
+          name: name,
+          lastModified: Date.now(),
+          rotation: [],
+          playerState: emptyState
+      };
+      
+      this.rotationPersistenceService.saveBuild(newBuild);
+      this.refreshBuilds(); 
+      
+      const createdBuild = this.playerBuilds.find(b => b.id === newBuild.id);
+      if (createdBuild) {
+          this.selectBuild(createdBuild);
+      }
+  }
+
+  selectBuild(build: PlayerBuild) {
+      this.activeBuildId = build.id;
+      this.playerDataService.restoreState(build.playerState);
+      this.rotationDpsService.updateRotation(build.rotation);
+  }
+  
+  buildPendingDeletionId: string | null = null;
+  deletionTimeout: any = null;
+
+  deleteBuild(build: PlayerBuild, event: Event) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      if (this.buildPendingDeletionId === build.id) {
+          // Second right-click: confirm deletion
+          this.rotationPersistenceService.deleteBuild(build.name);
+          this.refreshBuilds();
+          if (this.activeBuildId === build.id) this.activeBuildId = null;
+          this.clearPendingDeletion();
+      } else {
+          // First right-click: set pending state
+          this.clearPendingDeletion(); // Clear any other pending deletion
+          this.buildPendingDeletionId = build.id;
+          
+          // Auto-clear pending state after 3 seconds
+          this.deletionTimeout = setTimeout(() => {
+              this.clearPendingDeletion();
+          }, 3000);
+      }
+  }
+
+  clearPendingDeletion() {
+      this.buildPendingDeletionId = null;
+      if (this.deletionTimeout) {
+          clearTimeout(this.deletionTimeout);
+          this.deletionTimeout = null;
+      }
+  }
+
+
+  getBuildIcon(build: PlayerBuild): string {
+    const helmetSlot = build.playerState.equipment.find(s => s.name === 'head');
+    if (helmetSlot && helmetSlot.selectedArmor) {
+        if (helmetSlot.selectedArmor.icon) {
+             return helmetSlot.selectedArmor.icon; 
+        }
+        return this.playerDataService.getIconByName(helmetSlot.selectedArmor.name);
+    }
+    // Fallback to default helmet slot icon
+    return this.playerDataService.getIconByName('head');
+  }
 
   ngOnInit() {
     this.prayers = PRAYERS;
@@ -149,9 +283,12 @@ export class PlayerinputComponent implements OnInit {
     this.archQuests = ARCH_QUESTS;
     this.archRelics = ARCH_RELICS;
 
-    this.loadAllArmor();
-    this.loadAllPerks();
-    this.loadEnemies();
+    if (isPlatformBrowser(this.platformId)) {
+        this.refreshBuilds();
+        this.loadAllArmor();
+        this.loadAllPerks();
+        this.loadEnemies();
+    }
     this.playerDataService.updatePrayers(this.prayers);
     this.playerDataService.updateSpells(this.spells);
 
@@ -190,6 +327,27 @@ export class PlayerinputComponent implements OnInit {
       this.activeInventionItem = this.inventionPerks[0];
     }
 
+    this.playerDataService.activePrayers$.subscribe((prayers) => {
+      if (prayers && prayers.length > 0) {
+        const activeDmg = prayers.find(p => p.isActive && p.type === 'dmg');
+        if (activeDmg) this.activePrayerDmg = activeDmg.name;
+        
+        const activeOverhead = prayers.find(p => p.isActive && p.type === 'overhead');
+        if (activeOverhead) this.activePrayerOverhead = activeOverhead.name;
+        
+        this.calculateStats();
+
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.activePrayers = JSON.parse(JSON.stringify(prayers));
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
+      }
+    });
+
     this.playerDataService.gearPresets$.subscribe((presets) => {
       if (presets && presets.length > 0) {
         this.gearPresets = presets;
@@ -199,13 +357,86 @@ export class PlayerinputComponent implements OnInit {
     this.playerDataService.equipmentSlots$.subscribe((slots) => {
       if (slots && slots.length > 0) {
         this.equipmentSlots = slots;
+        
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.equipment = JSON.parse(JSON.stringify(slots));
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
       }
     });
 
     this.playerDataService.stats$.subscribe((stats) => {
       if (stats && stats.length > 0) {
         this.stats = stats;
+        
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.stats = JSON.parse(JSON.stringify(stats));
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
       }
+    });
+    
+    this.playerDataService.activePotion$.subscribe((potion) => {
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.activePotion = potion;
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
+    });
+
+    this.playerDataService.activeFamiliar$.subscribe((familiar) => {
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.activeFamiliar = familiar;
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
+    });
+
+    this.playerDataService.weaponStyle$.subscribe((style) => {
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.weaponStyle = style;
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
+    });
+
+    this.playerDataService.inputSets$.subscribe((sets) => {
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.inputSets = JSON.parse(JSON.stringify(sets));
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
+    });
+
+    this.playerDataService.boss$.subscribe((boss) => {
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.boss = boss;
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
     });
 
     this.playerDataService.weaponStyle$.subscribe((style) => {
@@ -360,7 +591,6 @@ export class PlayerinputComponent implements OnInit {
 
   loadAllArmor() {
     const equipmentFileMap: { [key: string]: string } = {
-      aura: 'aura',
       pocket: 'pocket',
       cape: 'cape',
       necklace: 'necklace',
@@ -791,8 +1021,6 @@ export class PlayerinputComponent implements OnInit {
     }
   }
 
-  gearPresets: IGearPreset[] = [];
-
   saveGearPreset(presetName: string) {
     if (!presetName) {
       alert('Please enter a name for the preset.');
@@ -801,30 +1029,75 @@ export class PlayerinputComponent implements OnInit {
 
     const newPreset: IGearPreset = {
       name: presetName,
-      equipment: this.equipmentSlots,
+      equipment: JSON.parse(JSON.stringify(this.equipmentSlots)), // Deep copy
     };
 
     const existingPresetIndex = this.gearPresets.findIndex((p) => p.name === presetName);
     if (existingPresetIndex > -1) {
-      this.gearPresets[existingPresetIndex] = newPreset;
+      if (confirm(`Preset "${presetName}" already exists. Overwrite?`)) {
+        this.gearPresets[existingPresetIndex] = newPreset;
+      } else {
+        return;
+      }
     } else {
       this.gearPresets.push(newPreset);
     }
 
     this.playerDataService.updateGearPresets(this.gearPresets);
+    this.isGearPresetDropdownOpen = false;
   }
 
-  deleteGearPreset(presetName: string) {
-    if (confirm(`Are you sure you want to delete the preset "${presetName}"?`)) {
-      this.gearPresets = this.gearPresets.filter((p) => p.name !== presetName);
-      this.playerDataService.updateGearPresets(this.gearPresets);
-    }
+  trackByPresetName(index: number, preset: IGearPreset): string {
+    return preset.name;
+  }
+
+  requestDeletePreset(presetName: string, event: Event) {
+    event.stopPropagation();
+    this.presetPendingDeletion = presetName;
+  }
+
+  cancelDeletePreset(event: Event) {
+    event.stopPropagation();
+    this.presetPendingDeletion = null;
+  }
+
+  confirmDeletePreset(presetName: string, event: Event) {
+    event.stopPropagation();
+    // Ensure new reference and filter
+    const newPresets = this.gearPresets.filter((p) => p.name !== presetName);
+    this.gearPresets = [...newPresets];
+    this.playerDataService.updateGearPresets(this.gearPresets);
+    this.presetPendingDeletion = null;
+  }
+
+  getPresetIcons(preset: IGearPreset): string[] {
+    const importantSlots = ['helmet', 'body', 'legs', 'mainhand', 'offhand', 'twohand'];
+    const icons: string[] = [];
+
+    importantSlots.forEach(slotName => {
+        const slot = preset.equipment.find(s => s.name === slotName);
+        if (slot && slot.selectedArmor && slot.selectedArmor.icon) {
+            icons.push(slot.selectedArmor.icon);
+        } else if (slot && slot.selectedArmor && slot.selectedArmor.name) {
+             // Fallback if icon is missing but name exists, try to get it
+             const icon = this.playerDataService.getIconByName(slot.selectedArmor.name);
+             if (icon) icons.push(icon);
+        }
+    });
+
+    return icons.slice(0, 5); // Limit to 5 icons
   }
 
   loadGearPreset(preset: IGearPreset) {
-    this.equipmentSlots = preset.equipment;
+    // Deep copy to avoid reference issues
+    this.equipmentSlots = JSON.parse(JSON.stringify(preset.equipment));
+    
+    // Re-link references if needed (e.g. icons might need refreshing if not stored fully)
+    // But for now, we assume IArmor is fully stored.
+    
     this.playerDataService.updateEquipment(this.equipmentSlots);
     this.calculateStats();
+    this.isGearPresetDropdownOpen = false;
   }
 
   private calculateLevelBonus(level: number): number {

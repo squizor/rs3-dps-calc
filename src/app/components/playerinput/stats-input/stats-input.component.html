@@ -1,5 +1,6 @@
-<div class="stats-input-container">
-  <div class="equipment-search-container">
+<div class="stats-input-tab">
+  <div class="stats-container">
+    <div class="stats-header">
       <div class="search-input-wrapper">
         <fa-icon
           [icon]="FA_SEARCH"
@@ -9,56 +10,29 @@
         <input
           type="text"
           [(ngModel)]="rsn"
-          placeholder="Enter RSN"
+          placeholder="Look up RSN..."
           (keyup.enter)="lookupRsn.emit(rsn)"
           class="search-input"
         />
       </div>
     </div>
 
-  <div class="stats-main-container">
-    <div class="stats-list-container">
-      <div
-        class="stat-icon-item"
-        *ngFor="let stat of stats"
-        (click)="selectStat(stat)"
-        [class.active]="stat === selectedStat"
-      >
+    <div class="stats-grid-3col">
+      <div class="stat-pill" *ngFor="let stat of stats">
         <img
           [attr.data-name]="stat.iconName"
-          class="getIconImg"
+          class="stat-icon"
           [src]="getIcon(stat.iconName)"
+          [title]="stat.name"
         />
-      </div>
-    </div>
-
-    <div class="stat-editor-container" *ngIf="selectedStat">
-      <div class="editor-header">
-        <img
-          [src]="getIcon(selectedStat.iconName)"
-          class="getIconImg editor-stat-icon"
-        />
-        <div class="editor-title-group">
-          <h3>{{ selectedStat.name }}</h3>
-          <p class="editor-subtitle">Max level: {{ selectedStat.maxLevel }}</p>
-        </div>
-      </div>
-      <div class="stat-value-container">
-        <button class="stepper-btn" (click)="decrementStat()">
-          <fa-icon [icon]="FA_MINUS"></fa-icon>
-        </button>
         <input
-          [(ngModel)]="selectedStat.level"
-          (change)="onStatValueChange(selectedStat)"
-          type="number"
-          class="stat-input"
+            type="number"
+            [(ngModel)]="stat.level"
+            (change)="onStatValueChange(stat)"
+            [max]="stat.maxLevel"
+            min="1"
+            class="stat-input"
         />
-        <button class="stepper-btn" (click)="incrementStat()">
-          <fa-icon [icon]="FA_PLUS"></fa-icon>
-        </button>
-      </div>
-      <div class="stat-editor-description">
-        <p>Select a stat to edit its level.</p>
       </div>
     </div>
   </div>

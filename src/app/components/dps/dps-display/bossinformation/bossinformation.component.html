@@ -1,104 +1,152 @@
-<div class="boss-info-card">
-    <div class="card-header card-header-flex">
-        <h3 class="card-title">Boss Information</h3>
-        <div class="sub-header-controls">
-          <div class="phase-selector" *ngIf="filteredPhases.length > 1">
-            <select id="phase" [ngModel]="selectedPhase" (ngModelChange)="selectPhase($event)">
-              <option *ngFor="let phase of filteredPhases" [ngValue]="phase">{{ phase.name }}</option>
-            </select>
-          </div>
-          <div class="mode-toggle" *ngIf="selectedEnemy?.hardModeStats">
-            <label class="toggle-switch">
-              <input type="checkbox" [(ngModel)]="isHardMode" (ngModelChange)="onHardModeToggle()" />
-              <span class="switch-slider"></span>
-            </label>
-            <span class="toggle-label">Hard Mode</span>
-          </div>
-        </div>
-    </div>
-    <div class="card-body" *ngIf="displayEnemy">
-        <div class="details-header">
-          <img *ngIf="displayEnemy.icon" [src]="displayEnemy.icon" [alt]="displayEnemy.name" class="enemy-icon">
-          
-          <div class="enemy-selector-container">
-            <div class="dropdown_container">
-              <div class="enemy_option" (click)="toggleDropdown()">
-                <input
-                  type="text"
-                  [(ngModel)]="searchQuery"
-                  (ngModelChange)="filterEnemies()"
-                  (input)="onSearchInput()"
-                  (click)="clearSearch()"
-                  placeholder="Search for an enemy..."
-                />
-                <fa-icon *ngIf="isLoading" [icon]="faSpinner" [class.fa-spin]="true"></fa-icon>
-                <fa-icon *ngIf="!isLoading" [icon]="faChevronDown" [class.rotate]="isDropdownOpen"></fa-icon>
-              </div>
-              <div class="dropdown_items" *ngIf="isDropdownOpen">
-                <ng-container *ngIf="!isLoading">
-                  <div
-                    class="dropdown_item"
-                    *ngFor="let enemy of filteredEnemies | slice:0:100"
-                    (click)="selectEnemy(enemy)"
-                  >
-                    {{ enemy.name }}
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <div class="primary-stats">
-          <div class="stat-item">
-            <span class="stat-label">Life Points</span>
-            <span class="stat-value" [class.large-number]="isLargeNumber(displayEnemy.lifePoints)">{{ displayEnemy.lifePoints | number }}</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Defence</span>
-            <span class="stat-value">{{ displayEnemy.defenceLevel }}</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Armor</span>
-            <span class="stat-value">{{ displayEnemy.armor }}</span>
-          </div>
-          <div class="stat-item weakness-container">
-            <span class="stat-label">Weakness</span>
-            <div class="stat-value weakness-display" *ngIf="displayEnemy.weakness && displayEnemy.weakness !== 'Nothing'">
-                <img [src]="getWeaknessIcon(displayEnemy.weakness)" [alt]="displayEnemy.weakness" class="weakness-icon">
-                <span>{{ displayEnemy.weakness }}</span>
-            </div>
-            <div class="stat-value" *ngIf="!displayEnemy.weakness || displayEnemy.weakness === 'Nothing'">
-                <span>None</span>
-            </div>
-          </div>
-          <div class="stat-item" *ngFor="let affinity of affinities">
-            <span class="stat-label">{{ affinity.style | titlecase }} Affinity</span>
-            <span class="stat-value" [style.color]="affinity.color">{{ affinity.value }}</span>
-          </div>
+<div class="boss-info-panel">
+  <!-- Header: Icon, Name (Search), Phase, HM -->
+  <div class="panel-header">
+    <div class="identity-section">
+        <div class="enemy-icon-wrapper" *ngIf="displayEnemy?.icon">
+             <img [src]="displayEnemy!.icon" [alt]="displayEnemy!.name" class="enemy-icon">
         </div>
         
-        <div class="details-footer">
-            <div class="susceptibility-list" *ngIf="susceptibilityIcons.length > 0">
-              <span class="list-title">Susceptible To:</span>
-              <img *ngFor="let icon of susceptibilityIcons" [src]="icon.url" [title]="icon.name" class="susc-icon" />
-            </div>
-            <div class="secondary-stats">
-                <div class="enrage-control" *ngIf="displayEnemy.enrageLevel !== undefined">
-                  <label for="enrage">Enrage</label>
-                  <input type="number" id="enrage" class="enrage-input" min="0" max="4000" [(ngModel)]="enrageValue" (ngModelChange)="onEnrageChange()" />
-                </div>
-            
-                <div class="attributes-list">
-                  <span class="attribute-badge" [class.enabled]="displayEnemy.slayerHelmable">Slayer Task</span>
-                  <span class="attribute-badge" [class.enabled]="displayEnemy.poisonable">Poisonable</span>
-                  <span class="attribute-badge" [class.enabled]="displayEnemy.stunnable">Stunnable</span>
-                  <span class="attribute-badge" [class.enabled]="displayEnemy.reflectable">Reflectable</span>
-                </div>
-            </div>
+        <div class="name-search-wrapper" (click)="toggleDropdown()">
+             <!-- Display Name -->
+             <div class="current-name" *ngIf="!isDropdownOpen">{{ displayEnemy?.name || 'Select Boss' }}</div>
+             
+             <!-- Search Input (Visible when open) -->
+             <input 
+                *ngIf="isDropdownOpen"
+                class="search-input"
+                type="text" 
+                [(ngModel)]="searchQuery" 
+                (ngModelChange)="filterEnemies()"
+                (click)="$event.stopPropagation()"
+                placeholder="Search..."
+                autoFocus
+             />
+             <fa-icon [icon]="isDropdownOpen ? faChevronDown : faChevronDown" class="dropdown-arrow" [class.open]="isDropdownOpen"></fa-icon>
+
+             <!-- Dropdown Results -->
+             <div class="search-dropdown" *ngIf="isDropdownOpen">
+                 <div class="dropdown-item" *ngFor="let enemy of filteredEnemies | slice:0:50" (click)="selectEnemy(enemy); $event.stopPropagation()">
+                     {{ enemy.name }}
+                 </div>
+             </div>
         </div>
     </div>
-    <div class="card-body placeholder" *ngIf="!displayEnemy">
-        <p>Select an enemy to see its stats.</p>
+
+    <div class="controls-section">
+        <div class="enrage-control" *ngIf="displayEnemy?.enrageLevel !== undefined" title="Enrage %">
+
+            <input type="number" class="enrage-input" min="0" max="4000" [(ngModel)]="enrageValue" (ngModelChange)="onEnrageChange()" />
+            <span class="enrage-suffix">%</span>
+        </div>
+
+        <select *ngIf="filteredPhases.length > 1" [ngModel]="selectedPhase" (ngModelChange)="selectPhase($event)" class="compact-select">
+             <option *ngFor="let phase of filteredPhases" [ngValue]="phase">{{ phase.name }}</option>
+        </select>
+
+        <label class="compact-toggle" *ngIf="selectedEnemy?.hardModeStats" title="Hard Mode">
+            <input type="checkbox" [(ngModel)]="isHardMode" (ngModelChange)="onHardModeToggle()" />
+            <span class="toggle-track">HM</span>
+        </label>
     </div>
+  </div>
+
+  <div class="panel-body" *ngIf="displayEnemy">
+      <!-- Row 1: Vital Stats (Grid) -->
+      <div class="stats-grid">
+          <div class="stat-cell">
+              <span class="label">LP</span>
+              <span class="value accent" *ngIf="displayEnemy.name !== 'Custom Target'">{{ displayEnemy.lifePoints | number }}</span>
+              <input *ngIf="displayEnemy.name === 'Custom Target'" type="number" class="compact-input" [ngModel]="displayEnemy.lifePoints" (ngModelChange)="updateCustomStat('lifePoints', $event)">
+          </div>
+           <div class="stat-cell">
+              <span class="label">Def</span>
+              <span class="value" *ngIf="displayEnemy.name !== 'Custom Target'">{{ displayEnemy.defenceLevel }}</span>
+              <input *ngIf="displayEnemy.name === 'Custom Target'" type="number" class="compact-input" [ngModel]="displayEnemy.defenceLevel" (ngModelChange)="updateCustomStat('defenceLevel', $event)">
+          </div>
+           <div class="stat-cell">
+              <span class="label">Armor</span>
+              <span class="value" *ngIf="displayEnemy.name !== 'Custom Target'">{{ displayEnemy.armor }}</span>
+              <input *ngIf="displayEnemy.name === 'Custom Target'" type="number" class="compact-input" [ngModel]="displayEnemy.armor" (ngModelChange)="updateCustomStat('armor', $event)">
+          </div>
+          <div class="stat-cell">
+              <span class="label">Weakness</span>
+              <div class="weakness-value" *ngIf="displayEnemy.name !== 'Custom Target'">
+                   <img *ngIf="displayEnemy.weakness && displayEnemy.weakness !== 'Nothing'" [src]="getWeaknessIcon(displayEnemy.weakness)" class="mini-icon">
+                   <span>{{ displayEnemy.weakness === 'Nothing' ? '-' : displayEnemy.weakness }}</span>
+              </div>
+              <select *ngIf="displayEnemy.name === 'Custom Target'" class="compact-input" [(ngModel)]="displayEnemy.weakness" (ngModelChange)="onBossChange()">
+                  <option value="None">None</option>
+                  <option value="Melee">Melee</option>
+                  <option value="Ranged">Ranged</option>
+                  <option value="Magic">Magic</option>
+                  <option value="Necromancy">Necromancy</option>
+              </select>
+          </div>
+      </div>
+
+      <!-- Row 2: Affinities & Traits -->
+      <div class="secondary-row">
+          <div class="affinities-container">
+              <span class="row-label">Affinities:</span>
+              
+              <!-- Standard View -->
+              <div class="affinity-pills" *ngIf="displayEnemy.name !== 'Custom Target'; else customAffinities">
+                  <div class="affinity-pill" *ngFor="let aff of affinities" [style.border-color]="aff.styleColor" [title]="aff.style | titlecase">
+                      <img *ngIf="aff.icon" [src]="aff.icon" class="aff-icon" [alt]="aff.style">
+                      <span *ngIf="!aff.icon" class="aff-style">{{ aff.style | slice:0:1 | uppercase }}</span>
+                      <span class="aff-val" [style.color]="aff.valueColor">{{ aff.value }}</span>
+                  </div>
+              </div>
+
+              <!-- Custom Editable View -->
+              <ng-template #customAffinities>
+                  <div class="custom-affinities-grid">
+
+                       
+                       <div class="affinity-input-group" title="Melee" style="color: #e74c3c">
+                          <span class="aff-label">M</span>
+                          <input type="number" class="tiny-input" [ngModel]="displayEnemy.affinity?.melee" (ngModelChange)="updateCustomAffinity('melee', $event)">
+                      </div>
+                       <div class="affinity-input-group" title="Ranged" style="color: #2ecc71">
+                          <span class="aff-label">R</span>
+                          <input type="number" class="tiny-input" [ngModel]="displayEnemy.affinity?.ranged" (ngModelChange)="updateCustomAffinity('ranged', $event)">
+                      </div>
+                       <div class="affinity-input-group" title="Magic" style="color: #3498db">
+                          <span class="aff-label">M</span>
+                          <input type="number" class="tiny-input" [ngModel]="displayEnemy.affinity?.magic" (ngModelChange)="updateCustomAffinity('magic', $event)">
+                      </div>
+                       <div class="affinity-input-group" title="Necromancy (Hybrid)" style="color: #9b59b6">
+                          <span class="aff-label">N</span>
+                          <!-- N input controls Hybrid affinity as requested -->
+                          <input type="number" class="tiny-input" [ngModel]="displayEnemy.affinity?.hybrid" (ngModelChange)="updateCustomAffinity('hybrid', $event)">
+                      </div>
+                  </div>
+              </ng-template>
+          </div>
+
+          <div class="traits-container">
+               <!-- Traits using same pill style for consistency -->
+               <div class="affinity-pills">
+                   <ng-container *ngFor="let trait of traits">
+                       <div class="affinity-pill trait-pill" 
+                            [class.editable]="displayEnemy.name === 'Custom Target'"
+                            (click)="displayEnemy.name === 'Custom Target' ? toggleCustomTrait(getTraitProperty(trait.name)) : null"
+                            [style.opacity]="trait.active ? 1 : 0.3"
+                            [style.border-color]="trait.color"
+                            [title]="trait.name">
+                           <img [src]="trait.icon" [alt]="trait.name" style="width: 14px; height: 14px; margin-right: 4px;" />
+                           <span class="aff-val" style="color: var(--white)">{{ trait.name }}</span>
+                       </div>
+                   </ng-container>
+               </div>
+               
+               <!-- Susceptibility Icons (keep as simple images) -->
+               <div class="icon-tray" *ngIf="susceptibilityIcons.length > 0">
+                   <div class="divider"></div>
+                   <span class="row-label">Weak To:</span>
+                   <img *ngFor="let icon of susceptibilityIcons" [src]="icon.url" [title]="icon.name" class="trait-icon" />
+               </div>
+          </div>
+      </div>
+  </div>
 </div>

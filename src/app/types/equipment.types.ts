@@ -45,6 +45,8 @@ export interface Boss {
   name: string;
   def: number;
   defenceLevel?: number;
+  armor?: number;
+  weakness?: string;
   affinity: {
     hybrid: number | null;
     melee: number | null;

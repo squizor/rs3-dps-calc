@@ -13,23 +13,25 @@
     position: relative;
 
     .arch-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
+      flex-wrap: wrap;
       gap: 1rem;
       margin-bottom: 1.5rem;
       align-items: center;
 
       .quest-container {
-        grid-column: 1;
-        grid-row: 1;
+        flex: 1 1 200px;
       }
       .arch-level {
-        grid-column: 2;
-        grid-row: 1;
+        flex: 0 0 auto;
+        background-color: var(--input-bg);
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        white-space: nowrap;
       }
       .preset-container {
-        grid-column: 1 / -1;
-        grid-row: 2;
+        flex: 1 1 200px;
       }
 
       .dropdown-container {
@@ -142,7 +144,7 @@
     }
     .arch-body {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
       gap: 1rem;
       .relic-slot {
         background-color: var(--input-bg);
@@ -158,6 +160,17 @@
         gap: 0.5rem;
         min-height: 120px;
         text-align: center;
+
+        @media screen and (max-width: 1250px) {
+           padding: 0.5rem;
+           min-height: 90px;
+           gap: 0.25rem;
+           .relic-image-placeholder, .getIconImg {
+             width: 35px;
+             height: 35px;
+           }
+           .relic-name { font-size: 0.8rem; }
+        }
 
         .relic-image-placeholder,
         .getIconImg {

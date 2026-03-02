@@ -1,8 +1,20 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 app-navbar {
   flex-shrink: 0;
+  width: 100%;
 }
 
 app-main-content {
   display: flex;
   flex-grow: 1;
+  min-height: 0;
+  width: 100%;
 }

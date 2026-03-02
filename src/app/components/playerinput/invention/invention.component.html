@@ -1,3 +1,6 @@
+<!-- Global Backdrop for closing dropdowns when clicking outside -->
+<div class="dropdown-backdrop" *ngIf="activeAugmentIndex !== null" (click)="closeDropdown()"></div>
+
 <div class="player-invention-tab" data-tab="invention">
   <div class="invention-item-selector">
     <div
@@ -25,58 +28,114 @@
   </div>
 
   <div class="invention-content">
-    <div class="invention-item" *ngIf="activeInventionItem">
-      <div class="item-header">
-        <div class="perk-icon">
-          <img
-            [attr.data-name]="getInventionItemIcon(activeInventionItem)"
-            class="getIconImg"
-            [src]="getIconByName(getInventionItemIcon(activeInventionItem))"
-          />
-          <span *ngIf="activeInventionItem.name === 'Two-Handed'" class="two-handed-text">2H</span>
-        </div>
-        <span class="item-name">{{ activeInventionItem.name }}</span>
-      </div>
-      <div class="item-details">
-        <div class="perk-slots-container">
-          <ng-container *ngFor="let slot of activeInventionItem.perkSlots; let i = index">
-            <div
-              class="perk-slot"
-              (click)="openPerkModal(slot, activeInventionItem, i)"
-              [ngClass]="{ 'two-slot': slot.selectedPerk?.slotsConsumed === 2 }"
-              *ngIf="!slot.occupiedByAdjacent"
-            >
-              {{ slot.selectedPerk?.name || 'None' }}
+    <div class="inspector-panel" *ngIf="activeInventionItem">
+        <div class="inspector-header">
+            <div class="inspector-icon">
+                <img
+                    [attr.data-name]="getInventionItemIcon(activeInventionItem)"
+                    class="getIconImg"
+                    [src]="getIconByName(getInventionItemIcon(activeInventionItem))"
+                />
             </div>
-          </ng-container>
+            <div class="inspector-details">
+                <span class="item-name">{{ activeInventionItem.name }}</span>
+            </div>
+             <div class="remove-action">
+                <ng-container *ngIf="itemPendingDeletion !== activeInventionItem; else confirmDelete">
+                  <button
+                    *ngIf="activeInventionItem.isCustom"
+                    class="remove-button"
+                    (click)="requestRemoveItem(activeInventionItem)"
+                    title="Remove {{ activeInventionItem.name }}"
+                  >
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                  </button>
+                </ng-container>
+                <ng-template #confirmDelete>
+                  <div class="remove-confirm-buttons">
+                    <button class="confirm-btn" (click)="confirmRemoveItem(activeInventionItem)">
+                      <fa-icon [icon]="faCheck"></fa-icon>
+                    </button>
+                    <button class="cancel-btn" (click)="cancelRemoveItem()">
+                      <fa-icon [icon]="faTimes"></fa-icon>
+                    </button>
+                  </div>
+                </ng-template>
+            </div>
         </div>
-      </div>
-      <div class="remove-button-container">
-        <ng-container *ngIf="itemPendingDeletion !== activeInventionItem; else confirmDelete">
-          <button
-            *ngIf="activeInventionItem.isCustom"
-            class="remove-button"
-            (click)="requestRemoveItem(activeInventionItem)"
-            title="Remove {{ activeInventionItem.name }}"
-          >
-            <fa-icon [icon]="faTrash"></fa-icon>
-          </button>
-        </ng-container>
-        <ng-template #confirmDelete>
-          <div class="remove-confirm-buttons">
-            <button
-              class="confirm-btn"
-              (click)="confirmRemoveItem(activeInventionItem)"
-              title="Confirm remove"
+
+        <div class="inspector-slots">
+            <!-- Inline Dropdown Structure -->
+            <div 
+                class="perk-socket-wrapper" 
+                *ngFor="let slot of activeInventionItem.perkSlots; let i = index"
+                [class.active]="activeAugmentIndex === inventionPerks.indexOf(activeInventionItem) && activeSlotIndex === i"
+                (clickOutside)="closeDropdown()" 
             >
-              <fa-icon [icon]="faCheck"></fa-icon>
-            </button>
-            <button class="cancel-btn" (click)="cancelRemoveItem()" title="Cancel">
-              <fa-icon [icon]="faTimes"></fa-icon>
-            </button>
-          </div>
-        </ng-template>
-      </div>
+
+                <div 
+                    class="perk-socket"
+                    [ngClass]="{ 
+                        'two-slot': slot.selectedPerk?.slotsConsumed === 2,
+                        'empty': !slot.selectedPerk || slot.selectedPerk.name === 'None',
+                        'filled': slot.selectedPerk && slot.selectedPerk.name !== 'None',
+                        'dropdown-open': activeAugmentIndex === inventionPerks.indexOf(activeInventionItem) && activeSlotIndex === i
+                    }"
+                    (click)="$event.stopPropagation(); togglePerkDropdown(activeInventionItem, inventionPerks.indexOf(activeInventionItem), slot, i)"
+                    *ngIf="!slot.occupiedByAdjacent"
+                >
+                    <div class="socket-inner">
+                         <span class="perk-label">
+                            {{ (slot.selectedPerk && slot.selectedPerk.name !== 'None') ? slot.selectedPerk.name : 'Empty Slot' }}
+                         </span>
+                         
+                         <!-- Rank Badge (Inline) -->
+                         <span class="rank-badge" *ngIf="slot.selectedPerk && slot.selectedPerk.rank && slot.selectedPerk.name !== 'None'">
+                             {{ getRomanRank(slot.selectedPerk.rank) }}
+                         </span>
+                    </div>
+                </div>
+
+                <!-- Dropdown Menu -->
+                <div 
+                    class="perk-dropdown-menu" 
+                    *ngIf="activeAugmentIndex === inventionPerks.indexOf(activeInventionItem) && activeSlotIndex === i"
+                    (click)="$event.stopPropagation()"
+                >
+                    <div class="dropdown-search-container">
+                        <input 
+                            type="text" 
+                            class="dropdown-search-input" 
+                            placeholder="Search..." 
+                            [(ngModel)]="perkSearchTerm"
+                            autofocus
+                        >
+                    </div>
+                    
+                    <div class="dropdown-items-list">
+                        <div 
+                            class="dropdown-item" 
+                            *ngFor="let perkOption of filteredPerkOptions"
+                            (click)="selectPerkFromDropdown(perkOption)"
+                            [class.selected]="slot.selectedPerk?.name === perkOption.name"
+                        >
+                            <span class="item-name">
+                                {{ perkOption.baseName || perkOption.name }}
+                                <span class="item-rank" *ngIf="perkOption.rank && perkOption.name !== 'None'">{{ getRomanRank(perkOption.rank) }}</span>
+                            </span>
+                            
+                            <div class="item-stats" *ngIf="perkOption.name !== 'None'">
+                                <span class="stat dps" *ngIf="perkOption.dpsMod">+{{ perkOption.dpsMod * 100 | number:'1.0-1' }}%</span>
+                                <span class="stat crit" *ngIf="perkOption.critChanceMod">+{{ perkOption.critChanceMod * 100 | number:'1.0-1' }}%</span>
+                            </div>
+                        </div>
+                         <div class="empty-state" *ngIf="filteredPerkOptions.length === 0">
+                            No perks found.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="placeholder-text" *ngIf="!activeInventionItem">
       <p>Select an item to view its perks or add a new custom item.</p>
@@ -132,29 +191,4 @@
     </div>
   </div>
 
-  <div class="perk-modal-overlay" *ngIf="isPerkModalOpen" (click)="closePerkModal()">
-    <div class="perk-modal" (click)="$event.stopPropagation()">
-      <div class="perk-modal-header">
-        <h3>Select Perk for {{ selectedSlotForModal?.name }}</h3>
-        <button class="close-button" (click)="closePerkModal()">X</button>
-      </div>
-      <div class="perk-modal-current-selection">
-        <span>Current: {{ selectedSlotForModal?.selectedPerk?.name || 'None' }}</span>
-      </div>
-      <div class="perk-modal-all-perks">
-        <div
-          class="perk-item"
-          *ngFor="let perkOption of selectedSlotForModal?.options"
-          [ngClass]="{ active: selectedSlotForModal?.selectedPerk?.name === perkOption.name }"
-          (click)="selectPerkFromModal(perkOption)"
-        >
-          <div class="perk-name">
-            {{ perkOption.name }} ({{ perkOption.slotsConsumed }} slot{{
-              perkOption.slotsConsumed === 1 ? '' : 's'
-            }})
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

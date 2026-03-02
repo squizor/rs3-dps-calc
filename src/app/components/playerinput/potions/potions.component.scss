@@ -1,51 +1,88 @@
-@use '../helpers' as shared;
+@use 'sass:color';
 
 :host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem; // Maintain spacing
 }
 
-.boost {
-  @include shared.card;
-  padding: 0;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  padding-left: 0.25rem; // Align visually with grid edge
+}
 
-  .boost-title {
-    background-color: var(--hover-bg);
-    color: var(--active-color);
-    padding: 0.75rem 1.5rem;
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
-    width: 100%;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .potions-container {
+// Potions Grid (Inventory Tray Style)
+.potions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); // Tiny square items
+  gap: 4px; // Minimal gap like an inventory
+  padding: 0.75rem;
+  background-color: var(--wiki-theme-darkest); // Recessed tray look
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); // Inner depth
+  
+  .potion-item {
+    width: 40px;
+    height: 40px; // Fixed square
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1.5rem;
-    background-color: var(--wiki-theme-dark);
-  }
-
-  .potion {
-    height: 5rem;
-    width: 3.5rem;
-    background-color: var(--input-bg);
+    align-items: center;
+    justify-content: center;
+    background-color: var(--input-bg); // Pop out from tray
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.2s ease-out;
-    padding: 0.5rem;
-    &:hover {
-      transform: scale(1.05);
-      border-color: var(--active-color);
+    transition: all 0.2s ease;
+    position: relative; // For overlay effects if needed
+
+    // Icon
+    .potion-icon {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
+      opacity: 0.8;
+      transition: all 0.2s ease;
     }
+
+    // Interaction States
+    &:hover:not(.disabled) {
+      border-color: var(--text-secondary);
+      background-color: color.adjust(#2e3a50, $lightness: 10%); // Lighter than input-bg
+      transform: translateY(-1px); // Subtle lift
+      
+      .potion-icon {
+          opacity: 1;
+          transform: scale(1.1);
+      }
+    }
+
     &.active {
       border-color: var(--active-color);
-      box-shadow: 0 0 10px var(--active-color);
-      background-color: var(--hover-bg);
+      box-shadow: 0 0 0 1px var(--active-color), inset 0 0 10px rgba(var(--active-color), 0.2); // Glow effect
+      background-color: rgba(255, 183, 0, 0.1); // Gold tint
+      
+      .potion-icon {
+          opacity: 1;
+          filter: drop-shadow(0 0 4px var(--active-color));
+      }
+    }
+
+    &.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      filter: grayscale(100%);
+      border-color: transparent;
+      background-color: transparent; // Blend into tray
+      
+      &:hover {
+          border-color: var(--border-color); // Show border to indicate it exists but is disabled
+      }
     }
   }
 }

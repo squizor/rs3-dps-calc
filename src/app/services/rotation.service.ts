@@ -45,4 +45,20 @@ export class RotationService {
     const newRotation = [...currentRotation, newTick];
     this.updateRotation(newRotation);
   }
+
+  addAbilityToRotation(ability: RotationItem | RotationItem[]) {
+    const currentRotation = this.rotation.getValue();
+    const items = Array.isArray(ability) ? ability : [ability];
+    
+    // Create deep copy to ensure new instance IDs for timeline items
+    const processedItems = items.map(item => JSON.parse(JSON.stringify({...item, instanceId: `item_${crypto.randomUUID()}`})));
+    
+    const newTick: DisplayRotationTick = {
+      id: Date.now(),
+      items: processedItems,
+    };
+    
+    const newRotation = [...currentRotation, newTick];
+    this.updateRotation(newRotation);
+  }
 }

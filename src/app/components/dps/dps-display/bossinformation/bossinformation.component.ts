@@ -6,6 +6,9 @@ import {
   PLATFORM_ID,
   Output,
   EventEmitter,
+  HostListener,
+  ElementRef,
+  Input,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +17,7 @@ import { faChevronDown, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 
 import { IEnemy, IEnemyMode } from '../../../playerinput/playerinput.model';
+import { PlayerDataService } from '../../../../services/player-data.service';
 import { BestiaryService } from '../../../../services/bestiary.service';
 
 @Component({
@@ -24,7 +28,9 @@ import { BestiaryService } from '../../../../services/bestiary.service';
   styleUrls: ['./bossinformation.component.scss'],
 })
 export class BossinformationComponent implements OnInit, OnDestroy {
+  @Input() debuffs: { vuln: boolean; smoke: boolean; gstaff: boolean } = { vuln: false, smoke: false, gstaff: false };
   @Output() enemyChange = new EventEmitter<IEnemy | null>();
+  @Output() debuffsChange = new EventEmitter<{ vuln: boolean; smoke: boolean; gstaff: boolean }>();
 
   faChevronDown = faChevronDown;
   faSpinner = faSpinner;
@@ -43,11 +49,20 @@ export class BossinformationComponent implements OnInit, OnDestroy {
   private hasDataBeenLoaded: boolean = false;
   private bestiarySubscription: Subscription | undefined;
 
-  public affinities: { style: string; value: number | string; color: string }[] = [];
+  public affinities: { 
+      style: string; 
+      value: number | string; 
+      valueColor: string; 
+      styleColor: string;
+      icon?: string 
+  }[] = [];
   public susceptibilityIcons: { name: string; url: string }[] = [];
+  public traits: { name: string; active: boolean; color: string; icon: string }[] = [];
 
   constructor(
     private bestiaryService: BestiaryService,
+    private playerDataService: PlayerDataService,
+    private elementRef: ElementRef,
     @Inject(PLATFORM_ID) private platformId: object,
   ) {}
 
@@ -59,12 +74,7 @@ export class BossinformationComponent implements OnInit, OnDestroy {
     this.bestiarySubscription?.unsubscribe();
   }
 
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-    if (this.isDropdownOpen) {
-      this.loadInitialData();
-    }
-  }
+// toggleDropdown moved below
 
   selectEnemy(enemy: IEnemy) {
     this.selectedEnemy = enemy;
@@ -100,6 +110,10 @@ export class BossinformationComponent implements OnInit, OnDestroy {
     this.enemyChange.emit(this.displayEnemy);
   }
 
+  onDebuffChange() {
+    this.debuffsChange.emit(this.debuffs);
+  }
+
   private filterPhases() {
     if (!this.selectedEnemy || !this.selectedEnemy.phases) {
       this.filteredPhases = [];
@@ -119,6 +133,7 @@ export class BossinformationComponent implements OnInit, OnDestroy {
     if (!this.selectedEnemy) {
       this.displayEnemy = null;
       this.updateTemplateProperties();
+      this.playerDataService.updateBoss(null);
       return;
     }
 
@@ -137,6 +152,7 @@ export class BossinformationComponent implements OnInit, OnDestroy {
 
     this.displayEnemy = displayEnemyCandidate;
     this.updateTemplateProperties();
+    this.playerDataService.updateBoss(this.displayEnemy);
   }
 
   private updateTemplateProperties() {
@@ -150,17 +166,43 @@ export class BossinformationComponent implements OnInit, OnDestroy {
     if (this.displayEnemy.affinity) {
       const affinityData = this.displayEnemy.affinity;
       const hybridValue = affinityData.hybrid;
-      const styles: ('melee' | 'ranged' | 'magic')[] = ['melee', 'ranged', 'magic'];
+
+      const styles: ('melee' | 'ranged' | 'magic' | 'necromancy')[] = ['melee', 'ranged', 'magic', 'necromancy'];
+
+      const styleColors: { [key: string]: string } = {
+          melee: '#e74c3c', // Orange/Red
+          ranged: '#2ecc71', // Green
+          magic: '#3498db',  // Blue
+          necromancy: '#9b59b6' // Purple
+      };
 
       for (const style of styles) {
-        const value = affinityData[style];
+        let value: number | undefined | null;
+        
+        if (style === 'necromancy') {
+            // Necromancy always equals hybrid
+            value = hybridValue;
+        } else {
+            value = affinityData[style as 'melee' | 'ranged' | 'magic'];
+             // Fallback to hybrid if specific style is missing
+            if ((value === undefined || value === null) && hybridValue !== undefined) {
+                value = hybridValue;
+            }
+        }
+
         if (value !== undefined && value !== null) {
-          let color = 'var(--white)';
-          if (hybridValue) {
-            if (value > hybridValue) color = 'var(--success-color)';
-            else if (value < hybridValue) color = 'var(--danger-color)';
-          }
-          newAffinities.push({ style, value, color });
+          // Keep text color white or match the style for consistency as user stated some are colored and some aren't
+          let valueColor = 'var(--white)'; 
+          const styleColor = styleColors[style] || 'var(--wiki-theme-bright)';
+          const iconUrl = this.weaknessIconMap[style] || '';
+          
+          newAffinities.push({ 
+              style, 
+              value, 
+              valueColor, 
+              styleColor,
+              icon: iconUrl 
+          });
         }
       }
     }
@@ -179,12 +221,28 @@ export class BossinformationComponent implements OnInit, OnDestroy {
     } else {
       this.susceptibilityIcons = [];
     }
+
+    // Traits
+    this.traits = [
+        { name: 'Poison', active: this.displayEnemy.poisonable, color: '#2ecc71', icon: 'assets/icons/Poison_immunity_icon.png' },
+        { name: 'Stun', active: this.displayEnemy.stunnable, color: '#f1c40f', icon: 'assets/icons/Stun_immunity_icon.png' },
+        { name: 'Reflect', active: this.displayEnemy.reflectable, color: '#95a5a6', icon: 'assets/icons/Deflect_immunity_icon.png' },
+        { name: 'Drain', active: this.displayEnemy.statdrainable, color: '#e74c3c', icon: 'assets/icons/Drain_immunity_icon.png' }
+    ];
   }
 
   onSearchInput() {
     this.isDropdownOpen = true;
-    this.loadInitialData();
     this.filterEnemies();
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    if (this.isDropdownOpen) {
+      this.searchQuery = ''; // Clear text on open
+      this.loadInitialData();
+      this.filterEnemies(); // Show all
+    }
   }
 
   private loadInitialData() {
@@ -192,8 +250,19 @@ export class BossinformationComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.bestiarySubscription = this.bestiaryService.getBestiaryData().subscribe({
         next: (allEnemies: IEnemy[]) => {
-          this.allEnemies = allEnemies;
-          this.filteredEnemies = allEnemies;
+          this.allEnemies = allEnemies.sort((a, b) => {
+            // Priority 1: Custom (or Custom Enemy)
+            if (a.name.toLowerCase().includes('custom') && !a.name.toLowerCase().includes('dummy')) return -1;
+            if (b.name.toLowerCase().includes('custom') && !b.name.toLowerCase().includes('dummy')) return 1;
+            
+            // Priority 2: Combat Dummy
+            if (a.name === 'Combat Dummy') return -1;
+            if (b.name === 'Combat Dummy') return 1;
+
+            // Priority 3: Alphabetical
+            return a.name.localeCompare(b.name);
+          });
+          this.filteredEnemies = this.allEnemies;
           const defaultEnemy = this.allEnemies.find((e) => e.name === 'Combat Dummy');
           if (defaultEnemy) {
             this.selectEnemy(defaultEnemy);
@@ -224,43 +293,52 @@ export class BossinformationComponent implements OnInit, OnDestroy {
   }
 
   susceptibilityIconMap: { [key: string]: string } = {
-    hexhunter: 'https://runescape.wiki/images/Hexhunter_bow.png',
-    inqstaff: 'https://runescape.wiki/images/Inquisitor_staff.png',
-    dragonbane: 'https://runescape.wiki/images/Jas_Dragonbane_Arrow_5.png',
-    kerapac: 'https://runescape.wiki/images/Kerapac%27s_wrist_wraps.png',
-    undead: 'https://runescape.wiki/images/Undead_Slayer.png',
-    ghosthunter: 'https://runescape.wiki/images/Ghost_hunter_backpack.png',
-    salve: 'https://runescape.wiki/images/Salve_amulet.png',
-    terrasaur: 'https://runescape.wiki/images/Terrasaur_maul.png',
-    keris: 'https://runescape.wiki/images/Keris.png',
-    demonslayer: 'https://runescape.wiki/images/Demon_Slayer_%28perk%29.png',
-    dragonslayer: 'https://runescape.wiki/images/Dragon_Slayer_%28perk%29.png',
-    balmung: 'https://runescape.wiki/images/Balmung.png',
-    spear: 'https://runescape.wiki/images/Dragon_spear.png',
-    salamancy: 'https://runescape.wiki/images/Necklace_of_Salamancy.png',
-    nope: 'https://runescape.wiki/images/NopeNopeNope_perk.png',
-    conckeris: 'https://runescape.wiki/images/Consecrated_keris.png',
+    hexhunter: 'assets/icons/Ranged.png',
+    inqstaff: 'assets/icons/Magic.png',
+    dragonbane: 'assets/icons/Ranged.png',
+    kerapac: 'assets/icons/Magic.png',
+    undead: 'assets/icons/undead_slayer.png',
+    ghosthunter: 'assets/icons/undead_slayer.png',
+    salve: 'assets/icons/Salve_amulet_(e).png',
+    terrasaur: 'assets/icons/Attack.png',
+    keris: 'assets/icons/Keris.png',
+    demonslayer: 'assets/icons/demon_slayer.png',
+    dragonslayer: 'assets/icons/dragon_slayer.png',
+    balmung: 'assets/icons/Balmung.png',
+    spear: 'assets/icons/Attack.png',
+    salamancy: 'assets/icons/Magic.png',
+    nope: 'assets/icons/Defence.png',
+    conckeris: 'assets/icons/Consecrated_keris.png',
   };
 
   weaknessIconMap: { [key: string]: string } = {
-    melee: 'https://runescape.wiki/images/Melee_weakness_icon.png',
-    ranged: 'https://runescape.wiki/images/Ranged_weakness_icon.png',
-    magic: 'https://runescape.wiki/images/Magic_weakness_icon.png',
-    fire: 'https://runescape.wiki/images/Fire_weakness_icon.png',
-    water: 'https://runescape.wiki/images/Water_weakness_icon.png',
-    air: 'https://runescape.wiki/images/Air_weakness_icon.png',
-    earth: 'https://runescape.wiki/images/Earth_weakness_icon.png',
-    stab: 'https://runescape.wiki/images/Stab_weakness_icon.png',
-    slash: 'https://runescape.wiki/images/Slash_weakness_icon.png',
-    crush: 'https://runescape.wiki/images/Crush_weakness_icon.png',
-    arrows: 'https://runescape.wiki/images/Arrow_weakness_icon.png',
-    bolts: 'https://runescape.wiki/images/Bolt_weakness_icon.png',
-    thrown: 'https://runescape.wiki/images/Thrown_weakness_icon.png',
-    necromancy: 'https://runescape.wiki/images/Necromancy_weakness_icon.png',
+    melee: 'assets/icons/Attack.png',
+    ranged: 'assets/icons/Ranged.png',
+    magic: 'assets/icons/Magic.png',
+    fire: 'assets/icons/Magic.png',
+    water: 'assets/icons/Magic.png',
+    air: 'assets/icons/Magic.png',
+    earth: 'assets/icons/Magic.png',
+    stab: 'assets/icons/Attack.png',
+    slash: 'assets/icons/Attack.png',
+    crush: 'assets/icons/Strength.png',
+    arrows: 'assets/icons/Ranged.png',
+    bolts: 'assets/icons/Ranged.png',
+    thrown: 'assets/icons/Ranged.png',
+    necromancy: 'assets/icons/Necromancy_detail.png',
   };
 
   getWeaknessIcon(weakness: string): string {
     return this.weaknessIconMap[weakness.toLowerCase()] || '';
+  }
+
+  getTraitProperty(traitName: string): string {
+    const lower = traitName.toLowerCase();
+    if (lower === 'poison') return 'poisonable';
+    if (lower === 'stun') return 'stunnable';
+    if (lower === 'reflect') return 'reflectable';
+    if (lower === 'drain') return 'statdrainable';
+    return '';
   }
 
   isLargeNumber(value: number | undefined): boolean {
@@ -268,5 +346,60 @@ export class BossinformationComponent implements OnInit, OnDestroy {
       return false;
     }
     return value.toString().length > 6;
+  }
+
+  updateCustomStat(field: string, value: any) {
+    if (!this.displayEnemy) return;
+
+    const newBoss = { ...this.displayEnemy }; // Shallow copy
+
+    if (field === 'lifePoints') newBoss.lifePoints = Number(value);
+    if (field === 'defenceLevel') newBoss.defenceLevel = Number(value);
+    if (field === 'armor') newBoss.armor = Number(value);
+    
+    this.displayEnemy = newBoss;
+    this.playerDataService.updateBoss(this.displayEnemy);
+  }
+
+  updateCustomAffinity(style: string, value: any) {
+    if (!this.displayEnemy || !this.displayEnemy.affinity) return;
+    
+    const numValue = Number(value);
+    const newAffinity = { ...this.displayEnemy.affinity };
+    
+    if (style === 'hybrid') newAffinity.hybrid = numValue;
+    if (style === 'melee') newAffinity.melee = numValue;
+    if (style === 'ranged') newAffinity.ranged = numValue;
+    if (style === 'magic') newAffinity.magic = numValue;
+    if (style === 'necromancy') newAffinity.necromancy = numValue;
+
+    const newBoss = { ...this.displayEnemy, affinity: newAffinity };
+    this.displayEnemy = newBoss;
+
+    this.updateTemplateProperties(); 
+    this.playerDataService.updateBoss(this.displayEnemy);
+  }
+
+  toggleCustomTrait(trait: string) {
+      if (!this.displayEnemy) return;
+      
+      const newBoss = { ...this.displayEnemy };
+
+      if (trait === 'poisonable') newBoss.poisonable = !newBoss.poisonable;
+      if (trait === 'stunnable') newBoss.stunnable = !newBoss.stunnable;
+      if (trait === 'reflectable') newBoss.reflectable = !newBoss.reflectable;
+      if (trait === 'statdrainable') newBoss.statdrainable = !newBoss.statdrainable;
+      
+      this.displayEnemy = newBoss;
+
+      this.updateTemplateProperties();
+      this.playerDataService.updateBoss(this.displayEnemy);
+  }
+
+  onBossChange() {
+    if (this.displayEnemy) {
+        this.displayEnemy = { ...this.displayEnemy }; // Trigger ref change for input binding updates
+        this.playerDataService.updateBoss(this.displayEnemy);
+    }
   }
 }

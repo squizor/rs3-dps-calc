@@ -1,6 +1,6 @@
 import {
   isPlatformBrowser
-} from "./chunk-YG47VFKR.js";
+} from "./chunk-QCDBD2C7.js";
 import "./chunk-4X6VR2I6.js";
 import {
   ChangeDetectionStrategy,
@@ -8,24 +8,26 @@ import {
   NgModule,
   NgZone,
   PLATFORM_ID,
-  inject,
   input,
   output,
   setClassMetadata,
-  signal,
   viewChild,
   ɵɵNgOnChangesFeature,
   ɵɵdefineComponent,
-  ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdomElement,
   ɵɵqueryAdvance,
   ɵɵviewQuerySignal
-} from "./chunk-YO6GPXUM.js";
-import "./chunk-JRFR6BLO.js";
+} from "./chunk-SYQEHEBD.js";
+import {
+  inject,
+  signal,
+  ɵɵdefineInjector
+} from "./chunk-5YKDIGWC.js";
 import {
   asapScheduler
 } from "./chunk-HWYXSU2G.js";
+import "./chunk-JRFR6BLO.js";
 import "./chunk-MARUHEWW.js";
 import {
   __async

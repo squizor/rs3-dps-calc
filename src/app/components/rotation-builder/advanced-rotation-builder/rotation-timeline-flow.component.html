@@ -1,136 +1,265 @@
-<div cdkDropListGroup>
+<div class="rotation-flow-container">
   <div class="timeline-wrapper">
     <header class="timeline-header">
       <h3 class="timeline-title">Rotation Timeline</h3>
       <div class="header-actions">
+        <!-- Save / Load Toggle -->
+        <div class="save-load-container">
+            <button class="action-btn" (click)="toggleSaveLoad()" [class.active]="showSaveLoad()">
+                💾 Presets
+            </button>
+            
+            @if (showSaveLoad()) {
+                <div class="save-load-dropdown">
+                    <div class="save-section">
+                        <h4>Save Rotation</h4>
+                        <div class="input-group">
+                            <input type="text" 
+                                   [ngModel]="rotationNameInput()" 
+                                   (ngModelChange)="rotationNameInput.set($event)" 
+                                   placeholder="Rotation Name..." />
+                            <button (click)="saveRotation()" [disabled]="!rotationNameInput()">Save</button>
+                        </div>
+                    </div>
+                    
+                    <div class="load-section">
+                        <h4>Load Rotation</h4>
+                        @if (savedRotations().length === 0) {
+                            <p class="empty-msg">No saved rotations found.</p>
+                        }
+                        <ul class="saved-list">
+                            @for (name of savedRotations(); track name) {
+                                <li>
+                                    <span (click)="loadRotation(name)" class="rotation-name">{{ name }}</span>
+                                    <button class="delete-btn" (click)="deleteRotation(name)" title="Delete">🗑️</button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="adrenaline-indicator">
+          <span class="adren-label">Adrenaline:</span>
+          <div class="adren-bar-bg">
+            <div class="adren-fill" 
+                 [style.width.%]="rotationDpsService.currentAdrenaline$()"
+                 [class.is-full]="rotationDpsService.currentAdrenaline$() >= 100">
+            </div>
+            <span class="adren-text">{{ rotationDpsService.currentAdrenaline$() | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+
         <button class="clear-rotation-btn" (click)="clearRotation()">
           Clear Rotation
         </button>
       </div>
     </header>
 
-    <div class="timeline-container-outer">
+    <div class="timeline-container-outer" #timelineContainer>
       <div
         id="timeline-list"
         cdkDropList
         [cdkDropListData]="rotationInternal()"
         [cdkDropListConnectedTo]="connectedTo"
         [cdkDropListDisabled]="mergingStepIndex() !== null"
+        [cdkDropListSortingDisabled]="mergingStepIndex() !== null"
+        [cdkDropListEnterPredicate]="allowDropPredicate"
         (cdkDropListDropped)="dropToTimeline($event)"
+        cdkDropListOrientation="mixed"
         class="timeline-container-inner"
       >
         @for (step of rotationInternal(); track step.id; let stepIndex = $index) {
 
         <div
+          class="step-container"
           cdkDrag
           [cdkDragData]="step"
           [cdkDragDisabled]="mergingStepIndex() !== null"
-          class="step-group"
-          [class.is-merged-group]="step.items.length > 1"
-          [class.step-group-merging]="mergingStepIndex() === stepIndex"
-          [class.step-group-disabled]="
-            mergingStepIndex() !== null && mergingStepIndex() !== stepIndex
-          "
+          [class.step-container-merging]="mergingStepIndex() === stepIndex"
+          [class.selected-step]="selectedStepIndex() === stepIndex"
+          (click)="selectStep(stepIndex, $event)"
         >
-          <!-- This is the lightweight preview that is shown while dragging -->
-          <div *cdkDragPreview class="step-drag-preview">
-            @if(isAbility(step.items[0])) {
-            <img
-              [src]="'assets/' + step.items[0].icon"
-              [alt]="step.items[0].name"
-              class="item-icon"
-            />
-            } @else {
-            <span class="item-text-type">{{ step.items[0].type }}</span>
-            } @if(step.items.length > 1) {
-            <span class="merged-count-badge">+{{ step.items.length - 1 }}</span>
+            @if(selectedStepIndex() === stepIndex) {
+                <div 
+                    class="cursor-line" 
+                    [style.left.%]="cursorInStepPercent()">
+                </div>
             }
-          </div>
 
-          <div cdkDragHandle class="step-card-handle">
-            <div class="step-card">
-              <div class="step-card-content">
-                @if(step.items.length > 0) { @if(isAbility(step.items[0])) {
+            <div
+              class="step-group"
+              [class.is-merged-group]="step.items.length > 1"
+              [class.step-group-merging]="mergingStepIndex() === stepIndex"
+              [class.step-group-disabled]="
+                mergingStepIndex() !== null && mergingStepIndex() !== stepIndex
+              "
+            >
+              <!-- This is the lightweight preview that is shown while dragging -->
+              <div *cdkDragPreview class="step-drag-preview">
+                @if(isAbility(step.items[0])) {
                 <img
                   [src]="'assets/' + step.items[0].icon"
                   [alt]="step.items[0].name"
                   class="item-icon"
                 />
+                } @else if (isMagicSwap(step.items[0])) {
+                  <img [src]="'assets/' + step.items[0].icon" class="item-icon" />
+                } @else if (isPrayerSwap(step.items[0])) {
+                  <img [src]="'assets/' + step.items[0].icon" class="item-icon" />
                 } @else {
                 <span class="item-text-type">{{ step.items[0].type }}</span>
-                } }
+                } @if(step.items.length > 1) {
+                <span class="merged-count-badge">+{{ step.items.length - 1 }}</span>
+                }
               </div>
-            </div>
 
-            @if(mergingStepIndex() === null) {
+              <div cdkDragHandle class="step-card-handle">
+                <div class="step-card">
+                  <div class="step-card-content" 
+                       [class.is-error]="rotationDpsService.simulationErrors().get(asTracked(step.items[0]).instanceId)" 
+                       [title]="getError(step.items[0]) || ''">
+                    @if(step.items.length > 0) {
+                      @let item = step.items[0];
+                      @if(isAbility(item)) {
+                        <div class="ability-icon-wrapper" [style.--cooldown-percent]="getCooldownProgress(item) + '%'">
+                            <img
+                            [src]="'assets/' + item.icon"
+                            [alt]="item.name"
+                            class="item-icon"
+                            />
+                            @if(isOverlayVisible(item)) {
+                                <div class="cooldown-overlay" 
+                                     [style.display]="rotationDpsService.simulationErrors().get(asTracked(item).instanceId) ? 'none' : ''">
+                                </div>
+                            }
+                        </div>
+                      } @else if (isMagicSwap(item)) {
+                        <img [src]="'assets/' + item.icon" [alt]="item.spellName" class="item-icon" />
+                      } @else if (isPrayerSwap(item)) {
+                        <img [src]="'assets/' + item.icon" [alt]="item.prayerName" class="item-icon" />
+                      } @else if (isGearSwap(item)) {
+                         <span class="item-text-swap" [title]="item.itemName">
+                            {{ item.itemName }}
+                         </span>
+                      } @else if (isPause(item)) {
+                         <div class="pause-control" (mousedown)="$event.stopPropagation()">
+                            <span class="pause-icon">⏸</span>
+                            <input 
+                                type="number" 
+                                [value]="item.duration" 
+                                (input)="updatePauseDuration(stepIndex, 0, $event)" 
+                                min="1" 
+                                class="pause-input"
+                            >
+                            <span class="pause-unit">t</span>
+                         </div>
+                      } @else {
+                        <span class="item-text-type">{{ item.type }}</span>
+                      }
+                    }
+                  </div>
+                </div>
 
-            <button
-              (mousedown)="$event.stopPropagation()"
-              (click)="removeStep(stepIndex)"
-              class="remove-button step-remove-button"
-            >
-              &times;
-            </button>
-            }
+                @if(mergingStepIndex() === null) {
 
-            <button
-              (mousedown)="$event.stopPropagation()"
-              (click)="toggleMergeMode(stepIndex)"
-              class="merge-button"
-              [class.merge-button-active]="mergingStepIndex() === stepIndex"
-              [class.hidden]="mergingStepIndex() !== null && mergingStepIndex() !== stepIndex"
-            >
-              @if(mergingStepIndex() === stepIndex) {
-              <span class="merge-button-close">✕</span> } @else { + }
-            </button>
-          </div>
+                <button
+                  (mousedown)="$event.stopPropagation()"
+                  (click)="removeStep(stepIndex)"
+                  class="remove-button step-remove-button"
+                >
+                  &times;
+                </button>
+                }
 
-          @for (item of step.items.slice(1); track item.instanceId; let i = $index) {
+                <button
+                  (mousedown)="$event.stopPropagation()"
+                  (click)="toggleMergeMode(stepIndex)"
+                  class="merge-button"
+                  [class.merge-button-active]="mergingStepIndex() === stepIndex"
+                  [class.hidden]="mergingStepIndex() !== null && mergingStepIndex() !== stepIndex"
+                >
+                  @if(mergingStepIndex() === stepIndex) {
+                  <span class="merge-button-close">✕</span> } @else { + }
+                </button>
+              </div>
 
-          <div class="merged-item-card">
-            <div class="merged-item-content">
-              @if(isAbility(item)) {
+              @for (item of step.items.slice(1); track item.instanceId; let i = $index) {
 
-              <img [src]="'assets/' + item.icon" [alt]="item.name" class="item-icon" />
+              <div class="merged-item-card" 
+                   [class.is-error]="rotationDpsService.simulationErrors().get(asTracked(item).instanceId)"
+                   [title]="getError(item) || ''">
+                <div class="merged-item-content">
+                  @if(isAbility(item)) {
+                    <div class="ability-icon-wrapper" [style.--cooldown-percent]="getCooldownProgress(item) + '%'">
+                        <img [src]="'assets/' + item.icon" [alt]="item.name" class="item-icon" />
+                        @if(isOverlayVisible(item)) {
+                            <div class="cooldown-overlay"
+                                 [style.display]="rotationDpsService.simulationErrors().get(asTracked(item).instanceId) ? 'none' : ''">
+                            </div>
+                        }
+                    </div>
+                  } @else if (isMagicSwap(item)) {
+                    <img [src]="'assets/' + item.icon" [alt]="item.spellName" class="item-icon" />
+                  } @else if (isPrayerSwap(item)) {
+                    <img [src]="'assets/' + item.icon" [alt]="item.prayerName" class="item-icon" />
+                  } @else if (isGearSwap(item)) {
+                     <span class="item-text-swap" [title]="item.itemName">
+                        {{ item.itemName }}
+                     </span>
+                  } @else if (isPause(item)) {
+                     <div class="pause-control" (mousedown)="$event.stopPropagation()">
+                        <span class="pause-icon">⏸</span>
+                        <input 
+                            type="number" 
+                            [value]="item.duration" 
+                            (input)="updatePauseDuration(stepIndex, i + 1, $event)" 
+                            min="1" 
+                            class="pause-input"
+                        >
+                        <span class="pause-unit">t</span>
+                     </div>
+                  } @else {
+                  <span class="item-text-type">{{ item.type }}</span>
+                  }
+                </div>
 
-              } @else {
+                <button
+                  (click)="removeItem(stepIndex, i + 1)"
+                  class="remove-button merged-remove-button"
+                >
+                  &times;
+                </button>
+              </div>
 
-              <span class="item-text-type">{{ item.type }}</span>
+              }
 
+              @if(stepIndex < rotationInternal().length - 1) {
+                <!-- Arrow Connector Dropzone -->
+                <div class="next-attack-dropzone">
+                  <span class="next-attack-arrow">&rarr;</span>
+                </div>
               }
             </div>
 
-            <button
-              (click)="removeItem(stepIndex, i + 1)"
-              class="remove-button merged-remove-button"
+            @if(mergingStepIndex() === stepIndex) {
+
+            <div
+                id="active-merge-slot"
+                class="merge-slot"
+                cdkDropList
+                [cdkDropListData]="step.items"
+                [cdkDropListConnectedTo]="connectedTo"
+                [cdkDropListSortingDisabled]="true"
+                (cdkDropListDropped)="dropToMergeSlot($event)"
             >
-              &times;
-            </button>
-          </div>
+                <span class="merge-slot-icon">📥</span>
 
-          } @if(mergingStepIndex() === stepIndex) {
+                <span class="merge-slot-text">Drop Here</span>
+            </div>
 
-          <div
-            id="active-merge-slot"
-            class="merge-slot"
-            cdkDropList
-            [cdkDropListData]="step.items"
-            (cdkDropListDropped)="dropToMergeSlot($event)"
-          >
-            <span class="merge-slot-icon">📥</span>
-
-            <span class="merge-slot-text">Drop Here</span>
-          </div>
-
-          }
-
-          <!-- Arrow Connector -->
-          @if (stepIndex < rotationInternal().length - 1) {
-          <div
-            class="step-connector"
-            [style.--arrow-color]="getArrowColorForItem(step.items[0])"
-          ></div>
-          }
+            }
         </div>
 
         } @if (rotationInternal().length === 0 && mergingStepIndex() === null) {
@@ -144,5 +273,17 @@
         }
       </div>
     </div>
+  </div>
+
+  <div class="mobile-ability-picker-container">
+    <button class="action-btn mobile-abilities-toggle" (click)="showMobileAbilities.set(!showMobileAbilities())" [class.active]="showMobileAbilities()">
+      {{ showMobileAbilities() ? 'Hide Abilities' : 'Add Abilities' }}
+    </button>
+    
+    @if (showMobileAbilities()) {
+        <div class="mobile-abilities-dropdown">
+            <app-ability-list [connectedTo]="['timeline-list', 'active-merge-slot']"></app-ability-list>
+        </div>
+    }
   </div>
 </div>

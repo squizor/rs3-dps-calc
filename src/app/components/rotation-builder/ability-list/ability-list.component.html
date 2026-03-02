@@ -6,7 +6,7 @@
       cdkDropList
       id="actions-list"
       [cdkDropListData]="[]"
-      [cdkDropListConnectedTo]="connectedTo"
+      [cdkDropListData]="[]"
       [cdkDropListSortingDisabled]="true"
     >
       <div class="action-group">
@@ -17,32 +17,44 @@
           <div class="gear-swap-dropdown" *ngIf="activeDropdown === 'gear'">
             <div class="preset-item" (click)="showSavePreset()">Save current gear</div>
             <div class="save-preset-form" *ngIf="isSavingPreset">
-              <input type="text" [(ngModel)]="newPresetName" placeholder="Preset name" />
-              <button (click)="saveCurrentGear()">Save</button>
-              <button (click)="isSavingPreset = false">Cancel</button>
+              <input type="text" [(ngModel)]="newPresetName" placeholder="Preset name" (click)="$event.stopPropagation()" />
+              <div class="form-actions">
+                  <button (click)="saveCurrentGear(); $event.stopPropagation()">Save</button>
+                  <button (click)="isSavingPreset = false; $event.stopPropagation()">Cancel</button>
+              </div>
             </div>
             <div
               class="preset-item"
               *ngFor="let preset of gearPresets$ | async"
+              cdkDrag
+              [cdkDragData]="getGearPresetAction(preset)"
               (click)="applyGearPreset(preset)"
+              (cdkDragStarted)="onDragStart()"
             >
-              {{ preset.name }}
-              <span class="action-icons">
-                <button
-                  class="add-to-rotation-icon"
-                  (click)="addPresetToRotation(preset, $event)"
-                  aria-label="Add preset to rotation"
-                >
-                  +
-                </button>
-                <button
-                  class="delete-preset-icon"
-                  (click)="deleteGearPreset(preset.name, $event)"
-                  aria-label="Delete preset"
-                >
-                  x
-                </button>
-              </span>
+              <div class="preset-content">
+                  <span class="preset-name">{{ preset.name }}</span>
+                  <span class="action-icons">
+                    <button
+                      class="add-to-rotation-icon"
+                      (click)="addPresetToRotation(preset, $event)"
+                      title="Add to rotation"
+                    >
+                      +
+                    </button>
+                    <button
+                      class="delete-preset-icon"
+                      (click)="deleteGearPreset(preset.name, $event)"
+                      title="Delete preset"
+                    >
+                      x
+                    </button>
+                  </span>
+              </div>
+              
+              <!-- Custom Drag Preview -->
+              <div *cdkDragPreview class="preset-drag-preview">
+                 {{ preset.name }}
+              </div>
             </div>
           </div>
         </div>
@@ -61,6 +73,7 @@
                 cdkDrag
                 [cdkDragData]="getPrayerSwapAction(prayer)"
                 [title]="prayer.name"
+                (click)="addAbilityToTimeline(getPrayerSwapAction(prayer), $event)"
               >
                 <img
                   [src]="playerDataService.getIconByName(prayer.name)"
@@ -85,9 +98,34 @@
                 cdkDrag
                 [cdkDragData]="getMagicSwapAction(spell)"
                 [title]="spell.name"
+                (click)="addAbilityToTimeline(getMagicSwapAction(spell), $event)"
               >
                 <img
                   [src]="playerDataService.getIconByName(spell.name)"
+                  class="ability-icon-small"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="action-group">
+        <div class="action-main-button">
+          <div class="ability-item action-button" (click)="toggleDropdown('potions')">
+            <img src="assets/icons/Adrenaline_renewal_potion_(4).png" class="ability-icon-small" />
+          </div>
+          <div class="magic-swap-modal" *ngIf="activeDropdown === 'potions'">
+            <div class="modal-content action-grid">
+              <div
+                class="ability-item"
+                *ngFor="let potion of availablePotions$ | async"
+                cdkDrag
+                [cdkDragData]="getPotionAction(potion)"
+                [title]="potion.name"
+                (click)="addAbilityToTimeline(getPotionAction(potion), $event)"
+              >
+                <img
+                  [src]="getIcon(potion)"
                   class="ability-icon-small"
                 />
               </div>
@@ -101,6 +139,7 @@
           cdkDrag
           [cdkDragData]="pauseAction"
           (cdkDragStarted)="onDragStart()"
+          (click)="addAbilityToTimeline(pauseAction, $event)"
         >
           <fa-icon [icon]="faPause" class="ability-icon-small"></fa-icon>
         </div>
@@ -128,6 +167,7 @@
           id="ability-list"
           [cdkDropListData]="(filteredAbilities$ | async) || []"
           class="ability-grid"
+          class="ability-grid"
           [cdkDropListConnectedTo]="connectedTo"
           [cdkDropListSortingDisabled]="true"
         >
@@ -138,13 +178,23 @@
             [cdkDragData]="ability"
             [title]="getAbilityTooltip(ability)"
             (cdkDragStarted)="onDragStart()"
+            (click)="addAbilityToTimeline(ability, $event)"
           >
-            <img
-              *ngIf="ability.icon"
-              [src]="getIcon(ability)"
-              [alt]="ability.name"
-              class="ability-icon-small"
-            />
+            @if (ability.icon) {
+                 <div class="ability-icon-wrapper" [style.--cooldown-percent]="getCooldownPercent(ability) + '%'">
+                    <img
+                      [src]="getIcon(ability)"
+                      [alt]="ability.name"
+                      class="ability-icon-small"
+                    />
+                    @if(getCooldownPercent(ability) < 100 && (settingsService.showCooldownText$ | async)) {
+                        <div class="cooldown-text">{{ getCooldownText(ability) }}</div>
+                    }
+                    @if(getCooldownPercent(ability) < 100) {
+                        <div class="cooldown-overlay"></div>
+                    }
+                 </div>
+            }
           </div>
           <div *ngIf="(filteredAbilities$ | async)?.length === 0" class="no-results">
             No abilities found.

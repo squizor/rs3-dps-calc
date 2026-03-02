@@ -604,6 +604,14 @@
         "min": 240,
         "max": 240
       },
+      "effects": [
+        {
+            "type": "damage-mod",
+            "name": "Death's Swiftness",
+            "value": 1.5,
+            "duration": 50
+        }
+      ],
       "icon": "icons/deaths_swiftness.png"
     },
     {
@@ -953,8 +961,16 @@
       "adrenaline": -15,
       "cooldown": 20.4,
       "damage": {
-        "min": 480,
-        "max": 480
+        "min": 188,
+        "max": 188
+      },
+      "channel": {
+        "ticks": 7,
+        "interval": 2
+      },
+      "flags": {
+        "isChanneled": true,
+        "isStun": true
       },
       "icon": "icons/asphyxiate.png"
     },
@@ -1317,9 +1333,17 @@
       "adrenaline": -100,
       "cooldown": 60,
       "damage": {
-        "min": 240,
-        "max": 240
+        "min": 0,
+        "max": 0
       },
+      "effects": [
+        {
+            "type": "damage-mod",
+            "name": "Sunshine",
+            "value": 1.5,
+            "duration": 50
+        }
+      ],
       "icon": "icons/sunshine.png"
     },
     {
@@ -1606,6 +1630,48 @@
     }
   ],
   "Constitution": [
+    {
+      "id": 1001,
+      "name": "Adrenaline Potion",
+      "type": "other",
+      "is_greater": false,
+      "gear": "all",
+      "adrenaline": 25,
+      "cooldown": 120,
+      "damage": {
+        "min": 0,
+        "max": 0
+      },
+      "icon": "icons/Adrenaline_potion_(4).png"
+    },
+    {
+      "id": 1002,
+      "name": "Super Adrenaline Potion",
+      "type": "other",
+      "is_greater": false,
+      "gear": "all",
+      "adrenaline": 30,
+      "cooldown": 120,
+      "damage": {
+        "min": 0,
+        "max": 0
+      },
+      "icon": "icons/Super_adrenaline_potion_(4).png"
+    },
+    {
+      "id": 1003,
+      "name": "Adrenaline Renewal Potion",
+      "type": "other",
+      "is_greater": false,
+      "gear": "all",
+      "adrenaline": 40,
+      "cooldown": 120,
+      "damage": {
+        "min": 0,
+        "max": 0
+      },
+      "icon": "icons/Adrenaline_renewal_potion_(4).png"
+    },
     {
       "id": 119,
       "name": "Demon Slayer",

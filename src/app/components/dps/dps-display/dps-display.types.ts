@@ -1,4 +1,4 @@
-import {
+import type {
   ApexChart,
   ApexAxisChartSeries,
   ApexTitleSubtitle,
@@ -13,6 +13,7 @@ import {
   ApexPlotOptions,
   ApexLegend,
   ApexNonAxisChartSeries,
+  ApexGrid,
 } from 'ng-apexcharts';
 import { CalculationInput } from '../../../services/dps-calculation.service';
 
@@ -32,6 +33,7 @@ export type ChartOptions = {
   legend: ApexLegend;
   labels: string[];
   colors: string[];
+  grid: ApexGrid;
   theme: { mode: 'dark' | 'light' };
 };
 

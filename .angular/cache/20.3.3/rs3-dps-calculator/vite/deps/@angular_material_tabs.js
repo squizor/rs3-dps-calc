@@ -12,12 +12,12 @@ import {
   coerceNumberProperty,
   isFakeMousedownFromScreenReader,
   isFakeTouchstartFromScreenReader
-} from "./chunk-EMEUUG4S.js";
+} from "./chunk-H6QQUWBT.js";
 import {
   BidiModule,
   Directionality
-} from "./chunk-BRGVXSCV.js";
-import "./chunk-YG47VFKR.js";
+} from "./chunk-B6Q77AK3.js";
+import "./chunk-QCDBD2C7.js";
 import "./chunk-4X6VR2I6.js";
 import {
   ANIMATION_MODULE_TYPE,
@@ -28,14 +28,11 @@ import {
   Component,
   ContentChild,
   ContentChildren,
-  DOCUMENT,
   Directive,
   ElementRef,
   EventEmitter,
   HostAttributeToken,
   Injectable,
-  InjectionToken,
-  Injector,
   Input,
   NgModule,
   NgModuleRef$1,
@@ -51,14 +48,8 @@ import {
   ViewEncapsulation,
   afterNextRender,
   booleanAttribute,
-  computed,
-  effect,
-  forwardRef,
-  inject,
-  isSignal,
   numberAttribute,
   setClassMetadata,
-  signal,
   ɵɵInheritDefinitionFeature,
   ɵɵNgOnChangesFeature,
   ɵɵProvidersFeature,
@@ -72,8 +63,6 @@ import {
   ɵɵcontentQuery,
   ɵɵdefineComponent,
   ɵɵdefineDirective,
-  ɵɵdefineInjectable,
-  ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdomTemplate,
   ɵɵelement,
@@ -92,19 +81,32 @@ import {
   ɵɵrepeater,
   ɵɵrepeaterCreate,
   ɵɵrepeaterTrackByIdentity,
-  ɵɵresetView,
-  ɵɵrestoreView,
   ɵɵstyleProp,
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵviewQuery
-} from "./chunk-YO6GPXUM.js";
-import "./chunk-JRFR6BLO.js";
+} from "./chunk-SYQEHEBD.js";
+import {
+  DOCUMENT,
+  InjectionToken,
+  Injector,
+  computed,
+  effect,
+  forwardRef,
+  inject,
+  isSignal,
+  signal,
+  ɵɵdefineInjectable,
+  ɵɵdefineInjector,
+  ɵɵresetView,
+  ɵɵrestoreView
+} from "./chunk-5YKDIGWC.js";
 import {
   isObservable,
   merge
 } from "./chunk-HWYXSU2G.js";
+import "./chunk-JRFR6BLO.js";
 import {
   BehaviorSubject,
   EMPTY,

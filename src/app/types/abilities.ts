@@ -1,4 +1,19 @@
-export type Skill = 'attack' | 'strength' | 'magic' | 'ranged' | 'defence' | 'necromancy';
+export type Skill = 'attack' | 'strength' | 'magic' | 'ranged' | 'defence' | 'necromancy' | 'constitution';
+
+export interface Effect {
+  type: 'buff' | 'debuff' | 'dot' | 'damage-mod';
+  name: string;
+  duration?: number; // in ticks
+  value?: number; // e.g., damage multiplier (1.5) or flat damage
+  stackable?: boolean;
+}
+
+export interface AbilityFlags {
+  isChanneled?: boolean;
+  isBleed?: boolean;
+  isStun?: boolean;
+  isBound?: boolean;
+}
 
 export interface Ability {
   id: number;
@@ -13,9 +28,20 @@ export interface Ability {
     min: number;
     max: number;
   };
+  crit?: {
+    chance?: number; // Innate bonus (e.g. 10%)
+    damage?: number; // Innate bonus
+  };
   bleed?: {
     ticks: number;
+    interval?: number; // some bleeds hit faster? usually 1 tick or 2 ticks. default 1.
   };
+  channel?: {
+    ticks: number; // Duration of channel
+    interval: number; // Ticks between hits
+  };
+  effects?: Effect[];
+  flags?: AbilityFlags;
 }
 
 export interface RotationAbility extends Ability {

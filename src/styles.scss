@@ -5,11 +5,11 @@ html {
   font-family: 'rubik', 'arial', 'sans-serif';
   color: white;
 
-  --navbar-height: 5em;
-  --navbar-padding: 2em;
-  --section-padding: 2em;
-  --border-radius: 1em;
-  --button-padding: 1em;
+  --navbar-height: clamp(4em, 6vh, 5em);
+  --navbar-padding: clamp(1em, 2vw, 2em);
+  --section-padding: clamp(0.5em, 2vw, 2em);
+  --border-radius: clamp(0.5em, 1vw, 1em);
+  --button-padding: clamp(0.5em, 1.5vw, 1em);
 
   --wiki-theme-darkest: #071022;
   --wiki-theme-darker: #172136;
@@ -34,6 +34,15 @@ html, body {
 body {
   margin: 0;
   background-color: var(--wiki-theme-darker);
+  overflow: hidden; // Prevent whole page scroll, keep it inside app dashboard
+  width: 100vw;
+  max-width: 100vw;
+  font-size: clamp(14px, 1vw + 10px, 16px); // Fluid typography
+
+  @media screen and (max-width: 1376px) {
+    overflow-y: auto; // Allow page to scroll when dashboard stacking logic engages
+    overflow-x: hidden; // But rigidly prevent horizontal scroll
+  }
 }
 
 app-root {

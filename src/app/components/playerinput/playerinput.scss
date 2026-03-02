@@ -3,6 +3,7 @@
 :host {
   @include helpers.player-input-theme;
   display: block;
+  width: 100%;
 }
 
 @keyframes shake-horizontal {
@@ -33,9 +34,8 @@
   background-color: var(--wiki-theme-dark);
   border-radius: var(--radius);
   color: var(--text-primary);
-  display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   width: 100%;
@@ -57,19 +57,39 @@ h3.section-title {
 
 .player-builds {
   display: flex;
+  flex-wrap: wrap; 
   gap: 0.5rem;
-  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.5rem;
   background-color: var(--wiki-theme-darker);
+
+  // Remove overflow/scrollbar properties
 
   .player-build {
     background: var(--input-bg);
     color: var(--text-secondary);
-    padding: 0.75rem 1rem;
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm); // Fully rounded
     cursor: pointer;
     transition: all 0.2s ease-out;
     border: 1px solid var(--border-color);
-    border-bottom: none;
+    // Remove border-bottom: none
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: fit-content;
+
+    &.pending-delete {
+        background-color: rgba(220, 38, 38, 0.2);
+        border-color: #dc2626;
+        box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+        animation: pulse-red 1.5s infinite;
+    }
+
+    @keyframes pulse-red {
+        0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+        70% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
 
     &:hover {
       background: var(--hover-bg);
@@ -79,23 +99,120 @@ h3.section-title {
     &.active {
       background-color: var(--wiki-theme-dark);
       color: var(--text-primary);
+      border-color: var(--accent-color); // Highlight border
+      // Remove border-bottom/margin hacks
+      z-index: 1;
       position: relative;
+    }
+    
+    .build-name {
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    
+    .build-icon {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        
+        &.img-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+    }
+
+    &:hover .build-icon {
+        color: var(--text-primary);
+    }
+    
+    &.active .build-icon {
+        color: var(--accent-color);
+    }
+    
+    .delete-btn {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        opacity: 0;
+        transition: all 0.2s;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        
+        &:hover {
+            color: var(--error-color);
+            transform: scale(1.1);
+        }
+    }
+    
+    &.add-btn {
+        padding: 0.75rem 1rem;
+        color: var(--text-secondary);
+        
+        &:hover {
+            color: var(--success-color);
+            background: var(--hover-bg);
+        }
+    }
+    
+    &.input-mode {
+        padding: 0.5rem 1rem;
+        background: var(--wiki-theme-dark);
+        border: 1px solid var(--accent-color);
+        border-bottom: none;
+        gap: 0.75rem;
+    }
+    
+    .build-name-input {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        font-size: inherit;
+        outline: none;
+        width: 120px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 2px;
+        
+        &:focus {
+            border-bottom-color: var(--accent-color);
+        }
+    }
+    
+    .actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .action-icon {
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: transform 0.2s;
+        
+        &:hover {
+            transform: scale(1.2);
+        }
+        
+        &.confirm { color: var(--success-color); }
+        &.cancel { color: var(--error-color); }
     }
   }
 }
 
 .player-info {
   display: flex;
+  flex-wrap: wrap; // Allow tabs to wrap on mobile
+  justify-content: center;
   padding: 0 0.5rem;
-  gap: 0.5rem;
+  gap: 0.25rem;
   background-color: var(--wiki-theme-darkest);
   border-bottom: 1px solid var(--border-color);
 
   .player-tab {
     color: var(--text-secondary);
-    width: 4rem;
-    height: 3.5rem;
-    padding: 0.5rem;
+    width: 3.5rem; // Slightly smaller base
+    height: 3rem;
+    padding: 0.25rem;
     cursor: pointer;
     transition: all 0.2s ease-out;
     border: 1px solid transparent;
@@ -252,143 +369,370 @@ button,
 
 .player-equipment-tab {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center; // Center the container
 
-  .equipment-search {
-    position: relative;
-
-    fa-icon:not(.clear-search) {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-secondary);
-      pointer-events: none;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: color 0.2s ease-out;
-
-      &:hover {
-        color: var(--text-primary);
-      }
-    }
-
-    input {
-      padding-left: 2.5rem;
-    }
-
-    app-searchable-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-
-      ::ng-deep .dropdown_items {
-        background-color: var(--wiki-theme-dark);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-lg);
-        max-height: 400px;
-        overflow-y: auto;
-      }
-    }
-  }
-
-  .equipment-grid {
+  .equipment-container {
     @include helpers.card;
-    display: grid;
-    grid-template-columns: repeat(3, 4em);
-    grid-template-rows: repeat(5, 4em);
-    grid-template-areas:
-      'aura   helmet  pocket'
-      'cape   necklace ammo'
-      'mainhand chest   offhand'
-      'twohand  legs     .'
-      'gloves boots   ring';
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    justify-content: center;
-
-    .slot {
-      position: relative;
-      border-radius: var(--radius-sm);
-      background-color: var(--input-bg);
+    padding: 1.5rem;
+    max-width: 500px;
+    width: 100%;
+    
+    // Header for Search and Presets
+    .equipment-header {
       display: flex;
-      justify-content: center;
+      gap: 1rem;
       align-items: center;
-      transition: all 0.2s ease-out;
-      cursor: pointer;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-inner);
-
-      .getIconImg {
-        padding: 0.5rem;
-      }
-      &:hover {
-        border-color: var(--active-color);
-        background-color: var(--hover-bg);
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: var(--shadow-sm);
-      }
-
-      &.slot-aura {
-        grid-area: aura;
-      }
-      &.slot-helmet {
-        grid-area: helmet;
-      }
-      &.slot-pocket {
-        grid-area: pocket;
-      }
-      &.slot-cape {
-        grid-area: cape;
-      }
-      &.slot-necklace {
-        grid-area: necklace;
-      }
-      &.slot-ammo {
-        grid-area: ammo;
-      }
-      &.slot-mainhand {
-        grid-area: mainhand;
-      }
-      &.slot-chest {
-        grid-area: chest;
-      }
-      &.slot-offhand {
-        grid-area: offhand;
-      }
-      &.slot-twohand {
-        grid-area: twohand;
-      }
-      &.slot-legs {
-        grid-area: legs;
-      }
-      &.slot-gloves {
-        grid-area: gloves;
-      }
-      &.slot-boots {
-        grid-area: boots;
-      }
-      &.slot-ring {
-        grid-area: ring;
+      justify-content: space-between;
+      
+      .equipment-search {
+        flex: 1;
+        position: relative;
+    
+        fa-icon:not(.clear-search) {
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--text-secondary);
+          pointer-events: none;
+        }
+    
+        .clear-search {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--text-secondary);
+          cursor: pointer;
+          transition: color 0.2s ease-out;
+    
+          &:hover {
+            color: var(--text-primary);
+          }
+        }
+    
+        input {
+          padding-left: 2.5rem;
+          width: 100%;
+        }
+    
+        app-searchable-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          z-index: 1000;
+    
+          ::ng-deep .dropdown_items {
+            background-color: var(--wiki-theme-dark);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-height: 400px;
+            overflow-y: auto;
+          }
+        }
       }
 
-      &.disabled {
-        opacity: 0.5;
+      .equipment-presets {
+        // Remove margin-bottom as it's now in a flex row
+        margin-bottom: 0;
+        
+        .preset-dropdown-container {
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+
+          .preset-button {
+            @include helpers.dropdown-trigger;
+            min-width: 150px;
+            justify-content: space-between;
+            color: var(--active-color); // Accent Color for button text/icon
+            
+            &.active {
+              border-color: var(--active-color);
+            }
+          }
+
+          .preset-dropdown {
+            position: absolute;
+            top: calc(100% + 5px);
+            right: 0;
+            width: 350px;
+            background-color: var(--wiki-theme-darker);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInDown 0.2s ease-out;
+
+            .preset-list {
+              max-height: 400px;
+              overflow-y: auto;
+              
+              .preset-item {
+                padding: 0.5rem 0.75rem;
+                border-bottom: 1px solid var(--border-color);
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background-color 0.2s;
+    
+                &:hover {
+                  background-color: var(--hover-bg);
+                  .delete-preset-btn {
+                    opacity: 1;
+                  }
+                }
+    
+                .preset-info {
+              display: flex;
+              flex-direction: row; // Horizontal layout
+              align-items: center;
+              gap: 1rem;
+              flex: 1;
+              overflow: hidden;
+
+              .preset-name {
+                font-weight: 500;
+                color: var(--active-color) !important; // Accent Color forced
+                font-size: 0.9rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 60px;
+              }
+
+              .preset-preview {
+                display: flex;
+                gap: 2px; // Tighter loop
+                
+                .preview-icon {
+                  width: 20px; // Smaller icons
+                  height: 20px;
+                  object-fit: contain;
+                  background-color: var(--input-bg);
+                  border-radius: 2px;
+                  border: 1px solid var(--border-color);
+                  padding: 1px;
+                }
+              }
+            }
+
+            .delete-preset-container {
+                display: flex;
+                align-items: center;
+                
+                .delete-preset-btn {
+                  background: transparent;
+                  border: none;
+                  color: var(--text-secondary);
+                  cursor: pointer;
+                  opacity: 0.3;
+                  transition: all 0.2s;
+                  padding: 0.4rem; // Slightly larger touch target
+                  margin-left: 0.5rem;
+                  
+                  &:hover {
+                    color: #e74c3c;
+                    opacity: 1;
+                    background-color: rgba(231, 76, 60, 0.1); // Subtle background on hover
+                    border-radius: var(--radius-sm);
+                  }
+                }
+
+                .confirm-actions {
+                    display: flex;
+                    gap: 0.25rem;
+                    margin-left: 0.5rem;
+                    animation: fadeInDown 0.1s ease-out;
+
+                    button {
+                        background: transparent;
+                        border: none;
+                        cursor: pointer;
+                        padding: 0.4rem;
+                        border-radius: var(--radius-sm);
+                        transition: all 0.2s;
+                        display: flex; // Align icon center
+                        align-items: center;
+                        justify-content: center;
+
+                        &.confirm-btn {
+                            color: #2ecc71; // Green
+                            &:hover {
+                                background-color: rgba(46, 204, 113, 0.1);
+                                transform: scale(1.1);
+                            }
+                        }
+
+                        &.cancel-btn {
+                            color: var(--text-secondary);
+                             &:hover {
+                                color: #e74c3c;
+                                background-color: rgba(231, 76, 60, 0.1);
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+                }
+            }
+          }
+              
+              .no-presets {
+                 padding: 1rem;
+                 text-align: center;
+                 color: var(--text-secondary);
+                 font-style: italic;
+                 font-size: 0.9rem;
+              }
+            }
+    
+            .preset-actions {
+              padding: 0.5rem;
+              background-color: var(--wiki-theme-dark);
+              border-top: 1px solid var(--border-color);
+              display: flex;
+              gap: 0.5rem;
+    
+              input {
+                flex: 1;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+              }
+    
+              button {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+                white-space: nowrap;
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .equipment-grid {
+      // Remove card mixin from here as parent is the card
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin-bottom: 0;
+      
+      display: grid;
+      grid-template-columns: repeat(3, 3.5rem); // Slightly smaller slots
+      grid-template-rows: repeat(5, 3.5rem);
+      grid-template-areas:
+        '.         head      pocket'
+        'cape      necklace  ammo'
+        'mainhand  body      offhand'
+        'twohand   legs      .'
+        'gloves    boots     ring';
+      gap: 0.5rem; 
+      justify-content: center;
+
+      @media screen and (max-width: 450px) {
+        grid-template-columns: repeat(3, 2.5rem);
+        grid-template-rows: repeat(5, 2.5rem);
+        gap: 0.15rem;
+      }
+  
+      .slot {
+        position: relative;
+        border-radius: var(--radius-sm);
+        background-color: var(--input-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s ease-out;
         cursor: pointer;
-        background-color: #222;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-inner);
+        z-index: 1; // Ensure grid items are below dropdown
+  
+        .getIconImg {
+          padding: 0.25rem; // Reduced padding
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
         &:hover {
-          transform: none;
-          border-color: var(--border-color);
+          border-color: var(--active-color);
+          background-color: var(--hover-bg);
+          transform: translateY(-2px) scale(1.05);
+          box-shadow: var(--shadow-sm);
+          z-index: 2; // Bring hovered item above others
+        }
+  
+        &.slot-head { grid-area: head; }
+        &.slot-pocket { grid-area: pocket; }
+        &.slot-cape { grid-area: cape; }
+        &.slot-necklace { grid-area: necklace; }
+        &.slot-ammo { grid-area: ammo; }
+        
+        // Bottom 3 rows - Main Cluster - More aggressive spacing (1.5x)
+        &.slot-mainhand { 
+            grid-area: mainhand; 
+            transform: translateX(-1.25rem); // Keep Center column clear
+            &:not(.disabled):hover { transform: translateX(-1.25rem) translateY(-2px) scale(1.05); }
+        }
+        &.slot-body { grid-area: body; }
+        &.slot-offhand { 
+            grid-area: offhand; 
+            transform: translateX(1.25rem);
+            &:not(.disabled):hover { transform: translateX(1.25rem) translateY(-2px) scale(1.05); }
+        }
+        
+        &.slot-twohand { 
+            grid-area: twohand; 
+            transform: translateX(-1.25rem);
+            &:not(.disabled):hover { transform: translateX(-1.25rem) translateY(-2px) scale(1.05); }
+        }
+        &.slot-legs { grid-area: legs; }
+        
+        &.slot-gloves { 
+            grid-area: gloves; 
+            transform: translateX(-1.25rem);
+            &:not(.disabled):hover { transform: translateX(-1.25rem) translateY(-2px) scale(1.05); }
+        }
+        &.slot-boots { grid-area: boots; }
+        &.slot-ring { 
+            grid-area: ring; 
+            transform: translateX(1.25rem);
+            &:not(.disabled):hover { transform: translateX(1.25rem) translateY(-2px) scale(1.05); }
+        }
+
+        @media screen and (max-width: 1250px) {
+           &.slot-mainhand, &.slot-twohand, &.slot-gloves { transform: translateX(-0.75rem); }
+           &.slot-offhand, &.slot-ring { transform: translateX(0.75rem); }
+        }
+
+        &.disabled {
+          opacity: 0.5;
+          cursor: pointer;
+          background-color: #222;
+          &:hover {
+            border-color: var(--border-color);
+          }
+        }
+        
+        .two-handed-text {
+            position: absolute;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: rgba(255,255,255,0.7);
+            pointer-events: none;
         }
       }
     }
@@ -468,7 +812,7 @@ button,
     .summoning-pouches {
       @include helpers.card;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
       gap: 1rem;
 
       .summoning-pouch {
@@ -530,6 +874,16 @@ button,
   }
   &.weapon-type-necromancy {
     --stat-color: var(--color-necromancy);
+  }
+
+  @media screen and (max-width: 1400px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); // Optionally update columns to fit better
+    grid-template-rows: 1fr;
+    
+    .type-item,
+    .speed-item {
+      display: none;
+    }
   }
 }
 
@@ -630,4 +984,46 @@ button,
     --stat-color: #1abc9c;
     --stat-gradient-color: rgba(26, 188, 156, 0.15);
   }
+}
+
+.summoning-pouches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 1rem;
+    background-color: var(--wiki-theme-darker);
+    border-radius: var(--radius-sm);
+    margin-top: 1rem;
+
+    .summoning-pouch {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        background-color: var(--input-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            border-color: var(--active-color);
+            background-color: var(--hover-bg);
+            transform: translateY(-2px);
+        }
+
+        &.active {
+            border-color: var(--active-color);
+            box-shadow: 0 0 10px var(--active-color);
+            background-color: var(--wiki-theme-dark);
+        }
+
+        .getIconImg {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+    }
 }
