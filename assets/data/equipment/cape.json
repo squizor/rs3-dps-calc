@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Obsidian cape",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 13.4,
+      "ranged": 13.4,
+      "magic": 13.4,
+      "necromancy": 13.4
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Obsidian_cape.png"
+  },
+  {
+    "name": "Cape of legends",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 17.3,
+      "ranged": 17.3,
+      "magic": 17.3,
+      "necromancy": 17.3
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Cape_of_legends.png"
+  },
+  {
+    "name": "Spirit cape",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 17.3,
+      "ranged": 17.3,
+      "magic": 17.3,
+      "necromancy": 17.3
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Spirit_cape.png"
+  },
+  {
+    "name": "Cape of Accomplishment",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 21.6,
+      "ranged": 21.6,
+      "magic": 21.6,
+      "necromancy": 21.6
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Agility_cape.png"
+  },
+  {
+    "name": "Expert cape of Accomplishment",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 21.6,
+      "ranged": 21.6,
+      "magic": 21.6,
+      "necromancy": 21.6
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Combatant's_cape.png"
+  },
+  {
+    "name": "Fire cape",
+    "defence_requirement": 0,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 26.3,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Fire_cape.png"
+  },
+  {
+    "name": "Max cape",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 31.5,
+      "ranged": 31.5,
+      "magic": 31.5,
+      "necromancy": 31.5
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Max_cape.png"
+  },
+  {
+    "name": "TokHaar-Kal-Ket",
+    "defence_requirement": 0,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 33.5,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/TokHaar-Kal-Ket.png"
+  },
+  {
+    "name": "Igneous Kal-Ket",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 43,
+      "ranged": 43,
+      "magic": 43,
+      "necromancy": 43
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Igneous_Kal-Ket.png"
+  },
+  {
+    "name": "Igneous Kal-Zuk",
+    "defence_requirement": 90,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 43,
+      "ranged": 43,
+      "magic": 43,
+      "necromancy": 43
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Igneous_Kal-Zuk.png"
+  }
+]

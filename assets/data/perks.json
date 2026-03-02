@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Precise",
+    "maxRank": 6,
+    "slotsConsumed": 1,
+    "type": "weapon",
+    "dpsMod": 0.0125
+  },
+  {
+    "name": "Aftershock",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "weapon",
+    "dpsMod": 0.01
+  },
+  {
+    "name": "Ruthless",
+    "maxRank": 3,
+    "slotsConsumed": 1,
+    "type": "weapon",
+    "dpsMod": 0.005
+  },
+  {
+    "name": "Biting",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "armor",
+    "critChanceMod": 0.02
+  },
+  {
+    "name": "Crackling",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "armor",
+    "dpsMod": 0.005
+  },
+  {
+    "name": "Impatient",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "armor",
+    "dpsMod": 0.005
+  },
+  {
+    "name": "Relentless",
+    "maxRank": 5,
+    "slotsConsumed": 1,
+    "type": "armor",
+    "dpsMod": 0.002
+  },
+  {
+    "name": "Lunging",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "weapon",
+    "dpsMod": 0.005
+  },
+  {
+    "name": "Caroming",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "weapon",
+    "dpsMod": 0.005
+  },
+  {
+    "name": "Flanking",
+    "maxRank": 4,
+    "slotsConsumed": 1,
+    "type": "weapon",
+    "dpsMod": 0.01
+  },
+  {
+    "name": "None",
+    "maxRank": 1,
+    "slotsConsumed": 1,
+    "type": "utility",
+    "dpsMod": 0
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Necronium off hand battleaxe + 4",
+    "icon": "https://runescape.wiki/images/Necronium_off_hand_battleaxe_+_4.png",
+    "level_requirement": 70,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 551.3,
+    "ability_damage": 335.2,
+    "style": "Slash",
+    "attack_speed": 6,
+    "augmentable": false
+  },
+  {
+    "name": "Bane off hand battleaxe + 4",
+    "icon": "https://runescape.wiki/images/Bane_off_hand_battleaxe_+_4.png",
+    "level_requirement": 80,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 483.9,
+    "ability_damage": 379.2,
+    "style": "Slash",
+    "attack_speed": 5,
+    "augmentable": false
+  },
+  {
+    "name": "Abyssal off hand battleaxe",
+    "icon": "https://runescape.wiki/images/Bane_off_hand_battleaxe.png",
+    "level_requirement": 80,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 483.9,
+    "ability_damage": 379.2,
+    "style": "Slash",
+    "attack_speed": 5,
+    "augmentable": false
+  },
+  {
+    "name": "Off-hand ripper claw",
+    "icon": "https://runescape.wiki/images/Off-hand_ripper_claw.png",
+    "level_requirement": 85,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 408,
+    "ability_damage": 408,
+    "style": "Slash",
+    "attack_speed": 4,
+    "augmentable": true
+  },
+  {
+    "name": "Dark ice sliver",
+    "icon": "https://runescape.wiki/images/Dark_ice_sliver.png",
+    "level_requirement": 85,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 422.4,
+    "ability_damage": 422.4,
+    "style": "Stab",
+    "attack_speed": 4,
+    "augmentable": true
+  },
+  {
+    "name": "Off-hand drygore longsword",
+    "icon": "https://runescape.wiki/images/Off-drygore_longsword.png",
+    "level_requirement": 90,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 551.2,
+    "ability_damage": 432,
+    "style": "Slash",
+    "attack_speed": 5,
+    "augmentable": true
+  },
+  {
+    "name": "Off-hand drygore mace",
+    "icon": "https://runescape.wiki/images/Off-drygore_longsword.png",
+    "level_requirement": 90,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 432,
+    "ability_damage": 432,
+    "style": "Crush",
+    "attack_speed": 4,
+    "augmentable": true
+  },
+  {
+    "name": "Off-hand drygore rapier",
+    "icon": "https://runescape.wiki/images/Off-drygore_rapier.png",
+    "level_requirement": 90,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 551.2,
+    "ability_damage": 432,
+    "style": "Stab",
+    "attack_speed": 5,
+    "augmentable": true
+  },
+  {
+    "name": "Khopesh of Elidinis",
+    "icon": "https://runescape.wiki/images/Khopesh_of_Elidinis.png",
+    "level_requirement": 92,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 441.6,
+    "ability_damage": 441.6,
+    "style": "Stab",
+    "attack_speed": 4,
+    "augmentable": true
+  },
+  {
+    "name": "Dark Sliver of Leng",
+    "icon": "https://runescape.wiki/images/Dark_Sliver_of_Leng.png",
+    "level_requirement": 95,
+    "class_type": "Melee",
+    "slot": "offhand",
+    "auto_damage": 456,
+    "ability_damage": 456,
+    "style": "Stab",
+    "attack_speed": 4,
+    "augmentable": true
+  }
+]

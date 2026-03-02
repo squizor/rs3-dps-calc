@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Amulet of glory",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 26.7,
+      "ranged": 26.7,
+      "magic": 26.7,
+      "necromancy": 26.7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Amulet_of_glory.png"
+  },
+  {
+    "name": "Dragon Rider amulet",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 30.2,
+      "ranged": 30.2,
+      "magic": 30.2,
+      "necromancy": 30.2
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Dragon_Rider_amulet.png"
+  },
+  {
+    "name": "Amulet of fury",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 32.7,
+      "ranged": 32.7,
+      "magic": 32.7,
+      "necromancy": 32.7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Amulet_of_fury.png"
+  },
+  {
+    "name": "Saradomin's whisper",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 36.8,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Saradomin's_whisper.png"
+  },
+  {
+    "name": "Reaper necklace",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 36.8,
+      "ranged": 36.8,
+      "magic": 36.8,
+      "necromancy": 36.8
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Reaper_necklace.png"
+  },
+  {
+    "name": "Reaper necklace (or)",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 38.4,
+      "ranged": 38.4,
+      "magic": 38.4,
+      "necromancy": 38.4
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Reaper_necklace_(or).png"
+  },
+  {
+    "name": "Brawler's knockout necklace",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 44.1,
+      "ranged": 44.1,
+      "magic": 44.1,
+      "necromancy": 44.1
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Brawler's_knockout_necklace.png"
+  },
+  {
+    "name": "Amulet of souls",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 46.3,
+      "ranged": 46.3,
+      "magic": 46.3,
+      "necromancy": 46.3
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Amulet_of_souls.png"
+  },
+  {
+    "name": "Amulet of souls (or)",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 48,
+      "ranged": 48,
+      "magic": 48,
+      "necromancy": 48
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Amulet_of_souls_(or).png"
+  },
+  {
+    "name": "Essence of Finality amulet",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 56,
+      "ranged": 56,
+      "magic": 56,
+      "necromancy": 56
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Essence_of_Finality_amulet.png"
+  },
+  {
+    "name": "Essence of Finality amulet (or)",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 59,
+      "ranged": 59,
+      "magic": 59,
+      "necromancy": 59
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Essence_of_Finality_amulet_(or).png"
+  },
+  {
+    "name": "Salve amulet (e)",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 4.2,
+      "ranged": 4.2,
+      "magic": 4.2,
+      "necromancy": 4.2
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Salve_amulet_(e).png"
+  }
+]

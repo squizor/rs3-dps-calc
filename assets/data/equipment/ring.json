@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Ring of Wealth",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 10.7,
+      "ranged": 10.7,
+      "magic": 10.7,
+      "necromancy": 10.7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Ring_of_Wealth.png"
+  },
+  {
+    "name": "Ring of vigour",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 12,
+      "ranged": 12,
+      "magic": 12,
+      "necromancy": 12
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Ring_of_vigour.png"
+  },
+  {
+    "name": "Ring of Fortune",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 13.9,
+      "ranged": 13.9,
+      "magic": 13.9,
+      "necromancy": 13.9
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Ring_of_Fortune.png"
+  },
+  {
+    "name": "Warrior ring",
+    "defence_requirement": 0,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 17.3,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Warrior_ring.png"
+  },
+  {
+    "name": "Luck of the Dwarves",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 17.3,
+      "ranged": 17.3,
+      "magic": 17.3,
+      "necromancy": 17.3
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Luck_of_the_Dwarves.png"
+  },
+  {
+    "name": "Asylum surgeon's ring",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 21,
+      "ranged": 21,
+      "magic": 21,
+      "necromancy": 21
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Asylum_surgeon's_ring.png"
+  },
+  {
+    "name": "Ring of death",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 25.2,
+      "ranged": 25.2,
+      "magic": 25.2,
+      "necromancy": 25.2
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Ring_of_death.png"
+  },
+  {
+    "name": "Ring of death (i)",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 27.7,
+      "ranged": 27.7,
+      "magic": 27.7,
+      "necromancy": 27.7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Ring_of_death_(i).png"
+  },
+  {
+    "name": "Reaver's ring",
+    "defence_requirement": 0,
+    "class_type": "all",
+    "damage_bonus": {
+      "melee": 27.7,
+      "ranged": 27.7,
+      "magic": 27.7,
+      "necromancy": 27.7
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Reaver's_ring.png"
+  },
+  {
+    "name": "Champion's ring",
+    "defence_requirement": 0,
+    "class_type": "melee",
+    "damage_bonus": {
+      "melee": 30.4,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Champion's_ring.png"
+  }
+]

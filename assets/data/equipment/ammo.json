@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Nodon spike harness",
+    "ranged_requirement": 0,
+    "class_type": "melee",
+    "auto_damage": 0,
+    "ability_damage": 0,
+    "style": "melee",
+    "damage_bonus": {
+      "melee": 24.1,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Nodon_spike_harness.png"
+  },
+  {
+    "name": "Armour spikes",
+    "ranged_requirement": 0,
+    "class_type": "melee",
+    "auto_damage": 0,
+    "ability_damage": 0,
+    "style": "melee",
+    "damage_bonus": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Armour_spikes.png"
+  },
+  {
+    "name": "Abyssal armour spikes",
+    "ranged_requirement": 0,
+    "class_type": "melee",
+    "auto_damage": 0,
+    "ability_damage": 0,
+    "style": "melee",
+    "damage_bonus": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Abyssal_armour_spikes.png"
+  },
+  {
+    "name": "Armour spikes (alloy)",
+    "ranged_requirement": 0,
+    "class_type": "melee",
+    "auto_damage": 0,
+    "ability_damage": 0,
+    "style": "melee",
+    "damage_bonus": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Armour_spikes_(alloy).png"
+  },
+  {
+    "name": "Abyssal armour spikes (alloy)",
+    "ranged_requirement": 0,
+    "class_type": "melee",
+    "auto_damage": 0,
+    "ability_damage": 0,
+    "style": "melee",
+    "damage_bonus": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "accuracy_changes": {
+      "melee": 0,
+      "ranged": 0,
+      "magic": 0,
+      "necromancy": 0
+    },
+    "icon": "https://runescape.wiki/images/Abyssal_armour_spikes_(alloy).png"
+  }
+]
