@@ -41,7 +41,7 @@ export class InventionComponent implements OnInit {
   faCheck: IconDefinition = faCheck;
   faTimes: IconDefinition = faTimes;
   faHammer: IconDefinition = faHammer;
-  faSword: IconDefinition = faBolt; // Using Bolt for "Power/Weapon" if Sword is missing
+  faSword: IconDefinition = faBolt;
   faShieldAlt: IconDefinition = faShieldAlt;
 
   addItemSearchTerm = '';
@@ -56,7 +56,6 @@ export class InventionComponent implements OnInit {
     );
   }
 
-  // Methods restored from previous version
   ngOnInit(): void {
     if (this.inventionPerks) {
       this.inventionPerks.forEach((augment) => this.updateAugmentPerkSlotsState(augment));
@@ -91,7 +90,6 @@ export class InventionComponent implements OnInit {
     this.itemPendingDeletion = null;
   }
   
-  // Invention Part Modal (different from Perk Modal)
   openInventionModal(augment: IInventionAugment): void {
     this.selectedAugmentForModal = augment;
     this.isInventionModalOpen = true;
@@ -109,19 +107,15 @@ export class InventionComponent implements OnInit {
     this.closeInventionModal();
   }
 
-  // Properties for modals
   isAddItemModalOpen = false;
   isInventionModalOpen = false;
   selectedAugmentForModal: IInventionAugment | null = null;
   
-  // Property for new dropdown search
   perkSearchTerm = '';
 
-  // Dropdown State
   activeAugmentIndex: number | null = null;
   activeSlotIndex: number | null = null;
   
-  // Helper to get currently active slot
   get activeSlot(): IInventionPerkSlot | null {
       if (this.activeAugmentIndex === null || this.activeSlotIndex === null) return null;
       if (!this.inventionPerks[this.activeAugmentIndex]) return null;
@@ -134,21 +128,15 @@ export class InventionComponent implements OnInit {
     slot: IInventionPerkSlot, 
     slotIndex: number
   ): void {
-      // If clicking the already open slot, close it
       if (this.activeAugmentIndex === augmentIndex && this.activeSlotIndex === slotIndex) {
           this.closeDropdown();
           return;
       }
 
-      // Open new slot
       this.activeAugmentIndex = augmentIndex;
       this.activeSlotIndex = slotIndex;
-      this.perkSearchTerm = ''; // Reset search
+      this.perkSearchTerm = ''; 
       
-      // Update the options for this slot (reusing the existing logic logic, but adapting for the new state if needed)
-      // Actually, filteredPerkOptions relies on `activeSlot` now.
-      
-      // We need to set the options on the slot object itself, similar to before.
       const type = this.getAugmentType(augment.name);
       
       if (slotIndex === 0) {
@@ -204,7 +192,6 @@ export class InventionComponent implements OnInit {
     } else {
       if (perk.slotsConsumed === 2) {
         if (slotIndex === 1) {
-          // This case should be filtered out by UI usually, but good safeguard
           this.closeDropdown();
           return;
         }
@@ -242,22 +229,19 @@ export class InventionComponent implements OnInit {
         p.name.toLowerCase().includes(this.perkSearchTerm.toLowerCase()),
       );
     }
-    
-    // Ensure "None" is always at the top
+
     return options.sort((a, b) => {
         if (a.name === 'None') return -1;
         if (b.name === 'None') return 1;
-        return 0; // Keep original order for others
+        return 0;
     });
   }
   
-  // ... existing helpers ...
-
   getAugmentType(augmentName: string): 'weapon' | 'armor' {
     const name = augmentName.toLowerCase();
     if (name.includes('weapon')) return 'weapon';
     if (name.includes('armour') || name.includes('body') || name.includes('leg')) return 'armor';
-    return 'weapon'; // Default fallback
+    return 'weapon';
   }
 
   getRomanRank(rank: number | undefined): string {
@@ -266,18 +250,12 @@ export class InventionComponent implements OnInit {
   }
 
   getSlotIcon(): IconDefinition {
-      // Used for header icon if we still needed it, but context is now local
-      // keeping for safety or refactoring later
       if (this.activeAugmentIndex === null) return this.faHammer;
       const augment = this.inventionPerks[this.activeAugmentIndex];
       const type = this.getAugmentType(augment.name);
       return type === 'weapon' ? this.faSword : this.faShieldAlt;
   }
   
-  // ... existing modal handlers (can be removed or kept if needing a hybrid approach, but we are replacing)
-  // For cleanliness, I will remove the old 'openPerkModal', 'closePerkModal', 'selectPerkFromModal' placeholders 
-  // by mostly replacing this block.
-
   getPerkByName(name: string): IPerk | undefined {
     return this.allPerkInstances.find((perk) => perk.name === name);
   }

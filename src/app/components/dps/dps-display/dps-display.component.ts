@@ -25,7 +25,6 @@ import { take } from 'rxjs/operators';
 import { IEnemy, IAffinity } from '../../playerinput/playerinput.model';
 import { ChartOptions, InputSet } from './dps-display.types';
 
-// Services
 import {
   DpsCalculationService,
   CalculationOutput,
@@ -37,7 +36,6 @@ import { SimulationService } from '../../../services/simulation.service';
 import { Boss, Weapon } from '../../../types/equipment.types';
 import { Ability } from '../../../types/abilities';
 
-// Components
 import { DamageovertimeComponent } from './damageovertime/damageovertime.component';
 import { BossinformationComponent } from './bossinformation/bossinformation.component';
 import { KpiCardComponent } from './kpi-card/kpi-card.component';
@@ -72,8 +70,8 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
   public ttk: number = 0;
 
   public currentHitChance: number = 0;
-  displayEnemy: any | null = null; // Use appropriate type if available, e.g. IEnemy | Boss
-  private activeFamiliar: { name: string } | null = null;
+  displayEnemy: any | null = null;
+  private activeFamiliar: { name: string } | null = null; 
 
   private readonly chartColors = ['#8cabe6', '#48c9b0', '#a569bd', '#5499c7'];
   private statsSubscription: Subscription;
@@ -93,8 +91,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
     this.dotChartOptions = this.getEmptyChartOptions();
     
-    // Add event listener for chart selection
-    this.dotChartOptions.chart.events = {
+      this.dotChartOptions.chart.events = {
         dataPointSelection: (event: any, chartContext: any, config: any) => {
              const points = config.w.config.series?.[0]?.data;
              const selectedPoint = points?.[config.dataPointIndex];
@@ -192,13 +189,11 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
              ...this.dotChartOptions.tooltip,
              y: {
                  formatter: (val: number, opts?: any) => {
-                     // val is DPM
                      if (opts && opts.dataPointIndex !== undefined && opts.w?.config?.series?.[0]?.data) {
                          const point = opts.w.config.series[0].data[opts.dataPointIndex];
                          const meta = point.meta;
                          
                          if (meta) {
-                             // Show DPM and the Hit that caused the update
                              return `${val.toLocaleString()} (Hit: ${meta.damage.toLocaleString()})`;
                          }
                      }
@@ -226,7 +221,6 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Subscribe to Boss Changes
     this.playerDataService.boss$.subscribe((boss) => {
         this.displayEnemy = boss;
         if (this.displayEnemy && this.sets.length > 0) {
@@ -247,37 +241,9 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
     this.playerDataService.equipmentSlots$.subscribe((slots) => {
         if (this.sets.length > 0 && this.sets[this.selectedSetIndex]) {
              const set = this.sets[this.selectedSetIndex];
-             // Extract weapon info
              const mainhand = slots.find(s => s.name === 'mainhand')?.selectedArmor;
              const offhand = slots.find(s => s.name === 'offhand')?.selectedArmor;
              const twohand = slots.find(s => s.name === 'twohand')?.selectedArmor;
-             
-             // We need to know the active style to prioritize correctly if both slots have data
-             // But we don't have style synchronously here? 
-             // We can subscribe to weaponStyle$ or just assume DW if mainhand is present and recently interacted with?
-             // Better: Check if twohand is non-null. If user selected MH, 2H slot *should* be cleared by PlayerInput.
-             // If it isn't, we have ambiguity. 
-             // BUT, if we use the same logic as RotationDpsService (style preference), we need style.
-             
-             // For now, let's stick to: if 2H is present, use it? 
-             // NO, that caused the bug!
-             // If I have DW active, I want DW.
-             
-             // Let's rely on the fact that PlayerInput *should* clear the inactive slot.
-             // If it doesn't, we have a problem.
-             
-             // However, to fix "stuck on 2H", we should prefer Mainhand if it was the last interaction?
-             // Actually, let's just use 2H if enabled.
-             // Wait, if 2H slot has an item, DOES IT MEAN IT'S ACTIVE?
-             // In RS3-DPS-Calc, usually selecting MH clears 2H.
-             // If the user says "If I change active style... it still takes 2H", it implies 2H slot isn't cleared.
-             
-             // Let's try to get style from service? We are inside a subscription, we can't easily get another stream value synchronously without `withLatestFrom`.
-             // But we can use `this.playerDataService.getActiveEquipment()`? No that's the same data.
-             
-
-             // If Mainhand is populated, use that?
-             // If BOTH are populated, we have a conflict.
              
              if (twohand && !mainhand) {
                  set.userInput.weapon = twohand as unknown as Weapon;
@@ -322,7 +288,6 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
             let potionBoost = 0;
             const potionName = potion.toLowerCase();
 
-            // Logic mirrors RotationDpsService / PlayerInput
             if (potionName.includes('overload')) {
                 if (potionName.includes('elder')) potionBoost = Math.floor(level * 0.17) + 5;
                 else if (potionName.includes('supreme')) potionBoost = Math.floor(level * 0.16) + 4;
@@ -340,15 +305,9 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
 
             if (!set.userInput.weapon) {
                  const currentSlots = this.playerDataService.getActiveEquipment();
-                 // We need to know which style is active to pick 2H or MH/OH
-                 // But wait, set.userInput doesn't have style info separately? 
-                 // It relies on weapon.style.
-                 // Let's try to pick 2H first if populated, else Mainhand.
                  const twohand = currentSlots.find(s => s.name === 'twohand')?.selectedArmor;
                  const mainhand = currentSlots.find(s => s.name === 'mainhand')?.selectedArmor;
-                 
-                 // How do we know preference? 
-                 // We can check if `twohand` is selected.
+
                  if (twohand) {
                      set.userInput.weapon = twohand as any;
                      set.userInput.offhand = null;
@@ -356,7 +315,6 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
                      set.userInput.weapon = mainhand as any;
                      set.userInput.offhand = currentSlots.find(s => s.name === 'offhand')?.selectedArmor as any;
                  }
-                 // If still nothing, we can't do much.
             }
 
             this.processSets();
@@ -522,19 +480,19 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
     this.kpi.critChance = result.critChance ? parseFloat((result.critChance * 100).toFixed(2)) : 0;
     this.kpi.critDmg = result.critDmg ? parseFloat(((result.critDmg - 1) * 100).toFixed(2)) : 0;
     this.currentHitChance = parseFloat(result.hitChance.toFixed(1));
-    this.kpi.hitChance = this.currentHitChance; // Sync to kpi object
+    this.kpi.hitChance = this.currentHitChance;
     
     this.cdRef.markForCheck();
   }
 
   private configureDotChart(): void {
-    const isDark = true; // align with theme
+    const isDark = true;
     
     this.dotChartOptions = {
       ...this.getEmptyChartOptions(),
       chart: {
-        height: '100%', // Use full container height
-        type: 'area', // Area chart allows for fill
+        height: '100%',
+        type: 'area',
         fontFamily: 'Inter, sans-serif',
         toolbar: { show: false },
         zoom: { enabled: false },
@@ -547,24 +505,22 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         }
       },
       theme: { mode: isDark ? 'dark' : 'light' },
-      colors: ['#8cabe6'], // --wiki-theme-brightest
+      colors: ['#8cabe6'],
       dataLabels: { enabled: false },
       
-      // The "Theme" line
       stroke: {
         curve: 'stepline',
         width: 3,
-        colors: ['#8cabe6'], // --wiki-theme-brightest
+        colors: ['#8cabe6'],
       },
       
-      // Gradient Fill below the line
       fill: {
         type: 'gradient',
         gradient: {
           shade: 'dark',
           type: 'vertical',
           shadeIntensity: 0.5,
-          gradientToColors: ['#172136'], // --wiki-theme-darker (fades into background)
+          gradientToColors: ['#172136'],
           inverseColors: true,
           opacityFrom: 0.6,
           opacityTo: 0.1,
@@ -572,7 +528,6 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         },
       },
       
-      // Clean Grid
       grid: {
         show: true,
         borderColor: 'rgba(255, 255, 255, 0.05)',
@@ -588,7 +543,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         axisBorder: { show: false },
         axisTicks: { show: false },
         labels: {
-          style: { colors: '#8cabe6', fontSize: '12px' }, // --wiki-theme-brightest
+          style: { colors: '#8cabe6', fontSize: '12px' },
           formatter: (val: string) => `${parseFloat(val).toFixed(0)}s`,
         },
       },
@@ -597,7 +552,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         show: true,
         tickAmount: 5,
         labels: {
-          style: { colors: '#8cabe6', fontSize: '12px' }, // --wiki-theme-brightest
+          style: { colors: '#8cabe6', fontSize: '12px' },
           formatter: (val: number) => (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : `${val}`),
         },
       },
@@ -613,10 +568,9 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         marker: { show: true },
       },
       
-      // Markers on hover only (or sparse)
       markers: {
         size: 0,
-        colors: ['#ffb700'], // --accent-color (Gold) for contrast
+        colors: ['#ffb700'],
         strokeColors: '#fff',
         strokeWidth: 2,
         hover: { size: 5, sizeOffset: 3 }

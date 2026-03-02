@@ -23,7 +23,6 @@ export class StatsInputComponent implements OnInit {
   FA_SEARCH = faSearch;
 
   ngOnInit(): void {
-    // No initialization needed for selection
   }
 
   onStatValueChange(stat: IStat): void {

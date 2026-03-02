@@ -3,10 +3,9 @@
     <header class="timeline-header">
       <h3 class="timeline-title">Rotation Timeline</h3>
       <div class="header-actions">
-        <!-- Save / Load Toggle -->
         <div class="save-load-container">
             <button class="action-btn" (click)="toggleSaveLoad()" [class.active]="showSaveLoad()">
-                💾 Presets
+                Presets
             </button>
             
             @if (showSaveLoad()) {
@@ -96,7 +95,6 @@
                 mergingStepIndex() !== null && mergingStepIndex() !== stepIndex
               "
             >
-              <!-- This is the lightweight preview that is shown while dragging -->
               <div *cdkDragPreview class="step-drag-preview">
                 @if(isAbility(step.items[0])) {
                 <img
@@ -236,7 +234,6 @@
               }
 
               @if(stepIndex < rotationInternal().length - 1) {
-                <!-- Arrow Connector Dropzone -->
                 <div class="next-attack-dropzone">
                   <span class="next-attack-arrow">&rarr;</span>
                 </div>

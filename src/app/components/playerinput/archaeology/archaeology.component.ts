@@ -66,7 +66,6 @@ export class ArchaeologyComponent implements OnChanges {
       this.calculateMonolithEnergy();
     }
 
-    // Set default quest on first load
     if (changes['archQuests'] && !this.isInitialized) {
       const quests: IArchQuest[] = changes['archQuests'].currentValue || [];
       if (quests.length > 0) {

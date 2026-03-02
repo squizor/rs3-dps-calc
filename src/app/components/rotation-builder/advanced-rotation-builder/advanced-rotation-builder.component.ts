@@ -24,7 +24,7 @@ export class AdvancedRotationBuilderComponent implements OnInit {
   ngOnInit(): void {
     this.rotationService.rotation$.subscribe((rotation: DisplayRotationTick[]) => {
       this.rotation = rotation;
-      this.onRotationUpdated(this.rotation, false); //Don't trigger a save
+      this.onRotationUpdated(this.rotation, false);
     });
   }
 

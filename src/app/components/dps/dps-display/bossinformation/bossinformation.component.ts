@@ -180,7 +180,6 @@ export class BossinformationComponent implements OnInit, OnDestroy {
         let value: number | undefined | null;
         
         if (style === 'necromancy') {
-            // Necromancy always equals hybrid
             value = hybridValue;
         } else {
             value = affinityData[style as 'melee' | 'ranged' | 'magic'];
@@ -191,7 +190,6 @@ export class BossinformationComponent implements OnInit, OnDestroy {
         }
 
         if (value !== undefined && value !== null) {
-          // Keep text color white or match the style for consistency as user stated some are colored and some aren't
           let valueColor = 'var(--white)'; 
           const styleColor = styleColors[style] || 'var(--wiki-theme-bright)';
           const iconUrl = this.weaknessIconMap[style] || '';
@@ -239,9 +237,9 @@ export class BossinformationComponent implements OnInit, OnDestroy {
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
     if (this.isDropdownOpen) {
-      this.searchQuery = ''; // Clear text on open
+      this.searchQuery = '';
       this.loadInitialData();
-      this.filterEnemies(); // Show all
+      this.filterEnemies();
     }
   }
 
@@ -351,7 +349,7 @@ export class BossinformationComponent implements OnInit, OnDestroy {
   updateCustomStat(field: string, value: any) {
     if (!this.displayEnemy) return;
 
-    const newBoss = { ...this.displayEnemy }; // Shallow copy
+    const newBoss = { ...this.displayEnemy };
 
     if (field === 'lifePoints') newBoss.lifePoints = Number(value);
     if (field === 'defenceLevel') newBoss.defenceLevel = Number(value);
@@ -398,7 +396,7 @@ export class BossinformationComponent implements OnInit, OnDestroy {
 
   onBossChange() {
     if (this.displayEnemy) {
-        this.displayEnemy = { ...this.displayEnemy }; // Trigger ref change for input binding updates
+        this.displayEnemy = { ...this.displayEnemy };
         this.playerDataService.updateBoss(this.displayEnemy);
     }
   }

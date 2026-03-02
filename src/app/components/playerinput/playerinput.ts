@@ -239,17 +239,14 @@ export class PlayerinputComponent implements OnInit {
       event.stopPropagation();
       
       if (this.buildPendingDeletionId === build.id) {
-          // Second right-click: confirm deletion
           this.rotationPersistenceService.deleteBuild(build.name);
           this.refreshBuilds();
           if (this.activeBuildId === build.id) this.activeBuildId = null;
           this.clearPendingDeletion();
       } else {
-          // First right-click: set pending state
-          this.clearPendingDeletion(); // Clear any other pending deletion
+          this.clearPendingDeletion(); 
           this.buildPendingDeletionId = build.id;
           
-          // Auto-clear pending state after 3 seconds
           this.deletionTimeout = setTimeout(() => {
               this.clearPendingDeletion();
           }, 3000);
@@ -273,8 +270,7 @@ export class PlayerinputComponent implements OnInit {
         }
         return this.playerDataService.getIconByName(helmetSlot.selectedArmor.name);
     }
-    // Fallback to default helmet slot icon
-    return this.playerDataService.getIconByName('head');
+      return this.playerDataService.getIconByName('head');
   }
 
   ngOnInit() {

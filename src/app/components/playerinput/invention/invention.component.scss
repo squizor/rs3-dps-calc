@@ -46,23 +46,20 @@
 }
 
 .player-invention-tab {
-  // We don't need the generic card style if we are using custom panels
-  // @include helpers.card; 
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 
-  // --- 1. The "Tray" (Item Selector) ---
   .invention-item-selector {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     padding: 0.75rem;
-    background-color: var(--wiki-theme-darkest); // Recessed tray
+    background-color: var(--wiki-theme-darkest);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); // Inner depth
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 
     @media screen and (max-width: 1250px) {
       gap: 0.35rem;
@@ -77,11 +74,11 @@
     .selector-item,
     .add-item-button {
       position: relative;
-      width: 48px; // Slightly larger than potions (40px)
+      width: 48px;
       height: 48px;
       background-color: var(--input-bg);
       border: 1px solid var(--border-color);
-      border-radius: 4px; // Square-ish like inventory
+      border-radius: 4px;
       cursor: pointer;
       transition: all 0.2s ease-out;
       display: flex;
@@ -154,7 +151,6 @@
     }
   }
 
-  // --- 2. The "Inspector" (Minimalist) ---
   .invention-content {
     display: flex;
     flex-direction: column;
@@ -212,7 +208,7 @@
             }
         }
         
-        .remove-action { // Align delete button properly 
+        .remove-action {
              margin-left: auto;
              
              .remove-button, .confirm-btn, .cancel-btn {
@@ -235,19 +231,19 @@
         gap: 1rem;
         
         .perk-socket-wrapper {
-            position: relative; // Anchor for dropdown
-            display: block; // Or grid-item
+            position: relative;
+            display: block;
             
             &.active {
-                z-index: 100; // Bring above siblings when open
+                z-index: 100;
             }
         }
         
         .perk-socket {
-            background: rgba(0,0,0,0.2); // "Socket" recession
+            background: rgba(0,0,0,0.2);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
-            height: 48px; // Standard input height
+            height: 48px;
             display: flex;
             align-items: center;
             padding: 0 1rem;
@@ -256,11 +252,9 @@
             position: relative;
             overflow: hidden;
 
-            // Inner gloss
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
             
             &.empty {
-                 // No default animation
             }
 
             &:hover, &.dropdown-open {
@@ -274,7 +268,7 @@
             }
             
             &.dropdown-open {
-                border-color: var(--active-color); // Highlight when open
+                border-color: var(--active-color);
             }
 
             .socket-inner {
@@ -297,8 +291,8 @@
             }
             
             .rank-badge {
-                font-size: 0.9rem; // Increased from 0.7rem
-                background: linear-gradient(135deg, #FFD700, #DAA520); // Gold
+                font-size: 0.9rem;
+                background: linear-gradient(135deg, #FFD700, #DAA520);
                 color: #000;
                 font-weight: 700;
                 padding: 1px 5px;
@@ -314,7 +308,6 @@
                 border-color: var(--active-color);
                 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
                 
-                // Highlight line at top
                 &::after {
                     content: '';
                     position: absolute;
@@ -327,20 +320,19 @@
             }
             
             &.two-slot {
-                // grid-column: span 2; // handled by parent if needed, but wrapper breaks grid span unless wrapper spans
+                grid-column: span 2;
             }
         }
         
-        // --- Inline Dropdown Menu ---
         .perk-dropdown-menu {
             position: absolute;
             top: calc(100% + 5px);
             left: 0;
             width: 100%; 
             min-width: 100%;
-            max-width: 120%; // Allow slight overflow if needed, but keep it constrained
+            max-width: 120%; 
             max-height: 350px;
-            background-color: var(--hover-bg); // Dark solid bg
+            background-color: var(--hover-bg);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
@@ -385,17 +377,17 @@
                     transition: background 0.1s;
                     
                     &:hover {
-                        background-color: rgba(255, 255, 255, 0.1); // Neutral hover to keep accent text visible
+                        background-color: rgba(255, 255, 255, 0.1);
                     }
                     
                     &.selected {
-                        background-color: rgba(var(--active-color-rgb), 0.3); // Increased opacity for brightness
-                        border-left: 4px solid var(--active-color); // Thicker border
-                        box-shadow: inset 0 0 10px rgba(var(--active-color-rgb), 0.2); // Inner glow
+                        background-color: rgba(var(--active-color-rgb), 0.3);
+                        border-left: 4px solid var(--active-color);
+                        box-shadow: inset 0 0 10px rgba(var(--active-color-rgb), 0.2);
                         
                         .item-name { 
                             color: #fff; 
-                            text-shadow: 0 0 8px rgba(var(--active-color-rgb), 0.8); // Stronger glow
+                            text-shadow: 0 0 8px rgba(var(--active-color-rgb), 0.8);
                             font-weight: 700;
                         }
                     }
@@ -407,7 +399,7 @@
                     }
                     
                     .item-rank {
-                        font-size: 0.9rem; // Increased from 0.7rem
+                        font-size: 0.9rem;
                         font-weight: 700;
                         color: var(--active-color);
                         font-family: serif;
@@ -440,28 +432,26 @@
   }
 }
 
-// Backdrop for closing dropdowns
 .dropdown-backdrop {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    z-index: 50; // Below dropdown (1000) but above everything else
+    z-index: 50;
     cursor: default;
 }
 
-// --- 3. Perk Modal Polish (Command Palette) ---
 .perk-modal-overlay {
-  background: rgba(0, 0, 0, 0.6); // Dimmest backdrop
-  backdrop-filter: blur(8px); // Focus blur
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: 1001;
-  display: flex; justify-content: center; align-items: flex-start; // Align to top-ish
-  padding-top: 15vh; // Command Palette position
+  display: flex; justify-content: center; align-items: flex-start;
+  padding-top: 15vh;
   animation: fadeIn 0.2s ease-out;
 }
 
 .command-palette {
-  background: rgba(20, 25, 35, 0.95); // Deep dark glass
+  background: rgba(20, 25, 35, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
   border-radius: 12px;
@@ -471,7 +461,6 @@
   display: flex; flex-direction: column;
   overflow: hidden;
 
-  // Unified Header
   .palette-header {
       display: flex;
       align-items: center;
@@ -506,7 +495,6 @@
       }
   }
 
-  // Results List
   .palette-results {
       flex: 1;
       overflow-y: auto;
@@ -520,7 +508,7 @@
           transition: all 0.1s ease;
           display: flex;
           align-items: center;
-          border-left: 3px solid transparent; // Selection marker
+          border-left: 3px solid transparent;
           
           .result-content {
               display: flex; justify-content: space-between; align-items: center; width: 100%;
@@ -546,13 +534,11 @@
               }
           }
 
-          // Hover State
           &:hover {
               background: rgba(255,255,255,0.05);
               .name-section .perk-name { color: var(--text-primary); }
           }
 
-          // Active/Selected State (Neon)
           &.active {
               background: linear-gradient(90deg, rgba(var(--active-color-rgb), 0.1), transparent);
               border-left-color: var(--active-color);
@@ -568,7 +554,6 @@
   }
 }
 
-// ... (Existing Keyframes)
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }

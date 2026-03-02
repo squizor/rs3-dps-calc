@@ -1,4 +1,3 @@
-<!-- Global Backdrop for closing dropdowns when clicking outside -->
 <div class="dropdown-backdrop" *ngIf="activeAugmentIndex !== null" (click)="closeDropdown()"></div>
 
 <div class="player-invention-tab" data-tab="invention">
@@ -65,7 +64,6 @@
         </div>
 
         <div class="inspector-slots">
-            <!-- Inline Dropdown Structure -->
             <div 
                 class="perk-socket-wrapper" 
                 *ngFor="let slot of activeInventionItem.perkSlots; let i = index"
@@ -89,14 +87,12 @@
                             {{ (slot.selectedPerk && slot.selectedPerk.name !== 'None') ? slot.selectedPerk.name : 'Empty Slot' }}
                          </span>
                          
-                         <!-- Rank Badge (Inline) -->
                          <span class="rank-badge" *ngIf="slot.selectedPerk && slot.selectedPerk.rank && slot.selectedPerk.name !== 'None'">
                              {{ getRomanRank(slot.selectedPerk.rank) }}
                          </span>
                     </div>
                 </div>
 
-                <!-- Dropdown Menu -->
                 <div 
                     class="perk-dropdown-menu" 
                     *ngIf="activeAugmentIndex === inventionPerks.indexOf(activeInventionItem) && activeSlotIndex === i"
