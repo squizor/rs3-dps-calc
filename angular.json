@@ -31,10 +31,8 @@
             "styles": ["src/styles.scss"],
             "scripts": ["node_modules/apexcharts/dist/apexcharts.min.js"],
             "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            },
+            "outputMode": "static",
+
             "prerender": false
           },
           "configurations": {
@@ -91,6 +89,9 @@
             ],
             "styles": ["src/styles.scss"]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
