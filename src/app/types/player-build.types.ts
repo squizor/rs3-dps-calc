@@ -1,5 +1,5 @@
 import { DisplayRotationTick } from './abilities';
-import { IEquipmentSlot, IPrayer } from '../components/playerinput/playerinput.model';
+import { IEquipmentSlot, IPrayer, IPlayerToggles } from '../components/playerinput/playerinput.model';
 import { IActivePrayer } from '../services/player-data.service';
 import { InputSet } from '../components/dps/dps-display/dps-display.types';
 import { Boss } from './equipment.types';
@@ -18,5 +18,6 @@ export interface PlayerBuild {
     inputSets: InputSet[];
     stats: any[];
     boss: Boss | null;
+    toggles?: IPlayerToggles;
   };
 }

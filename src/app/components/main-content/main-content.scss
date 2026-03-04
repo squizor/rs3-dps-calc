@@ -15,7 +15,7 @@
   }
 }
 
-.main_container {
+.main-container {
   display: grid;
   grid-template-columns: minmax(480px, 600px) 1fr minmax(420px, 550px);
   grid-template-rows: min-content 1fr;
@@ -26,16 +26,16 @@
   gap: 1px;
   background: var(--wiki-theme-darkest);
 
-  .left_column,
-  .middle_column,
-  .right_column {
+  .left-column,
+  .middle-column,
+  .right-column {
     background-color: var(--wiki-theme-darker);
     min-width: 0;
     min-height: 0;
   }
 
-  .left_column,
-  .middle_column {
+  .left-column,
+  .middle-column {
     scrollbar-width: thin;
     scrollbar-color: var(--border-color, #313e59) var(--wiki-theme-darker);
     grid-row: 1 / span 2;
@@ -59,7 +59,7 @@
     }
   }
 
-  .left_column {
+  .left-column {
     display: flex;
     flex-direction: column;
     gap: var(--section-padding);
@@ -73,7 +73,7 @@
     }
   }
 
-  .middle_column {
+  .middle-column {
     display: flex;
     flex-direction: column;
     padding: var(--button-padding);
@@ -81,13 +81,14 @@
     overflow-y: auto;
   }
 
-  .right_column {
+  .right-column {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: var(--button-padding);
     height: 100%;
-    overflow-y: auto;
+    overflow: visible;
+    z-index: 10;
     grid-row: 1;
 
     app-dps-display {
@@ -96,7 +97,7 @@
     }
   }
 
-  .chart_column {
+  .chart-column {
     grid-row: 2;
     grid-column: 3;
     display: flex;
@@ -172,22 +173,22 @@
     grid-template-rows: 1fr auto; // Chart row takes only needed space (header height) unless expanded
     gap: 1px;
 
-    .left_column {
+    .left-column {
       grid-row: 1 / span 2;
       grid-column: 1;
     }
 
-    .middle_column {
+    .middle-column {
       grid-row: 1;
       grid-column: 2;
     }
 
-    .right_column {
+    .right-column {
       grid-row: 1;
       grid-column: 3;
     }
 
-    .chart_column {
+    .chart-column {
       grid-row: 2;
       grid-column: 2 / span 2; // Spans underneath BOTH Middle and Right
       border-top: 2px solid var(--wiki-theme-darkest);
@@ -216,25 +217,25 @@
     grid-template-rows: minmax(280px, 40vh) 1fr auto; // Timeline | DPS | Chart
     gap: 1px;
 
-    .left_column {
+    .left-column {
       grid-row: 1 / span 2;
       grid-column: 1;
     }
 
-    .middle_column {
+    .middle-column {
       grid-row: 1;
       grid-column: 2;
       border-bottom: 2px solid var(--wiki-theme-darkest);
       position: static;
     }
 
-    .right_column {
+    .right-column {
       grid-row: 2;
       grid-column: 2;
       border-top: none;
     }
 
-    .chart_column {
+    .chart-column {
       grid-row: 3;
       grid-column: 1 / span 2;
       border-top: 2px solid var(--wiki-theme-darkest);
@@ -261,33 +262,33 @@
     overflow-y: visible;
 
     // Reset default grid behavior so they just stack naturally
-    .left_column, .middle_column, .right_column, .chart_column {
+    .left-column, .middle-column, .right-column, .chart-column {
       width: 100%;
       height: auto;
       overflow: visible;
       flex-shrink: 0;
     }
 
-    .left_column {
+    .left-column {
       // Left column as screen 1
       min-height: calc(100vh - var(--navbar-height));
       border-bottom: 2px solid var(--wiki-theme-darkest);
     }
 
-    .middle_column {
+    .middle-column {
       // Middle column as screen 2
       min-height: calc(100vh - var(--navbar-height));
       border-bottom: 2px solid var(--wiki-theme-darkest);
       position: static; // Remove sticky
     }
 
-    .right_column {
+    .right-column {
       // Right column as screen 3
       padding-top: 1rem;
       border-top: 2px solid var(--wiki-theme-bright);
     }
 
-    .chart_column {
+    .chart-column {
       // Always show chart natively without dropdown below desktop
       height: 400px;
       clear: both;

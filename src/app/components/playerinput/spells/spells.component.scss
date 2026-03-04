@@ -19,7 +19,8 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   .spell {
-    height: 4rem;
+    aspect-ratio: 1 / 1;
+    height: auto;
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);

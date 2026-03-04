@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
 })
 export class Navbar {
-  imgPath: string = './media/Squirrel-logo.png';
+  imgPath: string = 'assets/Squirrel-logo.png';
   faGithub: IconDefinition = faGithub;
   faGear: IconDefinition = faGear;
   faTable: IconDefinition = faTable;

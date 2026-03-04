@@ -175,6 +175,7 @@
           [activePrayerBook]="activePrayerBook"
           [activePrayerDmg]="activePrayerDmg"
           [activePrayerOverhead]="activePrayerOverhead"
+          [toggles]="toggles"
           [getIcon]="playerDataService.getIconByName.bind(playerDataService)"
           (selectPrayer)="selectPrayer($event)"
           (updatePrayerBook)="onPrayerBookChange($event)"
@@ -256,6 +257,12 @@
       </div>
       <div class="player-abilities-tab" *ngIf="activeTab === eTabs.ABILITIES" data-tab="abilities">
         <app-ability-list [connectedTo]="['timeline-list', 'active-merge-slot']"></app-ability-list>
+      </div>
+      <div class="player-toggles-tab" *ngIf="activeTab === eTabs.TOGGLES" data-tab="toggles">
+        <app-toggles
+          [toggles]="toggles"
+          (togglesChange)="updateToggles($event)"
+        ></app-toggles>
       </div>
     </div>
 

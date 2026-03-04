@@ -36,7 +36,6 @@ import { SimulationService } from '../../../services/simulation.service';
 import { Boss, Weapon } from '../../../types/equipment.types';
 import { Ability } from '../../../types/abilities';
 
-import { DamageovertimeComponent } from './damageovertime/damageovertime.component';
 import { BossinformationComponent } from './bossinformation/bossinformation.component';
 import { KpiCardComponent } from './kpi-card/kpi-card.component';
 
@@ -46,7 +45,6 @@ import { KpiCardComponent } from './kpi-card/kpi-card.component';
   imports: [
     CommonModule,
     FormsModule,
-    DamageovertimeComponent,
     BossinformationComponent,
     KpiCardComponent,
   ],

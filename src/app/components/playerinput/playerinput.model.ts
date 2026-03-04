@@ -138,6 +138,7 @@ export enum ETabs {
   ARCHAEOLOGY = 'Archaeology',
   SUMMONING = 'Summoning',
   ABILITIES = 'Abilities',
+  TOGGLES = 'Toggles',
 }
 export enum EPrayerBook {
   STANDARD = 'Standard',
@@ -168,3 +169,117 @@ export interface ISpell {
   name: string;
   spellBook: ESpellBook;
 }
+
+export interface IPlayerToggles {
+  // Account/Quest
+  reaperCrew: boolean;
+  kingsRansom: boolean;
+  hardDesertAchievements: boolean;
+  eliteFremennikAchievements: boolean;
+  extinctionRingOfVigour: boolean;
+  templeAtSenntisten: boolean;
+
+  // Items/Passives
+  anachroniaSkillcapeStand: boolean;
+  slayerHelmetStand: boolean;
+  slayerHelmet: boolean;
+  stoneOfJas: boolean;
+  dreadnip: boolean;
+  dominionMine: boolean;
+  ancientGizmo: boolean;
+  ringOfVigour: boolean;
+  zorgothsSoulRing: boolean;
+  asylumSurgeonsRing: boolean;
+  spiritCape: boolean;
+
+  // Abilities/Codexes
+  deathsSwiftness: boolean;
+  sunshine: boolean;
+  everyTendril: boolean;
+  praesulCodex: boolean;
+  corruptionShot: boolean;
+  corruptionBlast: boolean;
+  onslaught: boolean;
+  stormShards: boolean;
+  shatter: boolean;
+  greaterBarge: boolean;
+  greaterFlurry: boolean;
+  greaterFury: boolean;
+  greaterRicochet: boolean;
+  greaterChain: boolean;
+  greaterConcentratedBlast: boolean;
+  greaterDazingShot: boolean;
+  saltTheWound: boolean;
+  bladedDive: boolean;
+  limitless: boolean;
+  ingenuityOfTheHumans: boolean;
+  magmaTempest: boolean;
+  greaterSunshine: boolean;
+  greaterDeathsSwiftness: boolean;
+  chaosRoar: boolean;
+  greaterSonicWave: boolean;
+  sacrifice: boolean;
+  tuskasWrath: boolean;
+
+  // Buffs/Slayer
+  nopenopenope: number;
+  corbiculaRex: number;
+  dragonSlayer: boolean;
+  demonSlayer: boolean;
+  undeadSlayer: boolean;
+}
+
+export const DEFAULT_TOGGLES: IPlayerToggles = {
+  reaperCrew: false,
+  kingsRansom: false,
+  hardDesertAchievements: false,
+  eliteFremennikAchievements: false,
+  extinctionRingOfVigour: false,
+  templeAtSenntisten: false,
+
+  anachroniaSkillcapeStand: false,
+  slayerHelmetStand: false,
+  slayerHelmet: false,
+  stoneOfJas: false,
+  dreadnip: false,
+  dominionMine: false,
+  ancientGizmo: false,
+  ringOfVigour: false,
+  zorgothsSoulRing: false,
+  asylumSurgeonsRing: false,
+  spiritCape: false,
+
+  deathsSwiftness: false,
+  sunshine: false,
+  everyTendril: false,
+  praesulCodex: false,
+  corruptionShot: false,
+  corruptionBlast: false,
+  onslaught: false,
+  stormShards: false,
+  shatter: false,
+  greaterBarge: false,
+  greaterFlurry: false,
+  greaterFury: false,
+  greaterRicochet: false,
+  greaterChain: false,
+  greaterConcentratedBlast: false,
+  greaterDazingShot: false,
+  saltTheWound: false,
+  bladedDive: false,
+  limitless: false,
+  ingenuityOfTheHumans: false,
+  magmaTempest: false,
+  greaterSunshine: false,
+  greaterDeathsSwiftness: false,
+  chaosRoar: false,
+  greaterSonicWave: false,
+  sacrifice: false,
+  tuskasWrath: false,
+
+  nopenopenope: 0,
+  corbiculaRex: 0,
+  dragonSlayer: false,
+  demonSlayer: false,
+  undeadSlayer: false,
+};

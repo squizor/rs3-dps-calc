@@ -1,8 +1,9 @@
+@use '../../../../components/playerinput/helpers';
 
 :host {
+    @include helpers.player-input-theme;
     display: block;
     width: 100%;
-
 }
 
 .boss-info-panel {
@@ -53,26 +54,15 @@
 }
 
 .name-search-wrapper {
+    @include helpers.dropdown-trigger;
     position: relative;
     flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    background: transparent;
+    padding: 0.5rem 0.75rem; // Override to be slightly thinner for the dense header
     border-radius: 4px;
-    padding: 0.25rem 0.5rem;
-    transition: background 0.2s;
-    border: 1px solid transparent;
-
-    &:hover {
-        background: var(--wiki-theme-darker);
-        border-color: var(--wiki-theme-bright);
-    }
 
     .current-name {
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: var(--white);
         white-space: nowrap;
         overflow: hidden;
@@ -85,47 +75,58 @@
         border: none;
         color: var(--white);
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.95rem;
         outline: none;
     }
 
     .dropdown-arrow {
         font-size: 0.8rem;
         color: var(--wiki-theme-brighter);
-        transition: transform 0.2s;
+        transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         
         &.open {
-            transform: rotate(180deg);
+            transform: rotateX(180deg);
         }
     }
 }
 
 .search-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     left: 0;
     width: 100%;
     min-width: 200px;
-    background: var(--wiki-theme-darkest);
-    border: 1px solid var(--accent-color);
-    border-radius: 4px;
+    background-color: var(--hover-bg); // Matches helpers.dropdown
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
     max-height: 300px;
     overflow-y: auto;
     z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    margin-top: 4px;
+    box-shadow: var(--shadow-md);
+    animation: fadeInDown 0.2s ease-out;
 
     .dropdown-item {
-        padding: 0.5rem 0.75rem;
+        padding: 0.75rem 1rem;
         font-size: 0.9rem;
         color: var(--text-secondary);
         cursor: pointer;
         
         &:hover {
-            background: var(--accent-color);
-            color: black;
+            background-color: var(--active-color);
+            color: var(--wiki-theme-darkest);
         }
     }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 

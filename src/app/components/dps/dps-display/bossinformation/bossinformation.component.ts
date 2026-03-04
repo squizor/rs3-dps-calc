@@ -66,6 +66,22 @@ export class BossinformationComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: object,
   ) {}
 
+  @HostListener('document:click', ['$event'])
+  clickout(event: Event) {
+    if (this.isDropdownOpen && !this.elementRef.nativeElement.contains(event.target)) {
+      this.isDropdownOpen = false;
+      this.searchQuery = this.selectedEnemy ? this.selectedEnemy.name : '';
+    }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape(event: Event) {
+    if (this.isDropdownOpen) {
+      this.isDropdownOpen = false;
+      this.searchQuery = this.selectedEnemy ? this.selectedEnemy.name : '';
+    }
+  }
+
   ngOnInit(): void {
     this.loadInitialData();
   }

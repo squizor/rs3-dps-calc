@@ -12,13 +12,17 @@
   <div
     *ngFor="let prayer of prayers | filter : { prayerBook: activePrayerBook }"
     class="prayer"
-    [ngClass]="{ active: isPrayerActive(prayer) }"
-    (click)="selectPrayer.emit(prayer)"
+    [ngClass]="{ active: isPrayerActive(prayer), locked: isPrayerLocked(prayer) }"
+    (click)="handlePrayerClick(prayer)"
   >
     <img
       [attr.data-name]="prayer.name"
       class="getIconImg"
+      [class.locked-icon]="isPrayerLocked(prayer)"
       [src]="getIcon(prayer.name)"
     />
+    <div class="lock-overlay" *ngIf="isPrayerLocked(prayer)">
+        <fa-icon [icon]="faLock"></fa-icon>
+    </div>
   </div>
 </div>

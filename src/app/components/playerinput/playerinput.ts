@@ -27,6 +27,7 @@ import { PotionsComponent } from './potions/potions.component';
 import { PrayersComponent } from './prayers/prayers.component';
 import { SpellsComponent } from './spells/spells.component';
 import { InventionComponent } from './invention/invention.component';
+import { TogglesComponent } from './toggles/toggles.component';
 import { HttpClient } from '@angular/common/http';
 import {
   ETabs,
@@ -47,6 +48,8 @@ import {
   IPotion,
   IInventionPerkSlot,
   IGearPreset,
+  IPlayerToggles,
+  DEFAULT_TOGGLES,
 } from './playerinput.model';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
@@ -76,6 +79,7 @@ import { RotationDpsService } from '../../services/rotation-dps.service';
     InventionComponent,
     ArchaeologyComponent,
     AbilityListComponent,
+    TogglesComponent,
   ],
 })
 export class PlayerinputComponent implements OnInit {
@@ -139,6 +143,7 @@ export class PlayerinputComponent implements OnInit {
   gearPresets: IGearPreset[] = [];
   presetNameInput: string = '';
   presetPendingDeletion: string | null = null;
+  toggles: IPlayerToggles = { ...DEFAULT_TOGGLES };
 
   activeFamiliar: string | null = null;
 
@@ -205,7 +210,8 @@ export class PlayerinputComponent implements OnInit {
           weaponStyle: 'dual-wield' as const,
           inputSets: [],
           stats: this.stats, 
-          boss: null
+          boss: null,
+          toggles: { ...DEFAULT_TOGGLES }
       };
       
       const newBuild: PlayerBuild = {
@@ -281,6 +287,13 @@ export class PlayerinputComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
         this.refreshBuilds();
+        
+        if (this.playerBuilds.length === 0) {
+            this.createBuild();
+        } else if (!this.activeBuildId) {
+            this.selectBuild(this.playerBuilds[0]);
+        }
+
         this.loadAllArmor();
         this.loadAllPerks();
         this.loadEnemies();
@@ -435,6 +448,20 @@ export class PlayerinputComponent implements OnInit {
         }
     });
 
+    this.playerDataService.toggles$.subscribe((savedToggles) => {
+        const fullToggles = { ...DEFAULT_TOGGLES, ...savedToggles };
+        this.toggles = fullToggles;
+        if (this.activeBuildId) {
+             const buildIndex = this.playerBuilds.findIndex(b => b.id === this.activeBuildId);
+             if (buildIndex > -1) {
+                 this.playerBuilds[buildIndex].playerState.toggles = JSON.parse(JSON.stringify(fullToggles));
+                 this.playerBuilds[buildIndex].lastModified = Date.now();
+                 this.rotationPersistenceService.saveBuild(this.playerBuilds[buildIndex]);
+             }
+        }
+        this.calculateStats();
+    });
+
     this.playerDataService.weaponStyle$.subscribe((style) => {
       this.weaponStyleSetting = style;
     });
@@ -486,6 +513,11 @@ export class PlayerinputComponent implements OnInit {
       }
     });
   }
+
+  updateToggles(toggles: IPlayerToggles) {
+    this.playerDataService.updateToggles(toggles);
+  }
+
   selectArchQuest(event: any) {}
 
   selectArchPreset(preset: IArchPreset) {

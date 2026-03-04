@@ -87,9 +87,7 @@
                             {{ (slot.selectedPerk && slot.selectedPerk.name !== 'None') ? slot.selectedPerk.name : 'Empty Slot' }}
                          </span>
                          
-                         <span class="rank-badge" *ngIf="slot.selectedPerk && slot.selectedPerk.rank && slot.selectedPerk.name !== 'None'">
-                             {{ getRomanRank(slot.selectedPerk.rank) }}
-                         </span>
+
                     </div>
                 </div>
 
@@ -119,11 +117,6 @@
                                 {{ perkOption.baseName || perkOption.name }}
                                 <span class="item-rank" *ngIf="perkOption.rank && perkOption.name !== 'None'">{{ getRomanRank(perkOption.rank) }}</span>
                             </span>
-                            
-                            <div class="item-stats" *ngIf="perkOption.name !== 'None'">
-                                <span class="stat dps" *ngIf="perkOption.dpsMod">+{{ perkOption.dpsMod * 100 | number:'1.0-1' }}%</span>
-                                <span class="stat crit" *ngIf="perkOption.critChanceMod">+{{ perkOption.critChanceMod * 100 | number:'1.0-1' }}%</span>
-                            </div>
                         </div>
                          <div class="empty-state" *ngIf="filteredPerkOptions.length === 0">
                             No perks found.

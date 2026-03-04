@@ -6,6 +6,8 @@ import {
   IEquipmentSlot,
   IPrayer,
   ISpell,
+  IPlayerToggles,
+  DEFAULT_TOGGLES,
 } from '../components/playerinput/playerinput.model';
 import { InputSet } from '../components/dps/dps-display/dps-display.types';
 
@@ -39,6 +41,7 @@ export class PlayerDataService {
   private activeFamiliar = new BehaviorSubject<{ name: string } | null>(null);
   private gearPresets = new BehaviorSubject<IGearPreset[]>([]);
   private boss = new BehaviorSubject<any>(null);
+  private toggles = new BehaviorSubject<IPlayerToggles>({ ...DEFAULT_TOGGLES });
   
   public equipmentSlots$ = this.equipmentSlots.asObservable();
   public prayers$ = this.prayers.asObservable();
@@ -53,6 +56,7 @@ export class PlayerDataService {
   public activeFamiliar$ = this.activeFamiliar.asObservable();
   public gearPresets$ = this.gearPresets.asObservable();
   public boss$ = this.boss.asObservable();
+  public toggles$ = this.toggles.asObservable();
 
   private readonly EQUIPMENT_SLOTS = 'equipment_slots';
   private readonly WEAPON_STYLE = 'weapon_style';
@@ -62,6 +66,7 @@ export class PlayerDataService {
   private readonly ACTIVE_FAMILIAR = 'active_familiar';
   private readonly GEAR_PRESETS = 'gear_presets';
   private readonly BOSS = 'boss';
+  private readonly TOGGLES = 'toggles';
   private isBrowser: boolean;
 
   constructor() {
@@ -75,6 +80,7 @@ export class PlayerDataService {
       this.loadActiveFamiliar();
       this.loadGearPresets();
       this.loadBoss();
+      this.loadToggles();
     }
   }
 
@@ -93,6 +99,26 @@ export class PlayerDataService {
            this.boss.next(JSON.parse(savedBoss));
         } catch (e) {
            console.error('Failed to parse saved boss', e);
+        }
+      }
+    }
+  }
+
+  updateToggles(toggles: IPlayerToggles) {
+    this.toggles.next(toggles);
+    if (this.isBrowser) {
+      localStorage.setItem(this.TOGGLES, JSON.stringify(toggles));
+    }
+  }
+
+  private loadToggles() {
+    if (this.isBrowser) {
+      const savedToggles = localStorage.getItem(this.TOGGLES);
+      if (savedToggles) {
+        try {
+          this.toggles.next({ ...DEFAULT_TOGGLES, ...JSON.parse(savedToggles) });
+        } catch (e) {
+          console.error('Failed to parse toggles', e);
         }
       }
     }
@@ -278,6 +304,7 @@ export class PlayerDataService {
     summoning: 'Summoning',
     abilities: 'provoke',
     pause: 'Pause_icon',
+    toggles: "Drakan's_medallion",
 
     provoke: 'Provoke',
     head: 'Head_slot',
@@ -432,6 +459,7 @@ export class PlayerDataService {
         inputSets: this.inputSets.getValue(),
         stats: this.stats.getValue(),
         boss: this.boss.getValue(),
+        toggles: this.toggles.getValue(),
     };
   }
 
@@ -446,5 +474,11 @@ export class PlayerDataService {
     if (state.inputSets) this.updateInputSets(state.inputSets);
     if (state.stats) this.updateStats(state.stats);
     if (state.boss) this.updateBoss(state.boss);
+    
+    if (state.toggles) {
+      this.updateToggles({ ...DEFAULT_TOGGLES, ...state.toggles });
+    } else {
+      this.updateToggles({ ...DEFAULT_TOGGLES });
+    }
   }
 }

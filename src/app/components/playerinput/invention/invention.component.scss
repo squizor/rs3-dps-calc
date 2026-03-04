@@ -106,14 +106,10 @@
       }
 
       &:hover {
-        transform: translateY(-2px);
         border-color: var(--text-secondary);
         background-color: color.adjust(#2e3a50, $lightness: 10%);
-
-        .getIconImg {
-          transform: scale(1.1);
-        }
       }
+
 
       &.active {
         border-color: var(--active-color);
@@ -155,7 +151,6 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    animation: fadeIn 0.3s ease-out;
 
     .inspector-panel {
         display: flex;
@@ -253,9 +248,7 @@
             overflow: hidden;
 
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-            
-            &.empty {
-            }
+
 
             &:hover, &.dropdown-open {
                 background: rgba(255, 255, 255, 0.05);
@@ -292,12 +285,10 @@
             
             .rank-badge {
                 font-size: 0.9rem;
-                background: linear-gradient(135deg, #FFD700, #DAA520);
-                color: #000;
+                color: var(--text-secondary);
                 font-weight: 700;
                 padding: 1px 5px;
                 border-radius: 4px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.3);
                 min-width: 1.5rem;
                 text-align: center;
                 font-family: serif; 
@@ -396,26 +387,6 @@
                         font-weight: 500;
                         color: var(--text-primary);
                         display: flex; gap: 0.5rem; align-items: center;
-                    }
-                    
-                    .item-rank {
-                        font-size: 0.9rem;
-                        font-weight: 700;
-                        color: var(--active-color);
-                        font-family: serif;
-                    }
-                    
-                    .item-stats {
-                        display: flex; gap: 4px;
-                        .stat {
-                            font-size: 0.7rem;
-                            padding: 1px 4px;
-                            border-radius: 2px;
-                            font-family: monospace;
-                            
-                            &.dps { background: rgba(255, 100, 100, 0.2); color: #ffadad; }
-                            &.crit { background: rgba(255, 200, 50, 0.2); color: #ffdf80; }
-                        }
                     }
                 }
                 

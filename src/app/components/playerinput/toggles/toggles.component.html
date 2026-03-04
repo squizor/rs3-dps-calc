@@ -1,0 +1,92 @@
+<div class="toggles-container">
+  <h3>Unlocks & Toggles</h3>
+
+  <details class="toggle-group">
+    <summary>Account Unlocks & Quests</summary>
+    <div class="toggle-list">
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().kingsRansom" (ngModelChange)="updateToggle('kingsRansom', !!$event)"><span class="toggle-label">King's Ransom (Piety/Rigour/Augury)</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().reaperCrew" (ngModelChange)="updateToggle('reaperCrew', !!$event)"><span class="toggle-label">Reaper Crew</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().hardDesertAchievements" (ngModelChange)="updateToggle('hardDesertAchievements', !!$event)"><span class="toggle-label">Hard Desert Achievements</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().eliteFremennikAchievements" (ngModelChange)="updateToggle('eliteFremennikAchievements', !!$event)"><span class="toggle-label">Elite Fremennik Achievements</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().extinctionRingOfVigour" (ngModelChange)="updateToggle('extinctionRingOfVigour', !!$event)"><span class="toggle-label">Extinction (Passive Ring of Vigour)</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().templeAtSenntisten" (ngModelChange)="updateToggle('templeAtSenntisten', !!$event)"><span class="toggle-label">The Temple at Senntisten (Curses)</span></label>
+    </div>
+  </details>
+
+  <details class="toggle-group">
+    <summary>Item Passives & Effects</summary>
+    <div class="toggle-list">
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().slayerHelmet" (ngModelChange)="updateToggle('slayerHelmet', !!$event)"><span class="toggle-label">Slayer Helmet (Worn)</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().slayerHelmetStand" (ngModelChange)="updateToggle('slayerHelmetStand', !!$event)"><span class="toggle-label">Slayer Helmet Stand</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().anachroniaSkillcapeStand" (ngModelChange)="updateToggle('anachroniaSkillcapeStand', !!$event)"><span class="toggle-label">Anachronia Skillcape Stand</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().stoneOfJas" (ngModelChange)="updateToggle('stoneOfJas', !!$event)"><span class="toggle-label">Stone of Jas</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().dreadnip" (ngModelChange)="updateToggle('dreadnip', !!$event)"><span class="toggle-label">Dreadnip</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().dominionMine" (ngModelChange)="updateToggle('dominionMine', !!$event)"><span class="toggle-label">Dominion Mine</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().ancientGizmo" (ngModelChange)="updateToggle('ancientGizmo', !!$event)"><span class="toggle-label">Ancient Gizmo</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().ringOfVigour" (ngModelChange)="updateToggle('ringOfVigour', !!$event)"><span class="toggle-label">Ring of Vigour (Worn)</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().zorgothsSoulRing" (ngModelChange)="updateToggle('zorgothsSoulRing', !!$event)"><span class="toggle-label">Zorgoth's Soul Ring</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().asylumSurgeonsRing" (ngModelChange)="updateToggle('asylumSurgeonsRing', !!$event)"><span class="toggle-label">Asylum Surgeon's Ring</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().spiritCape" (ngModelChange)="updateToggle('spiritCape', !!$event)"><span class="toggle-label">Spirit Cape</span></label>
+    </div>
+  </details>
+
+  <details class="toggle-group">
+    <summary>Abilities & Codexes</summary>
+    <div class="toggle-list">
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().deathsSwiftness" (ngModelChange)="updateToggle('deathsSwiftness', !!$event)"><span class="toggle-label">Death's Swiftness</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().sunshine" (ngModelChange)="updateToggle('sunshine', !!$event)"><span class="toggle-label">Sunshine</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().everyTendril" (ngModelChange)="updateToggle('everyTendril', !!$event)"><span class="toggle-label">Every Tendril</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().praesulCodex" (ngModelChange)="updateToggle('praesulCodex', !!$event)"><span class="toggle-label">Praesul Codex</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().corruptionShot" (ngModelChange)="updateToggle('corruptionShot', !!$event)"><span class="toggle-label">Corruption Shot</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().corruptionBlast" (ngModelChange)="updateToggle('corruptionBlast', !!$event)"><span class="toggle-label">Corruption Blast</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().onslaught" (ngModelChange)="updateToggle('onslaught', !!$event)"><span class="toggle-label">Onslaught</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().stormShards" (ngModelChange)="updateToggle('stormShards', !!$event)"><span class="toggle-label">Storm Shards</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().shatter" (ngModelChange)="updateToggle('shatter', !!$event)"><span class="toggle-label">Shatter</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterBarge" (ngModelChange)="updateToggle('greaterBarge', !!$event)"><span class="toggle-label">Greater Barge</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterFlurry" (ngModelChange)="updateToggle('greaterFlurry', !!$event)"><span class="toggle-label">Greater Flurry</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterFury" (ngModelChange)="updateToggle('greaterFury', !!$event)"><span class="toggle-label">Greater Fury</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterRicochet" (ngModelChange)="updateToggle('greaterRicochet', !!$event)"><span class="toggle-label">Greater Ricochet</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterChain" (ngModelChange)="updateToggle('greaterChain', !!$event)"><span class="toggle-label">Greater Chain</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterConcentratedBlast" (ngModelChange)="updateToggle('greaterConcentratedBlast', !!$event)"><span class="toggle-label">Greater Concentrated Blast</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterDazingShot" (ngModelChange)="updateToggle('greaterDazingShot', !!$event)"><span class="toggle-label">Greater Dazing Shot</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().saltTheWound" (ngModelChange)="updateToggle('saltTheWound', !!$event)"><span class="toggle-label">Salt the Wound</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().bladedDive" (ngModelChange)="updateToggle('bladedDive', !!$event)"><span class="toggle-label">Bladed Dive</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().limitless" (ngModelChange)="updateToggle('limitless', !!$event)"><span class="toggle-label">Limitless</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().ingenuityOfTheHumans" (ngModelChange)="updateToggle('ingenuityOfTheHumans', !!$event)"><span class="toggle-label">Ingenuity of the Humans</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().magmaTempest" (ngModelChange)="updateToggle('magmaTempest', !!$event)"><span class="toggle-label">Magma Tempest</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterSunshine" (ngModelChange)="updateToggle('greaterSunshine', !!$event)"><span class="toggle-label">Greater Sunshine</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterDeathsSwiftness" (ngModelChange)="updateToggle('greaterDeathsSwiftness', !!$event)"><span class="toggle-label">Greater Death's Swiftness</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().chaosRoar" (ngModelChange)="updateToggle('chaosRoar', !!$event)"><span class="toggle-label">Chaos Roar</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().greaterSonicWave" (ngModelChange)="updateToggle('greaterSonicWave', !!$event)"><span class="toggle-label">Greater Sonic Wave</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().sacrifice" (ngModelChange)="updateToggle('sacrifice', !!$event)"><span class="toggle-label">Sacrifice</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().tuskasWrath" (ngModelChange)="updateToggle('tuskasWrath', !!$event)"><span class="toggle-label">Tuska's Wrath</span></label>
+    </div>
+  </details>
+
+  <details class="toggle-group">
+    <summary>Slayer & Specific Buffs</summary>
+    <div class="toggle-list">
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().dragonSlayer" (ngModelChange)="updateToggle('dragonSlayer', !!$event)"><span class="toggle-label">Dragon Slayer</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().demonSlayer" (ngModelChange)="updateToggle('demonSlayer', !!$event)"><span class="toggle-label">Demon Slayer</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().undeadSlayer" (ngModelChange)="updateToggle('undeadSlayer', !!$event)"><span class="toggle-label">Undead Slayer</span></label>
+      
+      <label class="toggle-item setting-number">
+        <span class="toggle-label">Nopenopenope</span>
+        <select [ngModel]="toggles().nopenopenope" (ngModelChange)="updateToggle('nopenopenope', +$event)">
+          <option [value]="0">0 (Off)</option>
+          <option [value]="1">1</option>
+          <option [value]="2">2</option>
+        </select>
+      </label>
+
+      <label class="toggle-item setting-number">
+        <span class="toggle-label">Corbicula Rex</span>
+        <select [ngModel]="toggles().corbiculaRex" (ngModelChange)="updateToggle('corbiculaRex', +$event)">
+          <option [value]="0">0 (Off)</option>
+          <option [value]="1">1</option>
+          <option [value]="2">2</option>
+        </select>
+      </label>
+    </div>
+  </details>
+</div>

@@ -6,8 +6,7 @@
   background-color: var(--wiki-theme-darker);
   padding: 1rem;
   font-family: 'Inter', sans-serif;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
+  overflow: visible;
 
   @media screen and (max-width: 1400px) {
     padding: 0.5rem;
@@ -30,9 +29,9 @@ app-damageovertime {
     flex: 1 0 250px; 
     display: flex; 
     flex-direction: column;
-    overflow: hidden !important; 
+    overflow: visible !important; 
     position: relative;
-    z-index: 0;
+    z-index: 200;
 }
 
 app-bossinformation {

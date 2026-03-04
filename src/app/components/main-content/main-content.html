@@ -1,14 +1,14 @@
-<section class="main_container" cdkDropListGroup>
-  <div class="left_column">
+<section class="main-container" cdkDropListGroup>
+  <div class="left-column">
     <app-playerinput />
   </div>
-  <div class="middle_column">
+  <div class="middle-column">
     <app-advanced-rotation-builder />
   </div>
-  <div class="right_column">
+  <div class="right-column">
     <app-dps-display #dpsDisplay />
   </div>
-  <div class="chart_column" [class.expanded]="isChartVisible()">
+  <div class="chart-column" [class.expanded]="isChartVisible()">
     <div class="chart-header" (click)="isChartVisible.set(!isChartVisible())">
         <span class="header-title">Damage Over Time Chart</span>
         <span class="toggle-icon">{{ isChartVisible() ? '▼' : '▶' }}</span>

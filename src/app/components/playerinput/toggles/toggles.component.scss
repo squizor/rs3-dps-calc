@@ -1,0 +1,103 @@
+@import '../_helpers.scss';
+
+.toggles-container {
+  padding: 12px;
+  color: var(--text-color-light, #e0e0e0);
+  background-color: var(--wiki-theme-darker, #172136);
+  height: 100%;
+  border-radius: var(--border-radius, 8px);
+  overflow-y: auto;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    color: #fff;
+    border-bottom: 1px solid var(--wiki-theme-darkest, #071022);
+    padding-bottom: 6px;
+  }
+
+  .toggle-group {
+    margin-bottom: 8px;
+    background-color: var(--wiki-theme-dark, #222e45);
+    border: 1px solid var(--wiki-theme-darkest, #071022);
+    border-radius: var(--border-radius, 8px);
+    overflow: hidden;
+    
+    summary {
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 8px 12px;
+        cursor: pointer;
+        user-select: none;
+        background-color: var(--wiki-theme-bright, #313e59);
+        color: #fff;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+           background-color: var(--wiki-theme-brighter, #596e96);
+        }
+    }
+
+    &[open] summary {
+        border-bottom: 1px solid var(--wiki-theme-darkest, #071022);
+    }
+
+    .toggle-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 6px;
+        padding: 8px;
+        
+        .toggle-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          padding: 4px 6px;
+          border-radius: 4px;
+          background-color: rgba(0, 0, 0, 0.1);
+          transition: background-color 0.2s ease;
+      
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
+      
+          input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            accent-color: var(--accent-color, #ffb700);
+            margin: 0;
+          }
+      
+          .toggle-label {
+            font-size: 0.85rem;
+            line-height: 1.2;
+            user-select: none;
+          }
+        }
+
+        .setting-number {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+
+           select {
+              background-color: var(--wiki-theme-darker, #172136);
+              color: white;
+              border: 1px solid var(--wiki-theme-darkest, #071022);
+              padding: 2px 4px;
+              font-size: 0.85rem;
+              border-radius: 4px;
+              outline: none;
+              cursor: pointer;
+              
+              &:focus {
+                border-color: var(--accent-color, #ffb700);
+              }
+           }
+        }
+    }
+  }
+}
