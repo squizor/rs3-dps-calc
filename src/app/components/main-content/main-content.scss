@@ -107,6 +107,7 @@
     overflow: hidden;
     transition: all 0.3s ease;
     height: auto; // Will be dictated by grid until expanded
+    z-index: 100;
 
     .chart-header {
       display: none; // Native desktop has no header
