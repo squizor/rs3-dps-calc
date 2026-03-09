@@ -24,6 +24,7 @@ import { take } from 'rxjs/operators';
 
 import { IEnemy, IAffinity } from '../../playerinput/playerinput.model';
 import { ChartOptions, InputSet } from './dps-display.types';
+import { SettingsService } from '../../../services/settings.service';
 
 import {
   DpsCalculationService,
@@ -76,6 +77,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
 
   public rotationDpsService = inject(RotationDpsService);
   private simulationService = inject(SimulationService);
+  private settingsService = inject(SettingsService);
   
   public selectedTick = signal<DamageTick | null>(null);
   public isKpiExpanded = signal<boolean>(false);
@@ -169,17 +171,17 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
               data: chartData,
             },
           ],
-          colors: ['#8cabe6'],
+          colors: ['var(--wiki-theme-brightest)'],
           stroke: {
             curve: 'smooth', // Smooth line for "Line Graph" feel
             width: 3,
-            colors: ['#8cabe6'], 
+            colors: ['var(--wiki-theme-brightest)'], 
           },
           yaxis: {
             show: true,
             tickAmount: 5,
             labels: {
-              style: { colors: '#8cabe6', fontSize: '12px' },
+              style: { colors: 'var(--text-secondary)', fontSize: '12px' },
               formatter: (val: number) => (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : `${val}`),
             },
           },
@@ -202,11 +204,19 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
           }
         };
       } else {
-         this.dotChartOptions = {
+          this.dotChartOptions = {
             ...this.dotChartOptions,
             series: []
          };
       }
+    });
+
+    this.settingsService.theme$.subscribe(() => {
+        if (this.isBrowser) {
+             setTimeout(() => {
+                 this.updateChartThemeColors();
+             }, 50); // slight delay to let DOM body class apply css variables
+        }
     });
   }
 
@@ -503,13 +513,13 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         }
       },
       theme: { mode: isDark ? 'dark' : 'light' },
-      colors: ['#8cabe6'],
+      colors: ['var(--wiki-theme-brightest)'],
       dataLabels: { enabled: false },
       
       stroke: {
         curve: 'stepline',
         width: 3,
-        colors: ['#8cabe6'],
+        colors: ['var(--wiki-theme-brightest)'],
       },
       
       fill: {
@@ -541,7 +551,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         axisBorder: { show: false },
         axisTicks: { show: false },
         labels: {
-          style: { colors: '#8cabe6', fontSize: '12px' },
+          style: { colors: 'var(--text-secondary)', fontSize: '12px' },
           formatter: (val: string) => `${parseFloat(val).toFixed(0)}s`,
         },
       },
@@ -550,7 +560,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         show: true,
         tickAmount: 5,
         labels: {
-          style: { colors: '#8cabe6', fontSize: '12px' },
+          style: { colors: 'var(--text-secondary)', fontSize: '12px' },
           formatter: (val: number) => (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : `${val}`),
         },
       },
@@ -576,6 +586,48 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
       
       legend: { show: false },
     };
+  }
+
+  private updateChartThemeColors() {
+    if (!this.isBrowser) return;
+
+    const styles = getComputedStyle(document.body);
+    const textSecondary = styles.getPropertyValue('--text-secondary').trim() || '#a0a0a0';
+    const textPrimary = styles.getPropertyValue('--text-primary').trim() || '#f5f5f5';
+    const accentColor = styles.getPropertyValue('--accent-color').trim() || '#ffb700';
+    const wikiThemeBrightest = styles.getPropertyValue('--wiki-theme-brightest').trim() || '#8cabe6';
+
+    this.dotChartOptions = {
+        ...this.dotChartOptions,
+        colors: [wikiThemeBrightest],
+        stroke: {
+            ...this.dotChartOptions.stroke,
+            colors: [wikiThemeBrightest]
+        },
+        markers: {
+            ...this.dotChartOptions.markers,
+            colors: [accentColor]
+        },
+        xaxis: {
+            ...this.dotChartOptions.xaxis,
+            labels: {
+                ...this.dotChartOptions.xaxis?.labels,
+                style: {
+                    colors: textSecondary
+                }
+            }
+        },
+        yaxis: {
+            ...(this.dotChartOptions.yaxis as any),
+            labels: {
+                ...(this.dotChartOptions.yaxis as any)?.labels,
+                style: {
+                    colors: textSecondary
+                }
+            }
+        }
+    };
+    this.cdRef.detectChanges();
   }
 
   private getEmptyChartOptions(): ChartOptions {

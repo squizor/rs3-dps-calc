@@ -63,7 +63,7 @@
       <div class="action-group">
         <div class="action-main-button">
           <div class="ability-item action-button" (click)="toggleDropdown('prayer')">
-            <img [src]="playerDataService.getIconByName('prayer')" class="ability-icon-small" />
+            <img [src]="playerDataService.getIconByName('tab_prayer')" class="ability-icon-small" />
           </div>
           <div class="prayer-swap-modal" *ngIf="activeDropdown === 'prayer'">
             <div class="modal-content action-grid">
@@ -88,7 +88,7 @@
       <div class="action-group">
         <div class="action-main-button">
           <div class="ability-item action-button" (click)="toggleDropdown('magic')">
-            <img [src]="playerDataService.getIconByName('magic')" class="ability-icon-small" />
+            <img [src]="playerDataService.getIconByName('tab_magic')" class="ability-icon-small" />
           </div>
           <div class="magic-swap-modal" *ngIf="activeDropdown === 'magic'">
             <div class="modal-content action-grid">
@@ -112,7 +112,7 @@
       <div class="action-group">
         <div class="action-main-button">
           <div class="ability-item action-button" (click)="toggleDropdown('potions')">
-            <img src="assets/icons/Adrenaline_renewal_potion_(4).png" class="ability-icon-small" />
+            <img src="assets/icons/adrenaline_renewal_potion.png" class="ability-icon-small" />
           </div>
           <div class="magic-swap-modal" *ngIf="activeDropdown === 'potions'">
             <div class="modal-content action-grid">

@@ -106,11 +106,11 @@
     border-top: 1px solid var(--wiki-theme-bright);
     overflow: hidden;
     transition: all 0.3s ease;
-    height: auto; // Will be dictated by grid until expanded
+    height: auto;
     z-index: 100;
 
     .chart-header {
-      display: none; // Native desktop has no header
+      display: none;
       padding: 0.75rem 1rem;
       justify-content: space-between;
       align-items: center;
@@ -137,7 +137,7 @@
     }
 
     .chart-content-wrapper {
-      display: flex; // Always visible on native desktop
+      display: flex;
       flex-direction: column;
       flex: 1;
       height: 100%;
@@ -146,7 +146,7 @@
     .chart-content {
       flex: 1;
       padding: var(--button-padding);
-      min-height: 0; // Allows shrinking
+      min-height: 0;
       animation: slideDown 0.2s ease-out;
       height: 100%;
     }
@@ -171,7 +171,7 @@
 
   @media screen and (max-width: 1740px) {
     grid-template-columns: minmax(420px, 480px) 1fr minmax(380px, 450px);
-    grid-template-rows: 1fr auto; // Chart row takes only needed space (header height) unless expanded
+    grid-template-rows: 1fr auto;
     gap: 1px;
 
     .left-column {
@@ -191,31 +191,30 @@
 
     .chart-column {
       grid-row: 2;
-      grid-column: 2 / span 2; // Spans underneath BOTH Middle and Right
+      grid-column: 2 / span 2;
       border-top: 2px solid var(--wiki-theme-darkest);
       
       .chart-header {
-        display: flex; // Reveal the accordion header on smaller screens
+        display: flex;
       }
 
       .chart-content-wrapper {
-        display: none; // Hide the chart by default on small screens
+        display: none;
       }
 
       &.expanded {
-        height: 350px; // Give it room to render when opened
+        height: 350px;
         
         .chart-content-wrapper {
-          display: flex; // Show chart when expanded
+          display: flex;
         }
       }
     }
   }
 
-  // Tablet Layout (2-Column: Left Actions, Right Timeline over DPS) - 901px to 1400px
   @media screen and (max-width: 1400px) and (min-width: 901px) {
     grid-template-columns: minmax(350px, 400px) 1fr;
-    grid-template-rows: minmax(280px, 40vh) 1fr auto; // Timeline | DPS | Chart
+    grid-template-rows: minmax(280px, 40vh) 1fr auto;
     gap: 1px;
 
     .left-column {
@@ -254,7 +253,6 @@
     }
   }
 
-  // Tablet & Mobile Vertical Stack (< 900px)
   @media screen and (max-width: 900px) {
     display: flex;
     flex-direction: column;
@@ -262,7 +260,6 @@
     min-height: 0;
     overflow-y: visible;
 
-    // Reset default grid behavior so they just stack naturally
     .left-column, .middle-column, .right-column, .chart-column {
       width: 100%;
       height: auto;
@@ -271,26 +268,22 @@
     }
 
     .left-column {
-      // Left column as screen 1
       min-height: calc(100vh - var(--navbar-height));
       border-bottom: 2px solid var(--wiki-theme-darkest);
     }
 
     .middle-column {
-      // Middle column as screen 2
       min-height: calc(100vh - var(--navbar-height));
       border-bottom: 2px solid var(--wiki-theme-darkest);
-      position: static; // Remove sticky
+      position: static;
     }
 
     .right-column {
-      // Right column as screen 3
       padding-top: 1rem;
       border-top: 2px solid var(--wiki-theme-bright);
     }
 
     .chart-column {
-      // Always show chart natively without dropdown below desktop
       height: 400px;
       clear: both;
       

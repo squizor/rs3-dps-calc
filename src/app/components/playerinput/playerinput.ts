@@ -147,6 +147,18 @@ export class PlayerinputComponent implements OnInit {
 
   activeFamiliar: string | null = null;
 
+  getTabIcon(tabName: ETabs): string {
+    // Map specific ETabs strings (e.g. 'Prayers', 'Spells') to their explicit tab icons.
+    const lowered = tabName.toLowerCase();
+    if (['prayers', 'spells', 'attack', 'ranged', 'magic', 'necromancy'].includes(lowered)) {
+       // Spells map to magic stat icon
+       if (lowered === 'spells') return this.playerDataService.getIconByName('tab_magic');
+       if (lowered === 'prayers') return this.playerDataService.getIconByName('tab_prayer');
+       return this.playerDataService.getIconByName(`tab_${lowered}`);
+    }
+    return this.playerDataService.getIconByName(tabName);
+  }
+
   private readonly ARCH_PRESETS_STORAGE_KEY = 'rs3-dps-calculator-arch-presets';
   private readonly INVENTION_AUGMENTS_STORAGE_KEY = 'rs3-dps-calculator-invention-augments';
   private readonly ACTIVE_TAB_STORAGE_KEY = 'rs3-dps-calculator-active-tab';

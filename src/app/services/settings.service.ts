@@ -2,7 +2,7 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export type Theme = 'rs3' | 'osrs';
+export type Theme = 'rs3' | 'osrs' | 'dark';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +34,12 @@ export class SettingsService {
 
   private applyTheme(theme: Theme) {
     const body = document.body;
+    body.classList.remove('osrs-theme', 'dark-theme');
+    
     if (theme === 'osrs') {
       body.classList.add('osrs-theme');
-    } else {
-      body.classList.remove('osrs-theme');
+    } else if (theme === 'dark') {
+      body.classList.add('dark-theme');
     }
   }
 

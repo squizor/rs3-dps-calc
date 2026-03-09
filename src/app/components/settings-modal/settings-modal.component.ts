@@ -21,12 +21,17 @@ import { FormsModule } from '@angular/forms';
               <button 
                 [class.active]="currentTheme === 'rs3'" 
                 (click)="setTheme('rs3')">
-                RS3 Theme
+                RS3
               </button>
               <button 
                 [class.active]="currentTheme === 'osrs'" 
                 (click)="setTheme('osrs')">
-                OSRS Theme
+                OSRS
+              </button>
+              <button 
+                [class.active]="currentTheme === 'dark'" 
+                (click)="setTheme('dark')">
+                Dark
               </button>
             </div>
           </div>
@@ -51,10 +56,6 @@ import { FormsModule } from '@angular/forms';
               </button>
             </div>
           </div>
-
-          <p class="setting-description">
-            Change the application's theme and display settings.
-          </p>
         </div>
       </div>
     </div>
@@ -128,26 +129,31 @@ import { FormsModule } from '@angular/forms';
     .mode-toggle {
       display: flex;
       background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      overflow: hidden;
+      border-radius: var(--radius);
+      padding: 0.25rem;
+      gap: 0.25rem;
 
       button {
+        flex: 1;
         background: transparent;
         border: none;
+        border-radius: var(--radius-sm);
         color: var(--text-secondary);
         padding: 0.5rem 1rem;
         cursor: pointer;
-        font-size: 1rem;
+        font-size: 0.95rem;
+        font-weight: 500;
         transition: all 0.2s ease-out;
 
-        &:hover {
+        &:hover:not(.active) {
+          color: var(--text-primary);
           background-color: var(--hover-bg);
         }
 
         &.active {
           background-color: var(--active-color);
           color: var(--wiki-theme-darkest);
-          font-weight: 600;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
       }
     }

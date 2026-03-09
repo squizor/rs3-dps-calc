@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "update-abilities": "node scripts/fetch_wiki_abilities.js",
     "serve:ssr:rs3-dps-calculator": "node dist/rs3-dps-calculator/server/server.mjs"
   },
   "prettier": {

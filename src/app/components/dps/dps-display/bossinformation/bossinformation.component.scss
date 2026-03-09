@@ -1,14 +1,13 @@
 @use '../../../../components/playerinput/helpers';
 
 :host {
-    @include helpers.player-input-theme;
     display: block;
     width: 100%;
 }
 
 .boss-info-panel {
     background-color: var(--wiki-theme-dark);
-    border-radius: var(--border-radius, 0.75rem);
+    border-radius: 0 !important;
     border: 1px solid var(--wiki-theme-bright);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 0.75rem;
@@ -57,13 +56,13 @@
     @include helpers.dropdown-trigger;
     position: relative;
     flex: 1;
-    padding: 0.5rem 0.75rem; // Override to be slightly thinner for the dense header
+    padding: 0.5rem 0.75rem;
     border-radius: 4px;
 
     .current-name {
         font-weight: 700;
         font-size: 0.95rem;
-        color: var(--white);
+        color: var(--text-primary);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -73,7 +72,7 @@
         width: 100%;
         background: transparent;
         border: none;
-        color: var(--white);
+        color: var(--text-primary);
         font-weight: 700;
         font-size: 0.95rem;
         outline: none;
@@ -96,7 +95,7 @@
     left: 0;
     width: 100%;
     min-width: 200px;
-    background-color: var(--hover-bg); // Matches helpers.dropdown
+    background-color: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     max-height: 300px;
@@ -134,7 +133,7 @@
 .compact-input {
     background: var(--wiki-theme-darkest);
     border: 1px solid var(--wiki-theme-bright);
-    color: var(--white);
+    color: var(--text-primary);
     font-size: 0.9rem;
     padding: 0.1rem 0.25rem;
     border-radius: 4px;
@@ -155,7 +154,7 @@
 .tiny-input {
     background: var(--wiki-theme-darkest);
     border: 1px solid var(--wiki-theme-bright);
-    color: var(--white);
+    color: var(--text-primary);
     font-size: 0.75rem;
     padding: 0;
     border-radius: 2px;
@@ -277,7 +276,7 @@
     .enrage-input {
         background: transparent;
         border: none;
-        color: var(--white);
+        color: var(--text-primary);
         width: 3rem;
         font-size: 0.8rem;
         font-weight: 700;
@@ -338,7 +337,7 @@
     .value {
         font-size: 0.9rem;
         font-weight: 700;
-        color: var(--white);
+        color: var(--text-primary);
         
         &.accent { color: var(--accent-color); }
     }

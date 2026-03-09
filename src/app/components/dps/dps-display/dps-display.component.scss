@@ -146,7 +146,7 @@ app-bossinformation {
 .tick-inspector {
   background-color: var(--wiki-theme-darker);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius);
+  border-radius: 0 !important;
   padding: 1.5rem;
   margin-top: 1.5rem;
   box-shadow: var(--shadow-lg);

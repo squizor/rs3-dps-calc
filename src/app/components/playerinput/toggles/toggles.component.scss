@@ -2,17 +2,17 @@
 
 .toggles-container {
   padding: 12px;
-  color: var(--text-color-light, #e0e0e0);
+  color: var(--text-secondary);
   background-color: var(--wiki-theme-darker, #172136);
   height: 100%;
-  border-radius: var(--border-radius, 8px);
+  border-radius: 0 !important;
   overflow-y: auto;
 
   h3 {
     margin-top: 0;
     margin-bottom: 12px;
     font-size: 1.1rem;
-    color: #fff;
+    color: var(--text-primary);
     border-bottom: 1px solid var(--wiki-theme-darkest, #071022);
     padding-bottom: 6px;
   }
@@ -31,7 +31,7 @@
         cursor: pointer;
         user-select: none;
         background-color: var(--wiki-theme-bright, #313e59);
-        color: #fff;
+        color: var(--text-primary);
         transition: background-color 0.2s ease;
         
         &:hover {
@@ -85,7 +85,7 @@
 
            select {
               background-color: var(--wiki-theme-darker, #172136);
-              color: white;
+              color: var(--text-primary);
               border: 1px solid var(--wiki-theme-darkest, #071022);
               padding: 2px 4px;
               font-size: 0.85rem;

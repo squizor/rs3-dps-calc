@@ -75,11 +75,10 @@ export class AbilityListComponent implements OnInit {
 
   ngOnInit() {
     this.abilityTabs = [
-      { name: 'Attack', icon: this.playerDataService.getIconByName('attack') },
-      { name: 'Strength', icon: this.playerDataService.getIconByName('strength') },
-      { name: 'Ranged', icon: this.playerDataService.getIconByName('ranged') },
-      { name: 'Magic', icon: this.playerDataService.getIconByName('magic') },
-      { name: 'Necromancy', icon: this.playerDataService.getIconByName('necromancy') },
+      { name: 'Attack', icon: this.playerDataService.getIconByName('tab_attack') },
+      { name: 'Ranged', icon: this.playerDataService.getIconByName('tab_ranged') },
+      { name: 'Magic', icon: this.playerDataService.getIconByName('tab_magic') },
+      { name: 'Necromancy', icon: this.playerDataService.getIconByName('tab_necromancy') },
       { name: 'Constitution', icon: this.playerDataService.getIconByName('constitution') },
       { name: 'Defensive', icon: this.playerDataService.getIconByName('defence') },
     ];

@@ -238,10 +238,10 @@ export class BossinformationComponent implements OnInit, OnDestroy {
 
     // Traits
     this.traits = [
-        { name: 'Poison', active: this.displayEnemy.poisonable, color: '#2ecc71', icon: 'assets/icons/Poison_immunity_icon.png' },
-        { name: 'Stun', active: this.displayEnemy.stunnable, color: '#f1c40f', icon: 'assets/icons/Stun_immunity_icon.png' },
-        { name: 'Reflect', active: this.displayEnemy.reflectable, color: '#95a5a6', icon: 'assets/icons/Deflect_immunity_icon.png' },
-        { name: 'Drain', active: this.displayEnemy.statdrainable, color: '#e74c3c', icon: 'assets/icons/Drain_immunity_icon.png' }
+        { name: 'Poison', active: this.displayEnemy.poisonable, color: '#2ecc71', icon: 'assets/icons/poison_immunity_icon.png' },
+        { name: 'Stun', active: this.displayEnemy.stunnable, color: '#f1c40f', icon: 'assets/icons/stun_immunity_icon.png' },
+        { name: 'Reflect', active: this.displayEnemy.reflectable, color: '#95a5a6', icon: 'assets/icons/deflect_immunity_icon.png' },
+        { name: 'Drain', active: this.displayEnemy.statdrainable, color: '#e74c3c', icon: 'assets/icons/drain_immunity_icon.png' }
     ];
   }
 
@@ -307,39 +307,39 @@ export class BossinformationComponent implements OnInit, OnDestroy {
   }
 
   susceptibilityIconMap: { [key: string]: string } = {
-    hexhunter: 'assets/icons/Ranged.png',
-    inqstaff: 'assets/icons/Magic.png',
-    dragonbane: 'assets/icons/Ranged.png',
-    kerapac: 'assets/icons/Magic.png',
+    hexhunter: 'assets/icons/ranged.png',
+    inqstaff: 'assets/icons/magic.png',
+    dragonbane: 'assets/icons/ranged.png',
+    kerapac: 'assets/icons/magic.png',
     undead: 'assets/icons/undead_slayer.png',
     ghosthunter: 'assets/icons/undead_slayer.png',
-    salve: 'assets/icons/Salve_amulet_(e).png',
-    terrasaur: 'assets/icons/Attack.png',
-    keris: 'assets/icons/Keris.png',
+    salve: 'assets/icons/salve_amulet_(e).png',
+    terrasaur: 'assets/icons/attack.png',
+    keris: 'assets/icons/keris.png',
     demonslayer: 'assets/icons/demon_slayer.png',
     dragonslayer: 'assets/icons/dragon_slayer.png',
-    balmung: 'assets/icons/Balmung.png',
-    spear: 'assets/icons/Attack.png',
-    salamancy: 'assets/icons/Magic.png',
-    nope: 'assets/icons/Defence.png',
-    conckeris: 'assets/icons/Consecrated_keris.png',
+    balmung: 'assets/icons/balmung.png',
+    spear: 'assets/icons/attack.png',
+    salamancy: 'assets/icons/magic.png',
+    nope: 'assets/icons/defence.png',
+    conckeris: 'assets/icons/consecrated_keris.png',
   };
 
   weaknessIconMap: { [key: string]: string } = {
-    melee: 'assets/icons/Attack.png',
-    ranged: 'assets/icons/Ranged.png',
-    magic: 'assets/icons/Magic.png',
-    fire: 'assets/icons/Magic.png',
-    water: 'assets/icons/Magic.png',
-    air: 'assets/icons/Magic.png',
-    earth: 'assets/icons/Magic.png',
-    stab: 'assets/icons/Attack.png',
-    slash: 'assets/icons/Attack.png',
-    crush: 'assets/icons/Strength.png',
-    arrows: 'assets/icons/Ranged.png',
-    bolts: 'assets/icons/Ranged.png',
-    thrown: 'assets/icons/Ranged.png',
-    necromancy: 'assets/icons/Necromancy_detail.png',
+    melee: 'assets/icons/attack.png',
+    ranged: 'assets/icons/ranged.png',
+    magic: 'assets/icons/magic.png',
+    fire: 'assets/icons/magic.png',
+    water: 'assets/icons/magic.png',
+    air: 'assets/icons/magic.png',
+    earth: 'assets/icons/magic.png',
+    stab: 'assets/icons/attack.png',
+    slash: 'assets/icons/attack.png',
+    crush: 'assets/icons/strength.png',
+    arrows: 'assets/icons/ranged.png',
+    bolts: 'assets/icons/ranged.png',
+    thrown: 'assets/icons/ranged.png',
+    necromancy: 'assets/icons/necromancy_detail.png',
   };
 
   getWeaknessIcon(weakness: string): string {

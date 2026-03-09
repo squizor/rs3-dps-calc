@@ -25,6 +25,13 @@ html {
   --danger-color: #dc3545;
   --neutral-color: var(--wiki-theme-bright);
   --text-color-light: var(--wiki-theme-brighter);
+
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --border-color: #071022;
+  --input-bg: #2e3a50;
+  --hover-bg: #1f2838;
+  --active-color: #ffb700;
 }
 
 html, body {
@@ -109,12 +116,40 @@ input {
   background-color: var(--accent-color) !important;
 }
 body.osrs-theme {
-  --wiki-theme-darkest: #4a3c2c;
-  --wiki-theme-darker: #5a4b3a;
-  --wiki-theme-dark: #6a5a4a;
-  --wiki-theme-bright: #8b7a69;
-  --wiki-theme-brighter: #ab9a89;
-  --wiki-theme-brightest: #dbcac0;
-  --active: #ab9a89;
+  --wiki-theme-darkest: #1b1612;
+  --wiki-theme-darker: #28221d;
+  --wiki-theme-dark: #312a25;
+  --wiki-theme-bright: #3e362f;
+  --wiki-theme-brighter: #736559;
+  --wiki-theme-brightest: #b79d7e;
+  --active: #736559;
   --accent-color: #ff981f;
+
+  --text-primary: #fef0e7;
+  --text-secondary: #dcd0c0;
+  --border-color: #1b1612;
+  --input-bg: #312a25;
+  --hover-bg: #28221d;
+  --active-color: #ff981f;
+}
+
+body.dark-theme {
+  --wiki-theme-darkest: #0a0a0a;
+  --wiki-theme-darker: #121212;
+  --wiki-theme-dark: #1e1e1e;
+  --wiki-theme-bright: #2d2d2d;
+  --wiki-theme-brighter: #404040;
+  --wiki-theme-brightest: #888888;
+  --active: #404040;
+  --accent-color: #61afef;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --border-color: #0a0a0a;
+  --input-bg: #1e1e1e;
+  --hover-bg: #2d2d2d;
+  --active-color: #61afef;
+  
+  --success-color: #98c379;
+  --danger-color: #e06c75;
 }

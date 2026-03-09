@@ -310,13 +310,13 @@ export const ARCH_QUESTS: IArchQuest[] = [
 ];
 
 export const ARCH_RELICS: IRelic[] = [
-  { name: 'Font of Life', cost: 100, equipped: false, icon: 'fontoflife' },
-  { name: "Berserker's Fury", cost: 200, equipped: false, icon: 'berserkerfury' },
-  { name: "Shadow's Grace", cost: 150, equipped: false, icon: 'shadowgrace' },
-  { name: 'Blessing of Het', cost: 300, equipped: false, icon: 'blessingofhet' },
-  { name: 'Death Ward', cost: 250, equipped: false, icon: 'deathward' },
-  { name: 'Fury of the Small', cost: 200, equipped: false, icon: 'furyofthesmall' },
-  { name: 'Persistent Rage', cost: 250, equipped: false, icon: 'persistentrage' },
-  { name: 'Heightened Senses', cost: 300, equipped: false, icon: 'heightenedsenses' },
-  { name: 'Conservation of Energy', cost: 400, equipped: false, icon: 'conservationofenergy' },
+  { name: 'Font of Life', cost: 50, equipped: false, icon: 'fontoflife' },
+  { name: "Berserker's Fury", cost: 250, equipped: false, icon: 'berserkerfury' },
+  { name: "Shadow's Grace", cost: 50, equipped: false, icon: 'shadowgrace' },
+  { name: 'Blessing of Het', cost: 100, equipped: false, icon: 'blessingofhet' },
+  { name: 'Death Ward', cost: 150, equipped: false, icon: 'deathward' },
+  { name: 'Fury of the Small', cost: 150, equipped: false, icon: 'furyofthesmall' },
+  { name: 'Persistent Rage', cost: 150, equipped: false, icon: 'persistentrage' },
+  { name: 'Heightened Senses', cost: 350, equipped: false, icon: 'heightenedsenses' },
+  { name: 'Conservation of Energy', cost: 350, equipped: false, icon: 'conservationofenergy' },
 ];

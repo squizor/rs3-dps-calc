@@ -55,7 +55,7 @@
       <div class="stats-grid">
           <div class="stat-cell">
               <span class="label">LP</span>
-              <span class="value accent" *ngIf="displayEnemy.name !== 'Custom Target'">{{ displayEnemy.lifePoints | number }}</span>
+              <span class="value" *ngIf="displayEnemy.name !== 'Custom Target'">{{ displayEnemy.lifePoints | number }}</span>
               <input *ngIf="displayEnemy.name === 'Custom Target'" type="number" class="compact-input" [ngModel]="displayEnemy.lifePoints" (ngModelChange)="updateCustomStat('lifePoints', $event)">
           </div>
            <div class="stat-cell">

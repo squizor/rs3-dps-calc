@@ -46,20 +46,18 @@
 }
 
 .player-invention-tab {
+  @include helpers.card;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-bottom: 1.5rem;
 
   .invention-item-selector {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    padding: 0.75rem;
-    background-color: var(--wiki-theme-darkest);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
 
     @media screen and (max-width: 1250px) {
       gap: 0.35rem;
@@ -152,15 +150,17 @@
     flex-direction: column;
     gap: 1.5rem;
 
+    .placeholder-text {
+        text-align: center;
+        color: var(--text-secondary);
+        font-style: italic;
+        padding: 2rem;
+    }
+
     .inspector-panel {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
-        padding: 1.5rem;
-        background-color: var(--wiki-theme-darkest);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-inner);
     }
 
     .inspector-header {

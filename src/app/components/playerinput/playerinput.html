@@ -24,7 +24,7 @@
       (click)="selectTab(tab)"
       [attr.data-name]="tab"
     >
-      <img [attr.data-name]="tab" class="getIconImg" [src]="playerDataService.getIconByName(tab)" />
+      <img [attr.data-name]="tab" class="getIconImg" [src]="getTabIcon(tab)" />
     </div>
   </div>
   <div class="main-content-area">
