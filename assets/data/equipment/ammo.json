@@ -18,7 +18,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Nodon_spike_harness.png"
+    "icon": "assets/icons/nodon_spike_harness.png"
   },
   {
     "name": "Armour spikes",
@@ -39,7 +39,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Armour_spikes.png"
+    "icon": "assets/icons/armour_spikes.png"
   },
   {
     "name": "Abyssal armour spikes",
@@ -60,7 +60,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Abyssal_armour_spikes.png"
+    "icon": "assets/icons/abyssal_armour_spikes.png"
   },
   {
     "name": "Armour spikes (alloy)",
@@ -81,7 +81,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Armour_spikes_(alloy).png"
+    "icon": "assets/icons/armour_spikes_(alloy).png"
   },
   {
     "name": "Abyssal armour spikes (alloy)",
@@ -102,6 +102,6 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Abyssal_armour_spikes_(alloy).png"
+    "icon": "assets/icons/abyssal_armour_spikes_(alloy).png"
   }
 ]

@@ -15,7 +15,7 @@
       "magic": -97,
       "necromancy": -97
     },
-    "icon": "https://runescape.wiki/images/Bandos_boots.png"
+    "icon": "assets/icons/bandos_boots.png"
   },
   {
     "name": "Torva boots",
@@ -33,7 +33,7 @@
       "magic": -127,
       "necromancy": -127
     },
-    "icon": "https://runescape.wiki/images/Torva_boots.png"
+    "icon": "assets/icons/torva_boots.png"
   },
   {
     "name": "Laceration boots",
@@ -51,7 +51,7 @@
       "magic": -144,
       "necromancy": -144
     },
-    "icon": "https://runescape.wiki/images/Laceration_boots.png"
+    "icon": "assets/icons/laceration_boots.png"
   },
   {
     "name": "Emberkeen boots",
@@ -69,7 +69,7 @@
       "magic": -163,
       "necromancy": -163
     },
-    "icon": "https://runescape.wiki/images/Emberkeen_boots.png"
+    "icon": "assets/icons/emberkeen_boots.png"
   },
   {
     "name": "Masterwork melee boots",
@@ -87,7 +87,7 @@
       "magic": -163,
       "necromancy": -163
     },
-    "icon": "https://runescape.wiki/images/Masterwork_melee_boots.png"
+    "icon": "assets/icons/masterwork_melee_boots.png"
   },
   {
     "name": "Enhanced laceration boots",
@@ -105,7 +105,7 @@
       "magic": -163,
       "necromancy": -163
     },
-    "icon": "https://runescape.wiki/images/Enhanced_laceration_boots.png"
+    "icon": "assets/icons/enhanced_laceration_boots.png"
   },
   {
     "name": "Trimmed masterwork melee boots",
@@ -123,7 +123,7 @@
       "magic": -171,
       "necromancy": -171
     },
-    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_boots.png"
+    "icon": "assets/icons/trimmed_masterwork_melee_boots.png"
   },
   {
     "name": "Vestments of havoc boots",
@@ -141,6 +141,6 @@
       "magic": -111,
       "necromancy": -111
     },
-    "icon": "https://runescape.wiki/images/Vestments_of_havoc_boots.png"
+    "icon": "assets/icons/vestments_of_havoc_boots.png"
   }
 ]

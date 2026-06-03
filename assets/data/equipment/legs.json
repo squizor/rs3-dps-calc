@@ -16,7 +16,7 @@
       "necromancy": -428
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Bandos_tassets.png"
+    "icon": "assets/icons/bandos_tassets.png"
   },
   {
     "name": "Torva platelegs",
@@ -35,7 +35,7 @@
       "necromancy": -558
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Torva_platelegs.png"
+    "icon": "assets/icons/torva_platelegs.png"
   },
   {
     "name": "Anima core legs of Zaros",
@@ -53,7 +53,7 @@
       "magic": -558,
       "necromancy": -558
     },
-    "icon": "https://runescape.wiki/images/Anima_core_legs_of_Zaros.png"
+    "icon": "assets/icons/anima_core_legs_of_zaros.png"
   },
   {
     "name": "Malevolent greaves",
@@ -72,7 +72,7 @@
       "necromancy": -718
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Malevolent_greaves.png"
+    "icon": "assets/icons/malevolent_greaves.png"
   },
   {
     "name": "Masterwork melee platelegs",
@@ -91,7 +91,7 @@
       "necromancy": -718
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Masterwork_melee_platelegs.png"
+    "icon": "assets/icons/masterwork_melee_platelegs.png"
   },
   {
     "name": "Trimmed masterwork melee platelegs",
@@ -110,7 +110,7 @@
       "necromancy": -754
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_platelegs.png"
+    "icon": "assets/icons/trimmed_masterwork_melee_platelegs.png"
   },
   {
     "name": "Vestments of havoc robe bottom",
@@ -129,6 +129,6 @@
       "necromancy": -490
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Vestments_of_havoc_robe_bottom.png"
+    "icon": "assets/icons/vestments_of_havoc_robe_bottom.png"
   }
 ]
