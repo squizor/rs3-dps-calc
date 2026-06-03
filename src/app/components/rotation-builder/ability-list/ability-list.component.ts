@@ -1,9 +1,10 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
+import { Component, inject, input, OnInit, computed, ChangeDetectionStrategy } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CdkDrag, CdkDragPreview, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { faPause, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   combineLatest,
@@ -28,12 +29,12 @@ import { SettingsService } from '../../../services/settings.service';
   templateUrl: './ability-list.component.html',
   styleUrls: ['./ability-list.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CdkDropList,
     CdkDrag,
     CdkDragPreview,
     AsyncPipe,
-    NgFor,
     CommonModule,
     FormsModule,
     MatTabsModule,
@@ -41,17 +42,13 @@ import { SettingsService } from '../../../services/settings.service';
   ],
 })
 export class AbilityListComponent implements OnInit {
-  @Input() connectedTo: string[] = [];
+  connectedTo = input<string[]>([]);
 
   faPause: IconDefinition = faPause;
 
   activeDropdown: 'gear' | 'prayer' | 'magic' | 'potions' | null = null;
   isSavingPreset = false;
   newPresetName = '';
-
-  availablePrayers$: Observable<IPrayer[]> = new Observable<IPrayer[]>();
-  availableSpells$: Observable<ISpell[]> = new Observable<ISpell[]>();
-  availablePotions$: Observable<Ability[]> = new Observable<Ability[]>();
 
   get listsContainerOverflow(): 'visible' | 'auto' {
     return this.activeDropdown !== null ? 'visible' : 'auto';
@@ -67,45 +64,46 @@ export class AbilityListComponent implements OnInit {
   
   private allAbilities$: Observable<Ability[]> = this.abilityService.getAbilities();
   public gearPresets$: Observable<IGearPreset[]> = this.playerDataService.gearPresets$;
-  abilityTabs: { name: string; icon: string }[] = [];
-  activeTab = new BehaviorSubject<string>('');
+  
+  abilityTabs = [
+    { name: 'Attack', icon: this.playerDataService.getIconByName('tab_attack') },
+    { name: 'Ranged', icon: this.playerDataService.getIconByName('tab_ranged') },
+    { name: 'Magic', icon: this.playerDataService.getIconByName('tab_magic') },
+    { name: 'Necromancy', icon: this.playerDataService.getIconByName('tab_necromancy') },
+    { name: 'Constitution', icon: this.playerDataService.getIconByName('constitution') },
+    { name: 'Defensive', icon: this.playerDataService.getIconByName('defence') },
+  ];
+  activeTab = new BehaviorSubject<string>('Attack');
 
   filterValue = new BehaviorSubject<string>('');
-  filteredAbilities$: Observable<Ability[]> | undefined;
+  
+  public filteredAbilities$: Observable<Ability[]> = combineLatest([
+    this.allAbilities$,
+    this.filterValue.pipe(debounceTime(200), startWith('')),
+    this.activeTab.asObservable(),
+    this.playerDataService.toggles$.pipe(startWith(this.playerDataService.getToggles())),
+  ]).pipe(
+    map(([abilities, filterText, activeTabName, toggles]) =>
+      this.filterAbilities(abilities, filterText, activeTabName, toggles),
+    ),
+  );
+
+  public filteredAbilitiesSignal = toSignal(this.filteredAbilities$, { initialValue: [] as Ability[] });
+  public gearPresetsSignal = toSignal(this.gearPresets$, { initialValue: [] as IGearPreset[] });
+  public availablePrayersSignal = toSignal(this.playerDataService.prayers$, { initialValue: [] as IPrayer[] });
+  public availableSpellsSignal = toSignal(this.playerDataService.spells$, { initialValue: [] as ISpell[] });
+
+  public availablePotions$ = this.allAbilities$.pipe(
+    map((abilities) =>
+      abilities.filter((ability) => {
+          const nameLower = ability.name.toLowerCase();
+          return nameLower.includes('adrenaline') && nameLower.includes('potion');
+      })
+    )
+  );
+  public availablePotionsSignal = toSignal(this.availablePotions$, { initialValue: [] as Ability[] });
 
   ngOnInit() {
-    this.abilityTabs = [
-      { name: 'Attack', icon: this.playerDataService.getIconByName('tab_attack') },
-      { name: 'Ranged', icon: this.playerDataService.getIconByName('tab_ranged') },
-      { name: 'Magic', icon: this.playerDataService.getIconByName('tab_magic') },
-      { name: 'Necromancy', icon: this.playerDataService.getIconByName('tab_necromancy') },
-      { name: 'Constitution', icon: this.playerDataService.getIconByName('constitution') },
-      { name: 'Defensive', icon: this.playerDataService.getIconByName('defence') },
-    ];
-    this.activeTab.next(this.abilityTabs[0].name);
-
-    this.filteredAbilities$ = combineLatest([
-      this.allAbilities$,
-      this.filterValue.pipe(debounceTime(200), startWith('')),
-      this.activeTab.pipe(startWith(this.abilityTabs[0].name)),
-    ]).pipe(
-      map(([abilities, filterText, activeTab]) =>
-        this.filterAbilities(abilities, filterText, activeTab),
-      ),
-    );
-
-    this.availablePrayers$ = this.playerDataService.prayers$;
-
-    this.availableSpells$ = this.playerDataService.spells$;
-
-    this.availablePotions$ = this.allAbilities$.pipe(
-      map((abilities) =>
-        abilities.filter((ability) => {
-            const nameLower = ability.name.toLowerCase();
-            return nameLower.includes('adrenaline') && nameLower.includes('potion');
-        })
-      )
-    );
   }
 
   toggleDropdown(type: 'gear' | 'prayer' | 'magic' | 'potions') {
@@ -259,30 +257,64 @@ Cooldown: ${ability.cooldown} ticks`;
       return remainingSeconds.toFixed(1) + 's';
   }
 
-  private filterAbilities(abilities: Ability[], filterText: string, activeTab: string): Ability[] {
+  private filterAbilities(abilities: Ability[], filterText: string, activeTab: string, toggles: any): Ability[] {
     const FILTER_LOWER = filterText.toLowerCase();
-    let filtered: Ability[];
+    
+    // Greater Ability Mapping
+    const GREATER_MAP: Record<string, { basic: string; toggle: string }> = {
+      'Greater Barge': { basic: 'Barge', toggle: 'greaterBarge' },
+      'Greater Flurry': { basic: 'Flurry', toggle: 'greaterFlurry' },
+      'Greater Fury': { basic: 'Fury', toggle: 'greaterFury' },
+      'Greater Sunshine': { basic: 'Sunshine', toggle: 'greaterSunshine' },
+      "Greater Death's Swiftness": { basic: "Death's Swiftness", toggle: 'greaterDeathsSwiftness' },
+      'Greater Ricochet': { basic: 'Ricochet', toggle: 'greaterRicochet' },
+      'Greater Chain': { basic: 'Chain', toggle: 'greaterChain' },
+      'Greater Concentrated Blast': { basic: 'Concentrated Blast', toggle: 'greaterConcentratedBlast' },
+      'Greater Dazing Shot': { basic: 'Dazing Shot', toggle: 'greaterDazingShot' },
+      'Greater Sonic Wave': { basic: 'Sonic Wave', toggle: 'greaterSonicWave' },
+    };
+
+    // Dedicated Codex Abilities (only shown if unlocked)
+    const CODEX_ABILITIES: Record<string, string> = {
+        'Chaos Roar': 'chaosRoar',
+        'Magma Tempest': 'magmaTempest',
+        'Corruption Shot': 'corruptionShot',
+        'Corruption Blast': 'corruptionBlast',
+        'Limitless': 'limitless'
+    };
+
+    let filtered = abilities.filter(ability => {
+        // 1. Check Greater swaps
+        for (const [greaterName, config] of Object.entries(GREATER_MAP)) {
+            const isUnlocked = !!toggles[config.toggle];
+            if (ability.name === greaterName && !isUnlocked) return false;
+            if (ability.name === config.basic && isUnlocked) return false;
+        }
+
+        // 2. Check Codex unlocks
+        if (CODEX_ABILITIES[ability.name]) {
+            return !!toggles[CODEX_ABILITIES[ability.name]];
+        }
+
+        return true;
+    });
 
     if (FILTER_LOWER) {
-      filtered = abilities.filter((ability) => ability.name.toLowerCase().includes(FILTER_LOWER));
+      filtered = filtered.filter((ability) => ability.name.toLowerCase().includes(FILTER_LOWER));
     } else {
       let tabLower = activeTab.toLowerCase();
       if (tabLower === 'hitpoints') tabLower = 'constitution';
       if (tabLower === 'defensive') tabLower = 'defence';
 
-      filtered = abilities.filter((ability) => ability.skill.toLowerCase() === tabLower);
+      filtered = filtered.filter((ability) => ability.skill.toLowerCase() === tabLower);
     }
 
     return filtered.sort((a, b) => {
       const A_IS_LESSER = a.name.toLowerCase().includes('lesser');
       const B_IS_LESSER = b.name.toLowerCase().includes('lesser');
 
-      if (A_IS_LESSER && !B_IS_LESSER) {
-        return 1;
-      }
-      if (!A_IS_LESSER && B_IS_LESSER) {
-        return -1;
-      }
+      if (A_IS_LESSER && !B_IS_LESSER) return 1;
+      if (!A_IS_LESSER && B_IS_LESSER) return -1;
       return 0;
     });
   }

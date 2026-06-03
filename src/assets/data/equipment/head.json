@@ -15,7 +15,7 @@
       "magic": -389,
       "necromancy": -389
     },
-    "icon": "https://runescape.wiki/images/Bandos_helmet.png"
+    "icon": "assets/icons/bandos_helmet.png"
   },
   {
     "name": "Torva full helm",
@@ -33,7 +33,7 @@
       "magic": -508,
       "necromancy": -508
     },
-    "icon": "https://runescape.wiki/images/Torva_full_helm.png"
+    "icon": "assets/icons/torva_full_helm.png"
   },
   {
     "name": "Anima core helm of Zaros",
@@ -51,7 +51,7 @@
       "magic": -508,
       "necromancy": -508
     },
-    "icon": "https://runescape.wiki/images/Anima_core_helm_of_Zaros.png"
+    "icon": "assets/icons/anima_core_helm_of_zaros.png"
   },
   {
     "name": "Jaws of the Abyss",
@@ -69,7 +69,7 @@
       "magic": -577,
       "necromancy": -577
     },
-    "icon": "https://runescape.wiki/images/Jaws_of_the_Abyss.png"
+    "icon": "assets/icons/jaws_of_the_abyss.png"
   },
   {
     "name": "Malevolent helm",
@@ -87,7 +87,7 @@
       "magic": -653,
       "necromancy": -653
     },
-    "icon": "https://runescape.wiki/images/Malevolent_helm.png"
+    "icon": "assets/icons/malevolent_helm.png"
   },
   {
     "name": "Masterwork melee helm",
@@ -105,7 +105,7 @@
       "magic": -653,
       "necromancy": -653
     },
-    "icon": "https://runescape.wiki/images/Masterwork_melee_helm.png"
+    "icon": "assets/icons/masterwork_melee_helm.png"
   },
   {
     "name": "Trimmed masterwork melee helm",
@@ -123,7 +123,7 @@
       "magic": -686,
       "necromancy": -686
     },
-    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_helm.png"
+    "icon": "assets/icons/trimmed_masterwork_melee_helm.png"
   },
   {
     "name": "Vestments of havoc hood",
@@ -141,6 +141,6 @@
       "magic": -445,
       "necromancy": -445
     },
-    "icon": "https://runescape.wiki/images/Vestments_of_havoc_hood.png"
+    "icon": "assets/icons/vestments_of_havoc_hood.png"
   }
 ]

@@ -1,13 +1,13 @@
 <div class="navbar-container">
   <div class="navbar-start" [style.backgroundImage]="'url(' + imgPath + ')'"></div>
   <div class="navbar-end">
-    <fa-icon [icon]="faGear" class="faButton" tabindex="0" (click)="isSettingsModalOpen = true" />
+    <fa-icon [icon]="faGear" class="faButton" tabindex="0" (click)="isSettingsModalOpen = true" title="Settings" />
     <a href="https://github.com/squizor/rs3-dps-calc/" target="_blank" rel="noopener noreferrer" class="nav-icon-link">
-      <fa-icon [icon]="faGithub" class="faButton" tabindex="0" />
+      <fa-icon [icon]="faGithub" class="faButton" tabindex="0" title="GitHub" />
     </a>
   </div>
 </div>
-<app-settings-modal
-  *ngIf="isSettingsModalOpen"
-  (modalClosed)="isSettingsModalOpen = false"
-></app-settings-modal>
+
+@if (isSettingsModalOpen) {
+  <app-settings-modal (modalClosed)="isSettingsModalOpen = false" />
+}

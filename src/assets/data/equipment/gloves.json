@@ -15,7 +15,7 @@
       "magic": -97,
       "necromancy": -97
     },
-    "icon": "https://runescape.wiki/images/Bandos_gloves.png"
+    "icon": "assets/icons/bandos_gloves.png"
   },
   {
     "name": "Torva gloves",
@@ -33,7 +33,7 @@
       "magic": -127,
       "necromancy": -127
     },
-    "icon": "https://runescape.wiki/images/Torva_gloves.png"
+    "icon": "assets/icons/torva_gloves.png"
   },
   {
     "name": "Gloves of passage",
@@ -51,7 +51,7 @@
       "magic": -144,
       "necromancy": -144
     },
-    "icon": "https://runescape.wiki/images/Gloves_of_passage.png"
+    "icon": "assets/icons/gloves_of_passage.png"
   },
   {
     "name": "Razorback gauntlets",
@@ -69,7 +69,7 @@
       "magic": -163,
       "necromancy": -163
     },
-    "icon": "https://runescape.wiki/images/Razorback_gauntlets.png"
+    "icon": "assets/icons/razorback_gauntlets.png"
   },
   {
     "name": "Masterwork melee gloves",
@@ -87,7 +87,7 @@
       "magic": -163,
       "necromancy": -163
     },
-    "icon": "https://runescape.wiki/images/Masterwork_melee_gloves.png"
+    "icon": "assets/icons/masterwork_melee_gloves.png"
   },
   {
     "name": "Enhanced gloves of passage",
@@ -105,7 +105,7 @@
       "magic": -163,
       "necromancy": -163
     },
-    "icon": "https://runescape.wiki/images/Enhanced_gloves_of_passage.png"
+    "icon": "assets/icons/enhanced_gloves_of_passage.png"
   },
   {
     "name": "Trimmed masterwork melee gloves",
@@ -123,7 +123,7 @@
       "magic": -171,
       "necromancy": -171
     },
-    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_gloves.png"
+    "icon": "assets/icons/trimmed_masterwork_melee_gloves.png"
   },
   {
     "name": "Cinderbane gloves",
@@ -141,6 +141,6 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Cinderbane_gloves.png"
+    "icon": "assets/icons/cinderbane_gloves.png"
   }
 ]

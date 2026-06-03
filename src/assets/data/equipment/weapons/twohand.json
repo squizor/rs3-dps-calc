@@ -1,7 +1,7 @@
 [
   {
     "name": "Necronium 2h greataxe + 4",
-    "icon": "https://runescape.wiki/images/Necronium_2h_greataxe_+_4.png",
+    "icon": "assets/icons/necronium_2h_greataxe_+_4.png",
     "level_requirement": 70,
     "class_type": "Melee",
     "slot": "twohand",
@@ -14,7 +14,7 @@
   },
   {
     "name": "Armadyl godsword",
-    "icon": "https://runescape.wiki/images/Armadyl_godsword.png",
+    "icon": "assets/icons/armadyl_godsword.png",
     "level_requirement": 75,
     "class_type": "Melee",
     "slot": "twohand",
@@ -27,7 +27,7 @@
   },
   {
     "name": "Bandos godsword",
-    "icon": "https://runescape.wiki/images/Bandos_godsword.png",
+    "icon": "assets/icons/bandos_godsword.png",
     "level_requirement": 75,
     "class_type": "Melee",
     "slot": "twohand",
@@ -40,7 +40,7 @@
   },
   {
     "name": "Saradomin godsword",
-    "icon": "https://runescape.wiki/images/Saradomin_godsword.png",
+    "icon": "assets/icons/saradomin_godsword.png",
     "level_requirement": 75,
     "class_type": "Melee",
     "slot": "twohand",
@@ -53,7 +53,7 @@
   },
   {
     "name": "Zamorak godsword",
-    "icon": "https://runescape.wiki/images/Zamorak_godsword.png",
+    "icon": "assets/icons/zamorak_godsword.png",
     "level_requirement": 75,
     "class_type": "Melee",
     "slot": "twohand",
@@ -66,7 +66,7 @@
   },
   {
     "name": "Bane 2h sword + 4",
-    "icon": "https://runescape.wiki/images/Bane_2h_sword_+_4.png",
+    "icon": "assets/icons/bane_2h_sword_+_4.png",
     "level_requirement": 80,
     "class_type": "Melee",
     "slot": "twohand",
@@ -79,7 +79,7 @@
   },
   {
     "name": "Abyssal Bane 2h sword",
-    "icon": "https://runescape.wiki/images/Abyssal_bane_2h_sword.png",
+    "icon": "assets/icons/abyssal_bane_2h_sword.png",
     "level_requirement": 80,
     "class_type": "Melee",
     "slot": "twohand",
@@ -92,7 +92,7 @@
   },
   {
     "name": "Masuta's warspear",
-    "icon": "https://runescape.wiki/images/Masuta's_warspear.png",
+    "icon": "assets/icons/masuta's_warspear.png",
     "level_requirement": 82,
     "class_type": "Melee",
     "slot": "twohand",
@@ -105,7 +105,7 @@
   },
   {
     "name": "Laniakea's spear",
-    "icon": "https://runescape.wiki/images/Laniakea's_spear.png",
+    "icon": "assets/icons/laniakea's_spear.png",
     "level_requirement": 82,
     "class_type": "Melee",
     "slot": "twohand",
@@ -118,7 +118,7 @@
   },
   {
     "name": "Dragon Rider Lance",
-    "icon": "https://runescape.wiki/images/Dragon_Rider_lance.png",
+    "icon": "assets/icons/dragon_rider_lance.png",
     "level_requirement": 85,
     "class_type": "Melee",
     "slot": "twohand",
@@ -131,7 +131,7 @@
   },
   {
     "name": "Elder rune 2h sword + 5",
-    "icon": "https://runescape.wiki/images/Elder_rune_2h_sword_+_5.png",
+    "icon": "assets/icons/elder_rune_2h_sword_+_5.png",
     "level_requirement": 90,
     "class_type": "Melee",
     "slot": "twohand",
@@ -144,7 +144,7 @@
   },
   {
     "name": "Noxious scythe",
-    "icon": "https://runescape.wiki/images/Noxious_scythe.png",
+    "icon": "assets/icons/noxious_scythe.png",
     "level_requirement": 90,
     "class_type": "Melee",
     "slot": "twohand",
@@ -157,7 +157,7 @@
   },
   {
     "name": "Spear of Annihilation",
-    "icon": "https://runescape.wiki/images/Spear_of_Annihilation.png",
+    "icon": "assets/icons/spear_of_annihilation.png",
     "level_requirement": 90,
     "class_type": "Melee",
     "slot": "twohand",
@@ -170,7 +170,7 @@
   },
   {
     "name": "Masterwork Spear of Annihilation",
-    "icon": "https://runescape.wiki/images/Masterwork_spear_of_annihilation.png",
+    "icon": "assets/icons/masterwork_spear_of_annihilation.png",
     "level_requirement": 92,
     "class_type": "Melee",
     "slot": "twohand",
@@ -183,7 +183,7 @@
   },
   {
     "name": "Zaros godsword",
-    "icon": "https://runescape.wiki/images/Zaros_godsword.png",
+    "icon": "assets/icons/zaros_godsword.png",
     "level_requirement": 92,
     "class_type": "Melee",
     "slot": "twohand",
@@ -196,7 +196,7 @@
   },
   {
     "name": "Ek-ZekKil",
-    "icon": "https://runescape.wiki/images/Ek-ZekKil.png",
+    "icon": "assets/icons/ek-zekkil.png",
     "level_requirement": 95,
     "class_type": "Melee",
     "slot": "twohand",
@@ -209,7 +209,7 @@
   },
   {
     "name": "Tumeken's Light",
-    "icon": "https://runescape.wiki/images/Tumeken's_Light.png",
+    "icon": "assets/icons/tumeken's_light.png",
     "level_requirement": 95,
     "class_type": "Melee",
     "slot": "twohand",
@@ -222,7 +222,7 @@
   },
   {
     "name": "Balmung",
-    "icon": "https://runescape.wiki/images/Balmung.png",
+    "icon": "assets/icons/balmung.png",
     "level_requirement": 60,
     "class_type": "Melee",
     "slot": "twohand",

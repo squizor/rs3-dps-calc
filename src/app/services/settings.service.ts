@@ -12,6 +12,16 @@ export class SettingsService {
   private theme = new BehaviorSubject<Theme>('rs3');
   public theme$ = this.theme.asObservable();
   
+  // --- Simulation Settings ---
+  private readonly DAMAGE_MODE_KEY = 'simulation_damage_mode';
+  private readonly ALWAYS_CRIT_KEY = 'simulation_always_crit';
+
+  public damageMode = new BehaviorSubject<'min' | 'average' | 'max'>('average');
+  public damageMode$ = this.damageMode.asObservable();
+
+  public alwaysCrit = new BehaviorSubject<boolean>(false);
+  public alwaysCrit$ = this.alwaysCrit.asObservable();
+  
   private isBrowser: boolean;
 
   constructor() {
@@ -21,6 +31,7 @@ export class SettingsService {
       this.theme.next(initialTheme);
       this.applyTheme(initialTheme);
       this.loadCooldownTextSetting();
+      this.loadSimulationSettings();
     }
   }
 
@@ -61,6 +72,31 @@ export class SettingsService {
           if (saved !== null) {
               this.showCooldownText.next(saved === 'true');
           }
+      }
+  }
+
+  // --- Simulation Settings Management ---
+  public setDamageMode(mode: 'min' | 'average' | 'max') {
+      this.damageMode.next(mode);
+      if (this.isBrowser) {
+          localStorage.setItem(this.DAMAGE_MODE_KEY, mode);
+      }
+  }
+
+  public setAlwaysCrit(always: boolean) {
+      this.alwaysCrit.next(always);
+      if (this.isBrowser) {
+          localStorage.setItem(this.ALWAYS_CRIT_KEY, String(always));
+      }
+  }
+
+  private loadSimulationSettings() {
+      if (this.isBrowser) {
+          const mode = localStorage.getItem(this.DAMAGE_MODE_KEY) as 'min' | 'average' | 'max';
+          if (mode) this.damageMode.next(mode);
+
+          const crit = localStorage.getItem(this.ALWAYS_CRIT_KEY);
+          if (crit !== null) this.alwaysCrit.next(crit === 'true');
       }
   }
 }

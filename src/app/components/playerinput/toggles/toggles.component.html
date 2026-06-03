@@ -1,4 +1,24 @@
 <div class="toggles-container">
+  <div class="presets-row">
+    <div class="presets-section">
+      <app-preset-manager 
+          title="Account"
+          alignment="left"
+          [savedNames]="presetNames()"
+          [pendingDeletion]="presetPendingDeletion()"
+          (save)="savePreset($event)"
+          (load)="loadPreset($event)"
+          (deleteRequest)="requestDeletePreset($event)"
+          (deleteConfirm)="confirmDeletePreset($event)"
+          (deleteCancel)="cancelDeletePreset()">
+      </app-preset-manager>
+    </div>
+    <div class="toggles-quick-actions">
+      <button type="button" class="btn-action btn-unlock-all" (click)="unlockAll()">Unlock All</button>
+      <button type="button" class="btn-action btn-reset-all" (click)="resetAll()">Reset Default</button>
+    </div>
+  </div>
+
   <h3>Unlocks & Toggles</h3>
 
   <details class="toggle-group">
@@ -16,17 +36,13 @@
   <details class="toggle-group">
     <summary>Item Passives & Effects</summary>
     <div class="toggle-list">
-      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().slayerHelmet" (ngModelChange)="updateToggle('slayerHelmet', !!$event)"><span class="toggle-label">Slayer Helmet (Worn)</span></label>
       <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().slayerHelmetStand" (ngModelChange)="updateToggle('slayerHelmetStand', !!$event)"><span class="toggle-label">Slayer Helmet Stand</span></label>
       <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().anachroniaSkillcapeStand" (ngModelChange)="updateToggle('anachroniaSkillcapeStand', !!$event)"><span class="toggle-label">Anachronia Skillcape Stand</span></label>
       <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().stoneOfJas" (ngModelChange)="updateToggle('stoneOfJas', !!$event)"><span class="toggle-label">Stone of Jas</span></label>
       <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().dreadnip" (ngModelChange)="updateToggle('dreadnip', !!$event)"><span class="toggle-label">Dreadnip</span></label>
       <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().dominionMine" (ngModelChange)="updateToggle('dominionMine', !!$event)"><span class="toggle-label">Dominion Mine</span></label>
-      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().ancientGizmo" (ngModelChange)="updateToggle('ancientGizmo', !!$event)"><span class="toggle-label">Ancient Gizmo</span></label>
-      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().ringOfVigour" (ngModelChange)="updateToggle('ringOfVigour', !!$event)"><span class="toggle-label">Ring of Vigour (Worn)</span></label>
-      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().zorgothsSoulRing" (ngModelChange)="updateToggle('zorgothsSoulRing', !!$event)"><span class="toggle-label">Zorgoth's Soul Ring</span></label>
-      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().asylumSurgeonsRing" (ngModelChange)="updateToggle('asylumSurgeonsRing', !!$event)"><span class="toggle-label">Asylum Surgeon's Ring</span></label>
       <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().spiritCape" (ngModelChange)="updateToggle('spiritCape', !!$event)"><span class="toggle-label">Spirit Cape</span></label>
+      <label class="toggle-item"><input type="checkbox" [ngModel]="toggles().mobilePerk" (ngModelChange)="updateToggle('mobilePerk', !!$event)"><span class="toggle-label">Mobile Perk</span></label>
     </div>
   </details>
 

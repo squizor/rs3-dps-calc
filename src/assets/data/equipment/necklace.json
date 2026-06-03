@@ -15,7 +15,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Amulet_of_glory.png"
+    "icon": "assets/icons/amulet_of_glory.png"
   },
   {
     "name": "Dragon Rider amulet",
@@ -33,7 +33,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Dragon_Rider_amulet.png"
+    "icon": "assets/icons/dragon_rider_amulet.png"
   },
   {
     "name": "Amulet of fury",
@@ -51,7 +51,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Amulet_of_fury.png"
+    "icon": "assets/icons/amulet_of_fury.png"
   },
   {
     "name": "Saradomin's whisper",
@@ -69,7 +69,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Saradomin's_whisper.png"
+    "icon": "assets/icons/saradomin's_whisper.png"
   },
   {
     "name": "Reaper necklace",
@@ -87,7 +87,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Reaper_necklace.png"
+    "icon": "assets/icons/reaper_necklace.png"
   },
   {
     "name": "Reaper necklace (or)",
@@ -105,7 +105,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Reaper_necklace_(or).png"
+    "icon": "assets/icons/reaper_necklace_(or).png"
   },
   {
     "name": "Brawler's knockout necklace",
@@ -123,7 +123,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Brawler's_knockout_necklace.png"
+    "icon": "assets/icons/brawler's_knockout_necklace.png"
   },
   {
     "name": "Amulet of souls",
@@ -141,7 +141,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Amulet_of_souls.png"
+    "icon": "assets/icons/amulet_of_souls.png"
   },
   {
     "name": "Amulet of souls (or)",
@@ -159,7 +159,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Amulet_of_souls_(or).png"
+    "icon": "assets/icons/amulet_of_souls_(or).png"
   },
   {
     "name": "Essence of Finality amulet",
@@ -177,7 +177,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Essence_of_Finality_amulet.png"
+    "icon": "assets/icons/essence_of_finality_amulet.png"
   },
   {
     "name": "Essence of Finality amulet (or)",
@@ -195,7 +195,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Essence_of_Finality_amulet_(or).png"
+    "icon": "assets/icons/essence_of_finality_amulet_(or).png"
   },
   {
     "name": "Salve amulet (e)",
@@ -213,6 +213,6 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Salve_amulet_(e).png"
+    "icon": "assets/icons/salve_amulet_(e).png"
   }
 ]

@@ -137,8 +137,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         // Transform data for the line graph
         
         let runningTotalDamage = 0;
-        // Start at 0,0
-        const chartData: any[] = [{ x: 0, y: 0 }];
+        const chartData: any[] = [];
         
         damageTicks.forEach((tick, index) => {
             const t = tick.time;
@@ -146,21 +145,19 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
             runningTotalDamage += d;
             
             // Calculate Cumulative DPM
-            // For T=0 (or very close), avoid infinity.
-            const currentDpm = t > 0.1 ? (runningTotalDamage / t) * 60 : 0;
+            // For T=0, avoid infinity by treating it as 1 tick (0.6s) to give an accurate initial DPM reading
+            const effectiveT = Math.max(t, 0.6);
+            const currentDpm = (runningTotalDamage / effectiveT) * 60;
             
-            // We omit points at T=0 to avoid skewed graph scaling
-            if (t > 0.1) {
-                chartData.push({
-                    x: t,
-                    y: Math.floor(currentDpm),
-                    meta: {
-                        damage: d,
-                        tickIndex: index,
-                        name: tick.name
-                    }
-                });
-            }
+            chartData.push({
+                x: t,
+                y: Math.floor(currentDpm),
+                meta: {
+                    damage: d,
+                    tickIndex: index,
+                    name: tick.name
+                }
+            });
         });
 
         this.dotChartOptions = {
@@ -170,38 +167,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
               name: 'DPM',
               data: chartData,
             },
-          ],
-          colors: ['var(--wiki-theme-brightest)'],
-          stroke: {
-            curve: 'smooth', // Smooth line for "Line Graph" feel
-            width: 3,
-            colors: ['var(--wiki-theme-brightest)'], 
-          },
-          yaxis: {
-            show: true,
-            tickAmount: 5,
-            labels: {
-              style: { colors: 'var(--text-secondary)', fontSize: '12px' },
-              formatter: (val: number) => (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : `${val}`),
-            },
-          },
-          tooltip: {
-             ...this.dotChartOptions.tooltip,
-             y: {
-                 formatter: (val: number, opts?: any) => {
-                     if (opts && opts.dataPointIndex !== undefined && opts.w?.config?.series?.[0]?.data) {
-                         const point = opts.w.config.series[0].data[opts.dataPointIndex];
-                         const meta = point.meta;
-                         
-                         if (meta) {
-                             return `${val.toLocaleString()} (Hit: ${meta.damage.toLocaleString()})`;
-                         }
-                     }
-                     return `${val.toLocaleString()}`;
-                 },
-                 title: { formatter: () => 'DPM: ' }
-             }
-          }
+          ]
         };
       } else {
           this.dotChartOptions = {
@@ -509,7 +475,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
           enabled: true,
           speed: 800,
           animateGradually: { enabled: true, delay: 150 },
-          dynamicAnimation: { enabled: true, speed: 350 }
+          dynamicAnimation: { enabled: false }
         }
       },
       theme: { mode: isDark ? 'dark' : 'light' },
@@ -517,7 +483,7 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
       dataLabels: { enabled: false },
       
       stroke: {
-        curve: 'stepline',
+        curve: 'smooth',
         width: 3,
         colors: ['var(--wiki-theme-brightest)'],
       },
@@ -570,8 +536,15 @@ export class DpsDisplayComponent implements OnChanges, OnInit, OnDestroy {
         style: { fontSize: '13px', fontFamily: 'Rubik, sans-serif' },
         x: { formatter: (val: number) => `Time: ${val.toFixed(1)}s` },
         y: { 
-          formatter: (val: number) => `${val.toLocaleString()} dmg`,
-          title: { formatter: () => '' } 
+            formatter: (val: number, opts?: any) => {
+                if (opts && opts.dataPointIndex !== undefined && opts.w?.config?.series?.[0]?.data) {
+                    const point = opts.w.config.series[0].data[opts.dataPointIndex];
+                    const meta = point?.meta;
+                    if (meta) return `${val.toLocaleString()} (Hit: ${meta.damage.toLocaleString()})`;
+                }
+                return `${val.toLocaleString()}`;
+            },
+            title: { formatter: () => 'DPM: ' }
         },
         marker: { show: true },
       },

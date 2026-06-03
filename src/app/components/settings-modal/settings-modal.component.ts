@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SettingsService, Theme } from '../../services/settings.service';
+import { RotationDpsService } from '../../services/rotation-dps.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -52,6 +53,74 @@ import { FormsModule } from '@angular/forms';
               <button 
                 [class.active]="!showCooldownText" 
                 (click)="toggleCooldownText(false)">
+                Off
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label-group">
+                <label for="followEnd">Follow Rotation End</label>
+                <p class="setting-description">
+                  Cursor follows the end as you build.
+                </p>
+            </div>
+            <div class="mode-toggle">
+              <button 
+                [class.active]="rotationDpsService.isAutoFollowing()" 
+                (click)="rotationDpsService.isAutoFollowing.set(true)">
+                On
+              </button>
+              <button 
+                [class.active]="!rotationDpsService.isAutoFollowing()" 
+                (click)="rotationDpsService.isAutoFollowing.set(false)">
+                Off
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label-group">
+                <label>Damage Roll</label>
+                <p class="setting-description">
+                  Simulation variance mode.
+                </p>
+            </div>
+            <div class="mode-toggle">
+              <button 
+                [class.active]="damageMode === 'min'" 
+                (click)="setDamageMode('min')">
+                Min
+              </button>
+              <button 
+                [class.active]="damageMode === 'average'" 
+                (click)="setDamageMode('average')">
+                Avg
+              </button>
+              <button 
+                [class.active]="damageMode === 'max'" 
+                (click)="setDamageMode('max')">
+                Max
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label-group">
+                <label>Always Crit</label>
+                <p class="setting-description">
+                  Force every hit to critical.
+                </p>
+            </div>
+            <div class="mode-toggle">
+              <button 
+                [class.active]="alwaysCrit" 
+                (click)="setAlwaysCrit(true)">
+                On
+              </button>
+              <button 
+                [class.active]="!alwaysCrit" 
+                (click)="setAlwaysCrit(false)">
                 Off
               </button>
             </div>
@@ -162,13 +231,26 @@ import { FormsModule } from '@angular/forms';
 export class SettingsModalComponent {
   @Output() modalClosed = new EventEmitter<void>();
   private settingsService = inject(SettingsService);
+  public rotationDpsService = inject(RotationDpsService);
 
   currentTheme: Theme = 'rs3';
   showCooldownText = true;
+  damageMode: 'min' | 'average' | 'max' = 'average';
+  alwaysCrit = false;
 
   constructor() {
     this.settingsService.theme$.subscribe(theme => this.currentTheme = theme);
     this.settingsService.showCooldownText$.subscribe(show => this.showCooldownText = show);
+    this.settingsService.damageMode$.subscribe(mode => this.damageMode = mode);
+    this.settingsService.alwaysCrit$.subscribe(crit => this.alwaysCrit = crit);
+  }
+
+  setDamageMode(mode: 'min' | 'average' | 'max') {
+      this.settingsService.setDamageMode(mode);
+  }
+
+  setAlwaysCrit(always: boolean) {
+      this.settingsService.setAlwaysCrit(always);
   }
 
   toggleCooldownText(show: boolean) {

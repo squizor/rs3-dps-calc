@@ -3,41 +3,16 @@
     <header class="timeline-header">
       <h3 class="timeline-title">Rotation Timeline</h3>
       <div class="header-actions">
-        <div class="save-load-container">
-            <button class="action-btn" (click)="toggleSaveLoad()" [class.active]="showSaveLoad()">
-                Presets
-            </button>
-            
-            @if (showSaveLoad()) {
-                <div class="save-load-dropdown">
-                    <div class="save-section">
-                        <h4>Save Rotation</h4>
-                        <div class="input-group">
-                            <input type="text" 
-                                   [ngModel]="rotationNameInput()" 
-                                   (ngModelChange)="rotationNameInput.set($event)" 
-                                   placeholder="Rotation Name..." />
-                            <button (click)="saveRotation()" [disabled]="!rotationNameInput()">Save</button>
-                        </div>
-                    </div>
-                    
-                    <div class="load-section">
-                        <h4>Load Rotation</h4>
-                        @if (savedRotations().length === 0) {
-                            <p class="empty-msg">No saved rotations found.</p>
-                        }
-                        <ul class="saved-list">
-                            @for (name of savedRotations(); track name) {
-                                <li>
-                                    <span (click)="loadRotation(name)" class="rotation-name">{{ name }}</span>
-                                    <button class="delete-btn" (click)="deleteRotation(name)" title="Delete">🗑️</button>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-            }
-        </div>
+        <app-preset-manager 
+            title="Presets"
+            [savedNames]="savedRotations()"
+            [pendingDeletion]="rotationPendingDeletion()"
+            (save)="saveRotation($event)"
+            (load)="loadRotation($event)"
+            (deleteRequest)="requestDeleteRotation($event)"
+            (deleteConfirm)="confirmDeleteRotation($event)"
+            (deleteCancel)="cancelDeleteRotation()">
+        </app-preset-manager>
 
         <div class="adrenaline-indicator">
           <span class="adren-label">Adrenaline:</span>
@@ -117,6 +92,7 @@
                 <div class="step-card">
                   <div class="step-card-content" 
                        [class.is-error]="rotationDpsService.simulationErrors().get(asTracked(step.items[0]).instanceId)" 
+                       [class.is-berserk]="isStepDuringBerserk(stepIndex)"
                        [title]="getError(step.items[0]) || ''">
                     @if(step.items.length > 0) {
                       @let item = step.items[0];
@@ -132,6 +108,29 @@
                                      [style.display]="rotationDpsService.simulationErrors().get(asTracked(item).instanceId) ? 'none' : ''">
                                 </div>
                             }
+                            @if(isStepDuringBerserk(stepIndex)) {
+                                <div class="berserk-mini-badge" title="Affected by Berserk">
+                                    <img src="assets/icons/berserk.png" alt="Berserk">
+                                </div>
+                            }
+                                @let currentStacks = getBloodlustStacksForItem(item);
+                                @let delta = getBloodlustDelta(item);
+                                @if(currentStacks > 0 || (delta && delta !== 0)) {
+                                    <div class="bloodlust-mini-badge" [title]="currentStacks + ' Bloodlust Stacks'">
+                                        <img [src]="currentStacks >= 4 ? 'assets/icons/bloodlust_(max_stacks).png' : 'assets/icons/bloodlust.png'" 
+                                             alt="Bloodlust"
+                                             [style.opacity]="currentStacks === 0 ? '0.5' : '1'">
+                                        @if(currentStacks > 0) {
+                                            <span class="stack-count">{{ currentStacks }}</span>
+                                        }
+                                        
+                                        @if(delta && delta !== 0) {
+                                            <span class="stack-delta" [class.is-positive]="delta > 0">
+                                                {{ delta > 0 ? '+' : '' }}{{ delta }}
+                                            </span>
+                                        }
+                                    </div>
+                                }
                         </div>
                       } @else if (isMagicSwap(item)) {
                         <img [src]="'assets/' + item.icon" [alt]="item.spellName" class="item-icon" />
@@ -187,6 +186,7 @@
 
               <div class="merged-item-card" 
                    [class.is-error]="rotationDpsService.simulationErrors().get(asTracked(item).instanceId)"
+                   [class.is-berserk]="isStepDuringBerserk(stepIndex)"
                    [title]="getError(item) || ''">
                 <div class="merged-item-content">
                   @if(isAbility(item)) {
@@ -195,6 +195,29 @@
                         @if(isOverlayVisible(item)) {
                             <div class="cooldown-overlay"
                                  [style.display]="rotationDpsService.simulationErrors().get(asTracked(item).instanceId) ? 'none' : ''">
+                            </div>
+                        }
+                        @if(isStepDuringBerserk(stepIndex)) {
+                            <div class="berserk-mini-badge" title="Affected by Berserk">
+                                <img src="assets/icons/berserk.png" alt="Berserk">
+                            </div>
+                        }
+                        @let currentStacksMerged = getBloodlustStacksForItem(item);
+                        @let deltaMerged = getBloodlustDelta(item);
+                        @if(currentStacksMerged > 0 || (deltaMerged && deltaMerged !== 0)) {
+                            <div class="bloodlust-mini-badge" [title]="currentStacksMerged + ' Bloodlust Stacks'">
+                                <img [src]="currentStacksMerged >= 4 ? 'assets/icons/bloodlust_(max_stacks).png' : 'assets/icons/bloodlust.png'" 
+                                     alt="Bloodlust"
+                                     [style.opacity]="currentStacksMerged === 0 ? '0.5' : '1'">
+                                @if(currentStacksMerged > 0) {
+                                    <span class="stack-count">{{ currentStacksMerged }}</span>
+                                }
+                                
+                                @if(deltaMerged && deltaMerged !== 0) {
+                                    <span class="stack-delta" [class.is-positive]="deltaMerged > 0">
+                                        {{ deltaMerged > 0 ? '+' : '' }}{{ deltaMerged }}
+                                    </span>
+                                }
                             </div>
                         }
                     </div>

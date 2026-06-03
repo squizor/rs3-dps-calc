@@ -1,102 +1,141 @@
-@import '../_helpers.scss';
+@use '../helpers';
 
 .toggles-container {
-  padding: 12px;
-  color: var(--text-secondary);
-  background-color: var(--wiki-theme-darker, #172136);
-  height: 100%;
-  border-radius: 0 !important;
-  overflow-y: auto;
+  @include helpers.card(0.75rem);
+  color: var(--text-primary);
+  margin-bottom: 0;
 
   h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 1.1rem;
-    color: var(--text-primary);
-    border-bottom: 1px solid var(--wiki-theme-darkest, #071022);
-    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--active-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.presets-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.presets-section {
+  margin-bottom: 0;
+}
+
+.toggles-quick-actions {
+  display: flex;
+  gap: 0.75rem;
+
+  .btn-action {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
   }
 
-  .toggle-group {
-    margin-bottom: 8px;
-    background-color: var(--wiki-theme-dark, #222e45);
-    border: 1px solid var(--wiki-theme-darkest, #071022);
-    border-radius: var(--border-radius, 8px);
-    overflow: hidden;
-    
-    summary {
-        font-weight: 600;
-        font-size: 0.95rem;
-        padding: 8px 12px;
-        cursor: pointer;
-        user-select: none;
-        background-color: var(--wiki-theme-bright, #313e59);
+  .btn-unlock-all {
+    background-color: var(--wiki-theme-bright);
+    border-color: var(--wiki-theme-brighter);
+    color: var(--text-primary);
+
+    &:hover {
+      background-color: var(--wiki-theme-brighter);
+    }
+  }
+
+  .btn-reset-all {
+    background-color: transparent;
+    border-color: var(--wiki-theme-bright);
+    color: var(--text-secondary);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border-color: var(--wiki-theme-brighter);
+    }
+  }
+}
+
+// --- Toggle Groups ---
+.toggle-group {
+  margin-bottom: 1rem;
+  background: var(--wiki-theme-darker);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  summary {
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: var(--wiki-theme-dark);
+    user-select: none;
+    outline: none;
+
+    &:hover {
+      background-color: var(--wiki-theme-bright);
+    }
+  }
+
+  &[open] summary {
+    border-bottom: 1px solid var(--wiki-theme-bright);
+  }
+}
+
+.toggle-list {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--accent-color);
+  }
+
+  .toggle-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  &.setting-number {
+    justify-content: space-between;
+
+    select {
+        background: var(--wiki-theme-darkest);
         color: var(--text-primary);
-        transition: background-color 0.2s ease;
-        
-        &:hover {
-           background-color: var(--wiki-theme-brighter, #596e96);
-        }
-    }
+        border: 1px solid var(--wiki-theme-bright);
+        padding: 2px 6px;
+        border-radius: 4px;
+        outline: none;
 
-    &[open] summary {
-        border-bottom: 1px solid var(--wiki-theme-darkest, #071022);
-    }
-
-    .toggle-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-        gap: 6px;
-        padding: 8px;
-        
-        .toggle-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          padding: 4px 6px;
-          border-radius: 4px;
-          background-color: rgba(0, 0, 0, 0.1);
-          transition: background-color 0.2s ease;
-      
-          &:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-          }
-      
-          input[type="checkbox"] {
-            width: 14px;
-            height: 14px;
-            cursor: pointer;
-            accent-color: var(--accent-color, #ffb700);
-            margin: 0;
-          }
-      
-          .toggle-label {
-            font-size: 0.85rem;
-            line-height: 1.2;
-            user-select: none;
-          }
-        }
-
-        .setting-number {
-           display: flex;
-           justify-content: space-between;
-           align-items: center;
-
-           select {
-              background-color: var(--wiki-theme-darker, #172136);
-              color: var(--text-primary);
-              border: 1px solid var(--wiki-theme-darkest, #071022);
-              padding: 2px 4px;
-              font-size: 0.85rem;
-              border-radius: 4px;
-              outline: none;
-              cursor: pointer;
-              
-              &:focus {
-                border-color: var(--accent-color, #ffb700);
-              }
-           }
+        &:focus {
+            border-color: var(--accent-color);
         }
     }
   }

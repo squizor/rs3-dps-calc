@@ -1,0 +1,238 @@
+@import '../../playerinput/helpers';
+
+:host {
+    display: inline-block;
+    position: relative;
+}
+
+.preset-dropdown-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    
+    &.align-right {
+        justify-content: flex-end;
+    }
+    
+    &.align-left {
+        justify-content: flex-start;
+    }
+
+    .preset-button {
+        @include dropdown-trigger;
+        min-width: 150px;
+        justify-content: space-between;
+        color: var(--active-color);
+        background-color: var(--input-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        padding: 0.75rem 1rem;
+        font-weight: 600;
+        
+        &.active {
+            border-color: var(--active-color);
+        }
+
+        fa-icon {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            &.rotate {
+                transform: rotateX(180deg);
+            }
+        }
+    }
+
+    .preset-dropdown {
+        position: absolute;
+        top: calc(100% + 5px);
+        width: 350px;
+        
+        .align-right & {
+            right: 0;
+        }
+        
+        .align-left & {
+            left: 0;
+        }
+        background-color: var(--wiki-theme-darker);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        animation: fadeInDown 0.2s ease-out;
+        overflow: hidden;
+
+        .preset-list {
+            max-height: 400px;
+            overflow-y: auto;
+            
+            .preset-item {
+                padding: 0.5rem 0.75rem;
+                border-bottom: 1px solid var(--border-color);
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: var(--hover-bg);
+                    .delete-preset-btn {
+                        opacity: 1;
+                    }
+                }
+
+                .preset-info {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 1rem;
+                    flex: 1;
+                    overflow: hidden;
+
+                    .preset-name {
+                        font-weight: 500;
+                        color: var(--active-color);
+                        font-size: 0.9rem;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        min-width: 60px;
+                    }
+                }
+
+                .delete-preset-container {
+                    display: flex;
+                    align-items: center;
+                    
+                    .delete-preset-btn {
+                        background: transparent;
+                        border: none;
+                        color: var(--text-secondary);
+                        cursor: pointer;
+                        opacity: 0.3;
+                        transition: all 0.2s;
+                        padding: 0.4rem;
+                        margin-left: 0.5rem;
+                        
+                        &:hover {
+                            color: #e74c3c;
+                            opacity: 1;
+                            background-color: rgba(231, 76, 60, 0.1);
+                            border-radius: 4px;
+                        }
+                    }
+
+                    .confirm-actions {
+                        display: flex;
+                        gap: 0.25rem;
+                        margin-left: 0.5rem;
+                        animation: fadeInDown 0.1s ease-out;
+
+                        button {
+                            background: transparent;
+                            border: none;
+                            cursor: pointer;
+                            padding: 0.4rem;
+                            border-radius: 4px;
+                            transition: all 0.2s;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            &.confirm-btn {
+                                color: #2ecc71;
+                                &:hover {
+                                    background-color: rgba(46, 204, 113, 0.1);
+                                    transform: scale(1.1);
+                                }
+                            }
+
+                            &.cancel-btn {
+                                color: var(--text-secondary);
+                                &:hover {
+                                    color: #e74c3c;
+                                    background-color: rgba(231, 76, 60, 0.1);
+                                    transform: scale(1.1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            .no-presets {
+                padding: 1rem;
+                text-align: center;
+                color: var(--text-secondary);
+                font-style: italic;
+                font-size: 0.9rem;
+            }
+        }
+
+        .preset-actions {
+            padding: 0.5rem;
+            background-color: var(--wiki-theme-dark);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.5rem;
+
+            input {
+                flex: 1;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+                background-color: var(--wiki-theme-darkest);
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                color: var(--text-primary);
+                outline: none;
+
+                &:focus {
+                    border-color: var(--active-color);
+                }
+
+                &::placeholder {
+                    color: var(--text-secondary);
+                    opacity: 0.6;
+                }
+            }
+
+            button {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+                white-space: nowrap;
+                font-size: 0.9rem;
+                background-color: var(--active-color);
+                color: var(--wiki-theme-darkest);
+                border: none;
+                border-radius: 4px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover:not(:disabled) {
+                    filter: brightness(1.1);
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

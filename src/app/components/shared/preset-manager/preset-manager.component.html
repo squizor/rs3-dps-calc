@@ -1,0 +1,56 @@
+<div class="preset-dropdown-container" [class.align-left]="alignment() === 'left'" [class.align-right]="alignment() === 'right'">
+    <button
+        class="preset-button"
+        (click)="toggleDropdown()"
+        [class.active]="showDropdown()"
+    >
+        {{ title() }} <fa-icon [icon]="faChevronDown" [class.rotate]="showDropdown()"></fa-icon>
+    </button>
+    
+    @if (showDropdown()) {
+        <div class="preset-dropdown">
+            <div class="preset-list">
+                @for (name of savedNames(); track name) {
+                    <div class="preset-item">
+                        <div class="preset-info" (click)="onLoad(name)">
+                            <span class="preset-name">{{ name }}</span>
+                        </div>
+                        
+                        <div class="delete-preset-container" (click)="$event.stopPropagation()">
+                            @if (pendingDeletion() !== name) {
+                                <button class="delete-preset-btn" (click)="requestDelete(name, $event)" title="Delete Preset">
+                                    <fa-icon [icon]="faTrash"></fa-icon>
+                                </button>
+                            } @else {
+                                <div class="confirm-actions">
+                                    <button class="confirm-btn" (click)="confirmDelete(name, $event)" title="Confirm Delete">
+                                        <fa-icon [icon]="faCheck"></fa-icon>
+                                    </button>
+                                    <button class="cancel-btn" (click)="cancelDelete($event)" title="Cancel">
+                                        <fa-icon [icon]="faTimes"></fa-icon>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                @if (savedNames().length === 0) {
+                    <div class="no-presets">
+                        No saved {{ title().toLowerCase() }}s.
+                    </div>
+                }
+            </div>
+
+            <div class="preset-actions">
+                <input type="text" 
+                       [ngModel]="newName()" 
+                       (ngModelChange)="newName.set($event)" 
+                       [placeholder]="'New ' + title().toLowerCase() + '...'" 
+                       (keyup.enter)="onSave()" />
+                <button (click)="onSave()" [disabled]="!newName().trim()">
+                    Save Current
+                </button>
+            </div>
+        </div>
+    }
+</div>

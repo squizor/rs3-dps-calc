@@ -5,7 +5,8 @@
   --input-bg: #2e3a50;
   --hover-bg: #1f2838;
   --active-color: #ffb700;
-
+  --active-color-rgb: 255, 183, 0;
+  
   --wiki-theme-darkest: #071022;
   --wiki-theme-darker: #172136;
   --wiki-theme-dark: #222e45;
@@ -19,15 +20,18 @@
   --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 20px rgba(var(--active-color-rgb), 0.15), 
+                 0 0 40px rgba(var(--active-color-rgb), 0.05);
 }
 
-@mixin card {
+@mixin card($padding: 1.5rem) {
   background-color: var(--wiki-theme-darker);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: $padding;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow-md);
+  transition: all 0.3s ease-in-out;
 }
 
 @keyframes fadeInDown {

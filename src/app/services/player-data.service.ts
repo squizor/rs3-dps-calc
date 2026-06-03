@@ -8,6 +8,7 @@ import {
   ISpell,
   IPlayerToggles,
   DEFAULT_TOGGLES,
+  ITogglePreset,
 } from '../components/playerinput/playerinput.model';
 import { InputSet } from '../components/dps/dps-display/dps-display.types';
 
@@ -40,6 +41,7 @@ export class PlayerDataService {
   private activePotion = new BehaviorSubject<string>('none');
   private activeFamiliar = new BehaviorSubject<{ name: string } | null>(null);
   private gearPresets = new BehaviorSubject<IGearPreset[]>([]);
+  private togglePresets = new BehaviorSubject<ITogglePreset[]>([]);
   private boss = new BehaviorSubject<any>(null);
   private toggles = new BehaviorSubject<IPlayerToggles>({ ...DEFAULT_TOGGLES });
   
@@ -55,6 +57,7 @@ export class PlayerDataService {
   public activePotion$ = this.activePotion.asObservable();
   public activeFamiliar$ = this.activeFamiliar.asObservable();
   public gearPresets$ = this.gearPresets.asObservable();
+  public togglePresets$ = this.togglePresets.asObservable();
   public boss$ = this.boss.asObservable();
   public toggles$ = this.toggles.asObservable();
 
@@ -65,6 +68,7 @@ export class PlayerDataService {
   private readonly ACTIVE_POTION = 'active_potion';
   private readonly ACTIVE_FAMILIAR = 'active_familiar';
   private readonly GEAR_PRESETS = 'gear_presets';
+  private readonly TOGGLE_PRESETS = 'toggle_presets';
   private readonly BOSS = 'boss';
   private readonly TOGGLES = 'toggles';
   private isBrowser: boolean;
@@ -79,6 +83,7 @@ export class PlayerDataService {
       this.loadActivePotion();
       this.loadActiveFamiliar();
       this.loadGearPresets();
+      this.loadTogglePresets();
       this.loadBoss();
       this.loadToggles();
     }
@@ -109,6 +114,10 @@ export class PlayerDataService {
     if (this.isBrowser) {
       localStorage.setItem(this.TOGGLES, JSON.stringify(toggles));
     }
+  }
+
+  public getToggles(): IPlayerToggles {
+    return this.toggles.getValue();
   }
 
   private loadToggles() {
@@ -290,6 +299,26 @@ export class PlayerDataService {
       const savedPresets = localStorage.getItem(this.GEAR_PRESETS);
       if (savedPresets) {
         this.gearPresets.next(JSON.parse(savedPresets));
+      }
+    }
+  }
+
+  updateTogglePresets(presets: ITogglePreset[]) {
+    this.togglePresets.next(presets);
+    this.saveTogglePresets(presets);
+  }
+
+  private saveTogglePresets(presets: ITogglePreset[]) {
+    if (this.isBrowser) {
+      localStorage.setItem(this.TOGGLE_PRESETS, JSON.stringify(presets));
+    }
+  }
+
+  private loadTogglePresets() {
+    if (this.isBrowser) {
+      const savedPresets = localStorage.getItem(this.TOGGLE_PRESETS);
+      if (savedPresets) {
+        this.togglePresets.next(JSON.parse(savedPresets));
       }
     }
   }

@@ -1,27 +1,50 @@
+:host {
+  display: block;
+}
+
 .dropdown_items {
+  background-color: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  max-height: 400px;
+  overflow-y: auto;
+  animation: fadeInDown 0.2s ease-out;
+
+  // Custom scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--wiki-theme-darker);
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--wiki-theme-darker);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+  }
+
   .dropdown_item {
     padding: 0.75rem 1rem;
     cursor: pointer;
-    color: var(--text-primary);
-    font-size: 0.95em;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
     transition: background-color 0.2s ease, color 0.2s ease;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
 
     .item-icon {
       width: 24px;
       height: 24px;
       margin-right: 10px;
+      object-fit: contain;
     }
 
     &:hover {
-      background: var(--hover-bg);
-      color: var(--text-primary);
-    }
-
-    &:last-child {
-      border-bottom: none;
+      background-color: var(--active-color);
+      color: var(--wiki-theme-darkest);
     }
   }
 
@@ -32,3 +55,15 @@
     cursor: default;
   }
 }
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

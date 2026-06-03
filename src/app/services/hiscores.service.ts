@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -22,7 +22,11 @@ export interface PlayerStats {
   providedIn: 'root'
 })
 export class HiscoresService {
-  private hiscoresUrl = '/hiscore/index_lite.ws?player=';
+  private get hiscoresUrl(): string {
+    return isDevMode()
+      ? '/hiscore/index_lite.ws?player='
+      : 'https://corsproxy.io/?https://secure.runescape.com/m=hiscore/index_lite.ws?player=';
+  }
 
   constructor(private http: HttpClient) { }
 

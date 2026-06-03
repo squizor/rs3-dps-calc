@@ -26,6 +26,7 @@
              <!-- Dropdown Results -->
              <div class="search-dropdown" *ngIf="isDropdownOpen">
                  <div class="dropdown-item" *ngFor="let enemy of filteredEnemies | slice:0:50" (click)="selectEnemy(enemy); $event.stopPropagation()">
+                     <img *ngIf="enemy.icon" [src]="enemy.icon" class="item-icon" />
                      {{ enemy.name }}
                  </div>
              </div>

@@ -1,7 +1,7 @@
 [
   {
     "name": "Abyssal whip",
-    "icon": "https://runescape.wiki/images/Abyssal_whip.png",
+    "icon": "assets/icons/abyssal_whip.png",
     "level_requirement": 70,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -14,7 +14,7 @@
   },
   {
     "name": "Necronium Battleaxe + 4",
-    "icon": "https://runescape.wiki/images/Necronium_battleaxe_+_4.png",
+    "icon": "assets/icons/necronium_battleaxe_+_4.png",
     "level_requirement": 70,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -27,7 +27,7 @@
   },
   {
     "name": "Abyssal vine whip",
-    "icon": "https://runescape.wiki/images/Abyssal_vine_whip.png",
+    "icon": "assets/icons/abyssal_vine_whip.png",
     "level_requirement": 75,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -40,7 +40,7 @@
   },
   {
     "name": "Bane longsword + 4",
-    "icon": "https://runescape.wiki/images/Bane_longsword_+_4.png",
+    "icon": "assets/icons/bane_longsword_+_4.png",
     "level_requirement": 80,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -53,7 +53,7 @@
   },
   {
     "name": "Abyssal bane longsword",
-    "icon": "https://runescape.wiki/images/Abyssal_bane_longsword.png",
+    "icon": "assets/icons/abyssal_bane_longsword.png",
     "level_requirement": 80,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -66,7 +66,7 @@
   },
   {
     "name": "Blade of Nymora",
-    "icon": "https://runescape.wiki/images/Blade_of_Nymora.png",
+    "icon": "assets/icons/blade_of_nymora.png",
     "level_requirement": 85,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -79,7 +79,7 @@
   },
   {
     "name": "Ripper claw",
-    "icon": "https://runescape.wiki/images/Ripper_claw.png",
+    "icon": "assets/icons/ripper_claw.png",
     "level_requirement": 85,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -92,7 +92,7 @@
   },
   {
     "name": "Dark ice shard",
-    "icon": "https://runescape.wiki/images/Dark_ice_shard.png",
+    "icon": "assets/icons/dark_ice_shard.png",
     "level_requirement": 85,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -105,7 +105,7 @@
   },
   {
     "name": "Superior Vesta's longsword",
-    "icon": "https://runescape.wiki/images/Superior_Vesta's_longsword.png",
+    "icon": "assets/icons/superior_vesta's_longsword.png",
     "level_requirement": 88,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -118,7 +118,7 @@
   },
   {
     "name": "Drygore longsword",
-    "icon": "https://runescape.wiki/images/Drygore_longsword.png",
+    "icon": "assets/icons/drygore_longsword.png",
     "level_requirement": 90,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -131,7 +131,7 @@
   },
   {
     "name": "Drygore mace",
-    "icon": "https://runescape.wiki/images/Drygore_mace.png",
+    "icon": "assets/icons/drygore_mace.png",
     "level_requirement": 90,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -144,7 +144,7 @@
   },
   {
     "name": "Drygore rapier",
-    "icon": "https://runescape.wiki/images/Drygore_rapier.png",
+    "icon": "assets/icons/drygore_rapier.png",
     "level_requirement": 90,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -157,7 +157,7 @@
   },
   {
     "name": "Khopesh of Tumeken",
-    "icon": "https://runescape.wiki/images/Khopesh_of_Tumeken.png",
+    "icon": "assets/icons/khopesh_of_tumeken.png",
     "level_requirement": 92,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -170,7 +170,7 @@
   },
   {
     "name": "Abyssal scourge",
-    "icon": "https://runescape.wiki/images/Abyssal_scourge.png",
+    "icon": "assets/icons/abyssal_scourge.png",
     "level_requirement": 92,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -183,7 +183,7 @@
   },
   {
     "name": "Dark Shard of Leng",
-    "icon": "https://runescape.wiki/images/Dark_Shard_of_Leng.png",
+    "icon": "assets/icons/dark_shard_of_leng.png",
     "level_requirement": 95,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -196,7 +196,7 @@
   },
   {
     "name": "Primed keris",
-    "icon": "https://runescape.wiki/images/Primed_keris.png",
+    "icon": "assets/icons/primed_keris.png",
     "level_requirement": 70,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -209,7 +209,7 @@
   },
   {
     "name": "Keris",
-    "icon": "https://runescape.wiki/images/Keris.png",
+    "icon": "assets/icons/keris.png",
     "level_requirement": 50,
     "class_type": "Melee",
     "slot": "mainhand",
@@ -222,7 +222,7 @@
   },
   {
     "name": "Consecrated keris",
-    "icon": "https://runescape.wiki/images/Consecrated_keris.png",
+    "icon": "assets/icons/consecrated_keris.png",
     "level_requirement": 70,
     "class_type": "Melee",
     "slot": "mainhand",

@@ -16,7 +16,7 @@
       "necromancy": -448
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Bandos_chestplate.png"
+    "icon": "assets/icons/bandos_chestplate.png"
   },
   {
     "name": "Torva platebody",
@@ -35,7 +35,7 @@
       "necromancy": -584
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Torva_platebody.png"
+    "icon": "assets/icons/torva_platebody.png"
   },
   {
     "name": "Anima core body of Zaros",
@@ -54,7 +54,7 @@
       "necromancy": -584
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Anima_core_body_of_Zaros.png"
+    "icon": "assets/icons/anima_core_body_of_zaros.png"
   },
   {
     "name": "Malevolent cuirass",
@@ -73,7 +73,7 @@
       "necromancy": -751
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Malevolent_cuirass.png"
+    "icon": "assets/icons/malevolent_cuirass.png"
   },
   {
     "name": "Masterwork melee platebody",
@@ -92,7 +92,7 @@
       "necromancy": -751
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Masterwork_melee_platebody.png"
+    "icon": "assets/icons/masterwork_melee_platebody.png"
   },
   {
     "name": "Trimmed masterwork melee platebody",
@@ -111,7 +111,7 @@
       "necromancy": -789
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Trimmed_masterwork_melee_platebody.png"
+    "icon": "assets/icons/trimmed_masterwork_melee_platebody.png"
   },
   {
     "name": "Vestments of havoc robe",
@@ -130,6 +130,6 @@
       "necromancy": -512
     },
     "augmentable": true,
-    "icon": "https://runescape.wiki/images/Vestments_of_havoc_robe_top.png"
+    "icon": "assets/icons/vestments_of_havoc_robe_top.png"
   }
 ]

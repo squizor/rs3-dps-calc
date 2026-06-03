@@ -41,8 +41,14 @@
 }
 
 .main-content-area {
-  padding: 1.5rem;
+  padding: 0.75rem;
   background-color: var(--wiki-theme-dark);
+  
+  .tab-container {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+  }
 }
 
 h3.section-title {
@@ -257,11 +263,8 @@ h3.section-title {
   .summoning-container,
   .invention-item,
   .arch-container {
-    background-color: var(--wiki-theme-darker);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
+    @include helpers.card(0.75rem);
     box-shadow: var(--shadow-inner);
-    color: var(--text-primary);
     margin-bottom: 1.5rem;
 
     &:last-child {
@@ -286,10 +289,7 @@ h3.section-title {
   .spells-container,
   .boost,
   .summoning-container,
-  .invention-item {
-    padding: 1.25rem;
-  }
-
+  .invention-item,
   .arch-container {
     padding: 0.75rem;
   }
@@ -420,15 +420,6 @@ button,
           left: 0;
           width: 100%;
           z-index: 1000;
-    
-          ::ng-deep .dropdown_items {
-            background-color: var(--wiki-theme-dark);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            max-height: 400px;
-            overflow-y: auto;
-          }
         }
       }
 
@@ -944,7 +935,6 @@ button,
     justify-content: center;
     flex-grow: 1;
     min-width: 0;
-
     .stat-label {
       font-size: 0.8rem;
       font-weight: 500;

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -16,7 +16,11 @@ export class EnemyService {
   private beasts = new BehaviorSubject<Beast[]>([]);
   public beasts$ = this.beasts.asObservable();
 
-  private readonly API_URL = 'https://secure.runescape.com/m=itemdb_rs/api/beasts/beasts.json?letter=';
+  private get API_URL(): string {
+    return isDevMode()
+      ? 'https://secure.runescape.com/m=itemdb_rs/api/beasts/beasts.json?letter='
+      : 'https://corsproxy.io/?https://secure.runescape.com/m=itemdb_rs/api/beasts/beasts.json?letter=';
+  }
 
   constructor() {
     this.fetchAllBeasts().subscribe();

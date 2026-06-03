@@ -24,15 +24,8 @@ export class DatabaseService {
   }
 
   getEnemies(): Observable<IEnemy[]> {
-    const enemies$ = this.http
-      .get<IEnemy[]>('assets/data/enemies.json')
-      .pipe(catchError(() => of([])));
-    const customEnemies$ = this.http
-      .get<IEnemy[]>('assets/data/custom-enemies.json')
-      .pipe(catchError(() => of([])));
-
-    return forkJoin([enemies$, customEnemies$]).pipe(
-      map(([enemies, customEnemies]) => [...enemies, ...customEnemies])
+    return this.http.get<IEnemy[]>('assets/data/custom-enemies.json').pipe(
+      catchError(() => of([]))
     );
   }
 

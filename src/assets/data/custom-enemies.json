@@ -13,7 +13,7 @@
     "armor": 1694,
     "susceptibleTo": "hexhunter",
     "enrageLevel": 0,
-    "icon": "https://runescape.wiki/images/Arch-Glacor.png",
+    "icon": "assets/icons/arch-glacor.png",
     "hardModeStats": {
       "lifePoints": 370000,
       "slayerHelmable": false
@@ -37,8 +37,11 @@
     "statdrainable": true,
     "defenceLevel": 60,
     "armor": 1132,
-    "susceptibleTo": ["inqstaff", "dragonslayer"],
-    "icon": "https://runescape.wiki/images/King_Black_Dragon.png",
+    "susceptibleTo": [
+      "inqstaff",
+      "dragonslayer"
+    ],
+    "icon": "assets/icons/king_black_dragon.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -58,7 +61,11 @@
     "statdrainable": true,
     "defenceLevel": 1,
     "armor": 0,
-    "susceptibleTo": ["inqstaff", "terrasaur", "hexhunter"],
+    "susceptibleTo": [
+      "inqstaff",
+      "terrasaur",
+      "hexhunter"
+    ],
     "icon": "assets/Squirrel-logo.png",
     "affinity": {
       "hybrid": 55,
@@ -80,7 +87,7 @@
     "defenceLevel": 1,
     "armor": 0,
     "susceptibleTo": "",
-    "icon": "https://runescape.wiki/images/Training_dummy.png",
+    "icon": "assets/icons/training_dummy.png",
     "affinity": {
       "hybrid": 90,
       "melee": null,
@@ -104,8 +111,11 @@
         "name": "Phase 1",
         "lifePoints": 40000,
         "weakness": "Nothing",
-        "icon": "https://runescape.wiki/images/Kalphite_Queen.png",
-        "susceptibleTo": ["terrasaur", "keris"],
+        "icon": "assets/icons/kalphite_queen.png",
+        "susceptibleTo": [
+          "terrasaur",
+          "keris"
+        ],
         "affinity": {
           "hybrid": 40,
           "melee": 60,
@@ -117,8 +127,11 @@
         "name": "Phase 2",
         "lifePoints": 40000,
         "weakness": "Nothing",
-        "icon": "https://runescape.wiki/images/Kalphite_Queen_2nd_Form.png",
-        "susceptibleTo": ["terrasaur", "keris"],
+        "icon": "assets/icons/kalphite_queen_2nd_form.png",
+        "susceptibleTo": [
+          "terrasaur",
+          "keris"
+        ],
         "affinity": {
           "hybrid": 40,
           "melee": null,
@@ -126,7 +139,8 @@
           "magic": null
         }
       }
-    ]
+    ],
+    "icon": "assets/icons/kalphite_queen.png"
   },
   {
     "name": "Exiled Kalphite Queen",
@@ -143,8 +157,11 @@
       {
         "name": "Phase 1",
         "weakness": "Nothing",
-        "icon": "https://runescape.wiki/images/Exiled_Kalphite_Queen.png",
-        "susceptibleTo": ["terrasaur", "keris"],
+        "icon": "assets/icons/exiled_kalphite_queen.png",
+        "susceptibleTo": [
+          "terrasaur",
+          "keris"
+        ],
         "affinity": {
           "hybrid": 40,
           "melee": 60,
@@ -155,8 +172,11 @@
       {
         "name": "Phase 2",
         "weakness": "Nothing",
-        "icon": "https://runescape.wiki/images/Exiled_Kalphite_Queen_(airborne).png",
-        "susceptibleTo": ["terrasaur", "keris"],
+        "icon": "assets/icons/exiled_kalphite_queen_(airborne).png",
+        "susceptibleTo": [
+          "terrasaur",
+          "keris"
+        ],
         "affinity": {
           "hybrid": 40,
           "melee": null,
@@ -164,7 +184,8 @@
           "magic": null
         }
       }
-    ]
+    ],
+    "icon": "assets/icons/exiled_kalphite_queen.png"
   },
   {
     "name": "Telos, the Warden",
@@ -180,7 +201,7 @@
     "armor": 1924,
     "susceptibleTo": "inqstaff",
     "enrageLevel": 0,
-    "icon": "https://runescape.wiki/images/Telos,_the_Warden.png",
+    "icon": "assets/icons/telos,_the_warden.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -211,7 +232,7 @@
     ]
   },
   {
-    "name": "Barrows",
+    "name": "Ahrim the Blighted",
     "combatLevel": 150,
     "lifePoints": 12000,
     "slayerHelmable": true,
@@ -222,117 +243,200 @@
     "statdrainable": true,
     "defenceLevel": 70,
     "armor": 1299,
-    "phases": [
-      {
-        "name": "Ahrim the Blighted",
-        "lifePoints": 12000,
-        "susceptibleTo": ["hexhunter", "undead", "ghosthunter", "salve"],
-        "weakness": "Ranged",
-        "icon": "https://runescape.wiki/images/Ahrim_the_Blighted.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": 45,
-          "ranged": 65,
-          "magic": null
-        }
-      },
-      {
-        "name": "Dharok the Wretched",
-        "lifePoints": 12000,
-        "susceptibleTo": ["inqstaff", "undead", "ghosthunter", "salve"],
-        "weakness": "Fire",
-        "icon": "https://runescape.wiki/images/Dharok_the_Wretched.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": null,
-          "ranged": 45,
-          "magic": 65
-        }
-      },
-      {
-        "name": "Guthan the Infested",
-        "lifePoints": 12000,
-        "susceptibleTo": ["inqstaff", "undead", "ghosthunter", "salve"],
-        "weakness": "Air",
-        "armor": 1486,
-        "icon": "https://runescape.wiki/images/Guthan_the_Infested.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": null,
-          "ranged": 45,
-          "magic": 65
-        }
-      },
-      {
-        "name": "Karil the Tainted",
-        "lifePoints": 12000,
-        "susceptibleTo": ["terrasaur", "undead", "ghosthunter", "salve"],
-        "weakness": "Stab",
-        "icon": "https://runescape.wiki/images/Karil_the_Tainted.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": 65,
-          "ranged": null,
-          "magic": 45
-        }
-      },
-      {
-        "name": "Torag the Corrupted",
-        "lifePoints": 12000,
-        "susceptibleTo": ["inqstaff", "undead", "ghosthunter", "salve"],
-        "weakness": "Water",
-        "icon": "https://runescape.wiki/images/Torag_the_Corrupted.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": null,
-          "ranged": 45,
-          "magic": 65
-        }
-      },
-      {
-        "name": "Verac the Defiled",
-        "lifePoints": 12000,
-        "susceptibleTo": ["inqstaff", "undead", "ghosthunter", "salve"],
-        "weakness": "Earth",
-        "icon": "https://runescape.wiki/images/Verac_the_Defiled.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": null,
-          "ranged": 45,
-          "magic": 65
-        }
-      },
-      {
-        "name": "Akrisae the Doomed",
-        "combatLevel": 115,
-        "lifePoints": 12000,
-        "susceptibleTo": ["hexhunter", "undead", "salve"],
-        "weakness": "Bolts",
-        "armor": 1486,
-        "icon": "https://runescape.wiki/images/Akrisae_the_Doomed.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": 45,
-          "ranged": 65,
-          "magic": null
-        }
-      },
-      {
-        "name": "Linza the Disgraced",
-        "combatLevel": 150,
-        "lifePoints": 150000,
-        "susceptibleTo": ["inqstaff", "undead", "ghosthunter", "salve"],
-        "weakness": "Fire",
-        "armor": 1694,
-        "icon": "https://runescape.wiki/images/Linza_the_Disgraced.png",
-        "affinity": {
-          "hybrid": 55,
-          "melee": null,
-          "ranged": 45,
-          "magic": 65
-        }
-      }
-    ]
+    "susceptibleTo": [
+      "hexhunter",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/ahrim_the_blighted.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": 45,
+      "ranged": 65,
+      "magic": null
+    }
+  },
+  {
+    "name": "Dharok the Wretched",
+    "combatLevel": 150,
+    "lifePoints": 12000,
+    "slayerHelmable": true,
+    "weakness": "Fire",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1299,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/dharok_the_wretched.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": 45,
+      "magic": 65
+    }
+  },
+  {
+    "name": "Guthan the Infested",
+    "combatLevel": 150,
+    "lifePoints": 12000,
+    "slayerHelmable": true,
+    "weakness": "Air",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1486,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/guthan_the_infested.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": 45,
+      "magic": 65
+    }
+  },
+  {
+    "name": "Karil the Tainted",
+    "combatLevel": 150,
+    "lifePoints": 12000,
+    "slayerHelmable": true,
+    "weakness": "Stab",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1299,
+    "susceptibleTo": [
+      "terrasaur",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/karil_the_tainted.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": 65,
+      "ranged": null,
+      "magic": 45
+    }
+  },
+  {
+    "name": "Torag the Corrupted",
+    "combatLevel": 150,
+    "lifePoints": 12000,
+    "slayerHelmable": true,
+    "weakness": "Water",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1299,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/torag_the_corrupted.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": 45,
+      "magic": 65
+    }
+  },
+  {
+    "name": "Verac the Defiled",
+    "combatLevel": 150,
+    "lifePoints": 12000,
+    "slayerHelmable": true,
+    "weakness": "Earth",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1299,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/verac_the_defiled.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": 45,
+      "magic": 65
+    }
+  },
+  {
+    "name": "Akrisae the Doomed",
+    "combatLevel": 115,
+    "lifePoints": 12000,
+    "slayerHelmable": true,
+    "weakness": "Bolts",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1486,
+    "susceptibleTo": [
+      "hexhunter",
+      "undead",
+      "salve"
+    ],
+    "icon": "assets/icons/akrisae_the_doomed.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": 45,
+      "ranged": 65,
+      "magic": null
+    }
+  },
+  {
+    "name": "Linza the Disgraced",
+    "combatLevel": 150,
+    "lifePoints": 150000,
+    "slayerHelmable": true,
+    "weakness": "Fire",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 1694,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "ghosthunter",
+      "salve"
+    ],
+    "icon": "assets/icons/linza_the_disgraced.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": 45,
+      "magic": 65
+    }
   },
   {
     "name": "TzTok-Jad",
@@ -347,7 +451,7 @@
     "defenceLevel": 70,
     "armor": 1486,
     "susceptibleTo": "",
-    "icon": "https://runescape.wiki/images/TzTok-Jad.png",
+    "icon": "assets/icons/tztok-jad.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -356,7 +460,30 @@
     }
   },
   {
-    "name": "Dagannoth Kings",
+    "name": "Dagannoth Rex",
+    "combatLevel": 303,
+    "lifePoints": 35000,
+    "slayerHelmable": true,
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 68,
+    "armor": 1409,
+    "weakness": "Fire",
+    "icon": "assets/icons/dagannoth_rex.png",
+    "susceptibleTo": [
+      "inqstaff"
+    ],
+    "affinity": {
+      "hybrid": 0,
+      "melee": null,
+      "ranged": null,
+      "magic": 60
+    }
+  },
+  {
+    "name": "Dagannoth Supreme",
     "combatLevel": 303,
     "lifePoints": 35000,
     "slayerHelmable": true,
@@ -366,45 +493,41 @@
     "statdrainable": true,
     "defenceLevel": 68,
     "armor": 1409,
-    "phases": [
-      {
-        "name": "Dagannoth Rex",
-        "weakness": "Fire",
-        "stunnable": true,
-        "icon": "https://runescape.wiki/images/Dagannoth_Rex.png",
-        "susceptibleTo": ["inqstaff"],
-        "affinity": {
-          "hybrid": 0,
-          "melee": null,
-          "ranged": null,
-          "magic": 60
-        }
-      },
-      {
-        "name": "Dagannoth Supreme",
-        "weakness": "Stab",
-        "icon": "https://runescape.wiki/images/Dagannoth_Supreme.png",
-        "susceptibleTo": ["terrasaur", "Balmung"],
-        "affinity": {
-          "hybrid": 0,
-          "melee": 60,
-          "ranged": null,
-          "magic": null
-        }
-      },
-      {
-        "name": "Dagannoth Prime",
-        "weakness": "Ranged",
-        "icon": "https://runescape.wiki/images/Dagannoth_Prime.png",
-        "susceptibleTo": ["hexhunter"],
-        "affinity": {
-          "hybrid": 0,
-          "melee": null,
-          "ranged": 60,
-          "magic": null
-        }
-      }
-    ]
+    "weakness": "Stab",
+    "icon": "assets/icons/dagannoth_supreme.png",
+    "susceptibleTo": [
+      "terrasaur",
+      "Balmung"
+    ],
+    "affinity": {
+      "hybrid": 0,
+      "melee": 60,
+      "ranged": null,
+      "magic": null
+    }
+  },
+  {
+    "name": "Dagannoth Prime",
+    "combatLevel": 303,
+    "lifePoints": 35000,
+    "slayerHelmable": true,
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": false,
+    "statdrainable": true,
+    "defenceLevel": 68,
+    "armor": 1409,
+    "weakness": "Ranged",
+    "icon": "assets/icons/dagannoth_prime.png",
+    "susceptibleTo": [
+      "hexhunter"
+    ],
+    "affinity": {
+      "hybrid": 0,
+      "melee": null,
+      "ranged": 60,
+      "magic": null
+    }
   },
   {
     "name": "Chaos Elemental",
@@ -418,8 +541,10 @@
     "statdrainable": true,
     "defenceLevel": 69,
     "armor": 1447,
-    "susceptibleTo": ["hexhunter"],
-    "icon": "https://runescape.wiki/images/Chaos_Elemental.png",
+    "susceptibleTo": [
+      "hexhunter"
+    ],
+    "icon": "assets/icons/chaos_elemental.png",
     "affinity": {
       "hybrid": 55,
       "melee": 45,
@@ -440,7 +565,7 @@
     "defenceLevel": 75,
     "armor": 1299,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/General_Graardor.png",
+    "icon": "assets/icons/general_graardor.png",
     "hardModeStats": {
       "lifePoints": 100000,
       "defenceLevel": 72,
@@ -472,7 +597,7 @@
     "defenceLevel": 75,
     "armor": 1299,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/Kree'arra.png",
+    "icon": "assets/icons/kree'arra.png",
     "hardModeStats": {
       "lifePoints": 100000,
       "defenceLevel": 75,
@@ -503,8 +628,10 @@
     "statdrainable": true,
     "defenceLevel": 45,
     "armor": 732,
-    "susceptibleTo": ["inqstaff"],
-    "icon": "https://runescape.wiki/images/Giant_mole.png",
+    "susceptibleTo": [
+      "inqstaff"
+    ],
+    "icon": "assets/icons/giant_mole.png",
     "hardModeStats": {
       "lifePoints": 78000
     },
@@ -528,7 +655,7 @@
     "defenceLevel": 70,
     "armor": 1486,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Helwyr.png",
+    "icon": "assets/icons/helwyr.png",
     "hardModeStats": {
       "lifePoints": 300000,
       "defenceLevel": 75,
@@ -554,7 +681,7 @@
     "defenceLevel": 75,
     "armor": 1694,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/Gregorovic.png",
+    "icon": "assets/icons/gregorovic.png",
     "hardModeStats": {
       "lifePoints": 200000,
       "poisonable": false,
@@ -581,7 +708,7 @@
     "defenceLevel": 70,
     "armor": 1486,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/Nymora,_the_Vengeful.png",
+    "icon": "assets/icons/nymora,_the_vengeful.png",
     "hardModeStats": {
       "lifePoints": 350000,
       "defenceLevel": 75,
@@ -606,7 +733,7 @@
     "defenceLevel": 55,
     "armor": 983,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Flesh-hatcher_Mhekarnahz.png",
+    "icon": "assets/icons/flesh-hatcher_mhekarnahz.png",
     "name": "Flesh-hatcher Mhekarnahz",
     "affinity": {
       "hybrid": 55,
@@ -616,57 +743,54 @@
     }
   },
   {
-    "combatLevel": 1,
-    "lifePoints": 100000,
+    "combatLevel": 1000,
+    "lifePoints": 200000,
     "slayerHelmable": false,
     "weakness": "Nothing",
     "poisonable": false,
     "reflectable": true,
     "stunnable": false,
     "statdrainable": true,
-    "defenceLevel": 1,
-    "armor": 0,
+    "defenceLevel": 75,
+    "armor": 1694,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Vindicta_%26_Gorvek.png",
-    "name": "Vindicta & Gorvek",
-    "phases": [
-      {
-        "name": "Vindicta",
-        "combatLevel": 1000,
-        "lifePoints": 200000,
-        "defenceLevel": 75,
-        "armor": 1694,
-        "icon": "https://runescape.wiki/images/Vindicta.png",
-        "hardModeStats": {
-          "lifePoints": 300000,
-          "defenceLevel": 85,
-          "armor": 1924
-        },
-        "affinity": {
-          "hybrid": 50,
-          "melee": null,
-          "ranged": null,
-          "magic": null
-        }
-      },
-      {
-        "name": "Gorvek",
-        "combatLevel": 1000,
-        "lifePoints": 200000,
-        "defenceLevel": 85,
-        "armor": 1924,
-        "icon": "https://runescape.wiki/images/Gorvek.png",
-        "hardModeStats": {
-          "lifePoints": 300000
-        },
-        "affinity": {
-          "hybrid": 50,
-          "melee": null,
-          "ranged": null,
-          "magic": null
-        }
-      }
-    ]
+    "icon": "assets/icons/vindicta.png",
+    "name": "Vindicta",
+    "hardModeStats": {
+      "lifePoints": 300000,
+      "defenceLevel": 85,
+      "armor": 1924
+    },
+    "affinity": {
+      "hybrid": 50,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
+  },
+  {
+    "combatLevel": 1000,
+    "lifePoints": 200000,
+    "slayerHelmable": false,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": true,
+    "stunnable": false,
+    "statdrainable": true,
+    "defenceLevel": 85,
+    "armor": 1924,
+    "susceptibleTo": "inqstaff",
+    "icon": "assets/icons/gorvek.png",
+    "name": "Gorvek",
+    "hardModeStats": {
+      "lifePoints": 300000
+    },
+    "affinity": {
+      "hybrid": 50,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
   },
   {
     "combatLevel": 7000,
@@ -680,7 +804,7 @@
     "defenceLevel": 99,
     "armor": 2765,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Nex,_Angel_of_Death.png",
+    "icon": "assets/icons/nex,_angel_of_death.png",
     "name": "Nex, Angel of Death",
     "affinity": {
       "hybrid": 55,
@@ -702,7 +826,7 @@
     "defenceLevel": 90,
     "armor": 2458,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/The_Magister.png",
+    "icon": "assets/icons/the_magister.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -723,7 +847,7 @@
     "defenceLevel": 70,
     "armor": 1486,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Solak,_Guardian_of_the_Grove.png",
+    "icon": "assets/icons/solak,_guardian_of_the_grove.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -744,7 +868,7 @@
     "defenceLevel": 75,
     "armor": 1694,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/The_Sanctum_Guardian.png",
+    "icon": "assets/icons/the_sanctum_guardian.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -764,8 +888,11 @@
     "statdrainable": true,
     "defenceLevel": 75,
     "armor": 1299,
-    "susceptibleTo": ["inqstaff", "demonslayer"],
-    "icon": "https://runescape.wiki/images/K'ril_Tsutsaroth.png",
+    "susceptibleTo": [
+      "inqstaff",
+      "demonslayer"
+    ],
+    "icon": "assets/icons/k'ril_tsutsaroth.png",
     "hardModeStats": {
       "lifePoints": 100000,
       "armor": 1694,
@@ -796,7 +923,7 @@
     "defenceLevel": 70,
     "armor": 1694,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/Masuta_the_Ascended.png",
+    "icon": "assets/icons/masuta_the_ascended.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -833,7 +960,7 @@
     "defenceLevel": 75,
     "armor": 1299,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Commander_Zilyana.png",
+    "icon": "assets/icons/commander_zilyana.png",
     "hardModeStats": {
       "lifePoints": 100000,
       "armor": 1694,
@@ -864,7 +991,7 @@
     "defenceLevel": 80,
     "armor": 1924,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Seiryu_the_Azure_Serpent.png",
+    "icon": "assets/icons/seiryu_the_azure_serpent.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -885,7 +1012,7 @@
     "defenceLevel": 1,
     "armor": 110,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/Black_crystal_(Temple_of_Aminishi).png",
+    "icon": "assets/icons/black_crystal_(temple_of_aminishi).png",
     "affinity": {
       "hybrid": 55,
       "melee": 65,
@@ -919,8 +1046,11 @@
     "statdrainable": true,
     "defenceLevel": 75,
     "armor": 1694,
-    "susceptibleTo": ["inqstaff", "spears"],
-    "icon": "https://runescape.wiki/images/Corporeal_Beast.png",
+    "susceptibleTo": [
+      "inqstaff",
+      "spears"
+    ],
+    "icon": "assets/icons/corporeal_beast.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -940,8 +1070,11 @@
     "statdrainable": true,
     "defenceLevel": 85,
     "armor": 2178,
-    "susceptibleTo": ["hexhunter", "dragonslayer"],
-    "icon": "https://runescape.wiki/images/Astellarn.png",
+    "susceptibleTo": [
+      "hexhunter",
+      "dragonslayer"
+    ],
+    "icon": "assets/icons/astellarn.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -961,8 +1094,10 @@
     "statdrainable": true,
     "defenceLevel": 80,
     "armor": 1924,
-    "susceptibleTo": ["inqstaff"],
-    "icon": "https://runescape.wiki/images/Har-Aken.png",
+    "susceptibleTo": [
+      "inqstaff"
+    ],
+    "icon": "assets/icons/har-aken.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -982,8 +1117,11 @@
     "statdrainable": true,
     "defenceLevel": 70,
     "armor": 1694,
-    "susceptibleTo": ["terrasaur", "dragonslayer"],
-    "icon": "https://runescape.wiki/images/Verak_Lith.png",
+    "susceptibleTo": [
+      "terrasaur",
+      "dragonslayer"
+    ],
+    "icon": "assets/icons/verak_lith.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1003,8 +1141,11 @@
     "statdrainable": true,
     "defenceLevel": 80,
     "armor": 1924,
-    "susceptibleTo": ["inqstaff", "dragonslayer"],
-    "icon": "https://runescape.wiki/images/Queen_Black_Dragon.png",
+    "susceptibleTo": [
+      "inqstaff",
+      "dragonslayer"
+    ],
+    "icon": "assets/icons/queen_black_dragon.png",
     "affinity": {
       "hybrid": 50,
       "melee": null,
@@ -1024,8 +1165,11 @@
     "statdrainable": true,
     "defenceLevel": 85,
     "armor": 2178,
-    "susceptibleTo": ["terrasaur", "dragonslayer"],
-    "icon": "https://runescape.wiki/images/Black_stone_dragon.png",
+    "susceptibleTo": [
+      "terrasaur",
+      "dragonslayer"
+    ],
+    "icon": "assets/icons/black_stone_dragon.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1034,78 +1178,101 @@
     }
   },
   {
-    "name": "Rex Matriarchs",
+    "name": "Orikalka",
     "combatLevel": 888,
     "lifePoints": 190000,
     "slayerHelmable": true,
-    "weakness": "Nothing",
+    "weakness": "Fire",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 96,
+    "armor": 2829,
+    "susceptibleTo": [
+      "inqstaff",
+      "salamancy"
+    ],
+    "affinity": {
+      "hybrid": 10,
+      "melee": null,
+      "ranged": null,
+      "magic": 64
+    },
+    "icon": "assets/icons/orikalka.png"
+  },
+  {
+    "name": "Rathis",
+    "combatLevel": 888,
+    "lifePoints": 190000,
+    "slayerHelmable": true,
+    "weakness": "Stab",
     "poisonable": true,
     "reflectable": true,
     "stunnable": false,
     "statdrainable": true,
     "defenceLevel": 96,
     "armor": 2829,
-    "susceptibleTo": ["inqstaff", "salamancy"],
+    "susceptibleTo": [
+      "terrasaur",
+      "salamancy"
+    ],
     "affinity": {
-      "hybrid": 50,
-      "melee": null,
+      "hybrid": 10,
+      "melee": 64,
       "ranged": null,
       "magic": null
     },
-    "phases": [
-      {
-        "name": "Orikalka",
-        "weakness": "Fire",
-        "icon": "https://runescape.wiki/images/Orikalka.png",
-        "stunnable": true,
-        "affinity": {
-          "hybrid": 10,
-          "melee": null,
-          "ranged": null,
-          "magic": 64
-        }
-      },
-      {
-        "name": "Rathis",
-        "weakness": "Stab",
-        "icon": "https://runescape.wiki/images/Rathis.png",
-        "susceptibleTo": ["terrasaur", "salamancy"],
-        "affinity": {
-          "hybrid": 10,
-          "melee": 64,
-          "ranged": null,
-          "magic": null
-        }
-      },
-      {
-        "name": "Pthentraken",
-        "weakness": "Ranged",
-        "icon": "https://runescape.wiki/images/Pthentraken.png",
-        "susceptibleTo": ["hexhunter", "salamancy"],
-        "affinity": {
-          "hybrid": 10,
-          "melee": null,
-          "ranged": 64,
-          "magic": null
-        }
-      },
-      {
-        "name": "Osseous",
-        "lifePoints": 350000,
-        "weakness": "Necromancy",
-        "icon": "https://runescape.wiki/images/Osseous.png",
-        "susceptibleTo": ["salamancy", "undead", "salve"],
-        "poisonable": false,
-        "defenceLevel": 90,
-        "armor": 2458,
-        "affinity": {
-          "hybrid": 100,
-          "melee": 10,
-          "ranged": 10,
-          "magic": 10
-        }
-      }
-    ]
+    "icon": "assets/icons/rathis.png"
+  },
+  {
+    "name": "Pthentraken",
+    "combatLevel": 888,
+    "lifePoints": 190000,
+    "slayerHelmable": true,
+    "weakness": "Ranged",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": false,
+    "statdrainable": true,
+    "defenceLevel": 96,
+    "armor": 2829,
+    "susceptibleTo": [
+      "hexhunter",
+      "salamancy"
+    ],
+    "affinity": {
+      "hybrid": 10,
+      "melee": null,
+      "ranged": 64,
+      "magic": null
+    },
+    "icon": "assets/icons/pthentraken.png"
+  },
+  {
+    "name": "Osseous",
+    "combatLevel": 888,
+    "lifePoints": 350000,
+    "slayerHelmable": true,
+    "weakness": "Necromancy",
+    "poisonable": false,
+    "reflectable": true,
+    "stunnable": false,
+    "statdrainable": true,
+    "defenceLevel": 90,
+    "armor": 2458,
+    "susceptibleTo": [
+      "salamancy",
+      "undead",
+      "salve"
+    ],
+    "affinity": {
+      "hybrid": 100,
+      "melee": 10,
+      "ranged": 10,
+      "magic": 10
+    },
+    "icon": "assets/icons/osseous.png"
   },
   {
     "name": "Crassian Leviathan",
@@ -1120,7 +1287,7 @@
     "defenceLevel": 85,
     "armor": 2178,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/Crassian_Leviathan.png",
+    "icon": "assets/icons/crassian_leviathan.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1141,7 +1308,7 @@
     "defenceLevel": 80,
     "armor": 1924,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Nex.png",
+    "icon": "assets/icons/nex.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -1161,8 +1328,12 @@
     "statdrainable": true,
     "defenceLevel": 70,
     "armor": 1694,
-    "susceptibleTo": ["terrasaur", "undead", "salve"],
-    "icon": "https://runescape.wiki/images/Taraket_the_Necromancer.png",
+    "susceptibleTo": [
+      "terrasaur",
+      "undead",
+      "salve"
+    ],
+    "icon": "assets/icons/taraket_the_necromancer.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1182,8 +1353,11 @@
     "statdrainable": true,
     "defenceLevel": 85,
     "armor": 2178,
-    "susceptibleTo": ["terrasaur", "keris"],
-    "icon": "https://runescape.wiki/images/Kalphite_King.png",
+    "susceptibleTo": [
+      "terrasaur",
+      "keris"
+    ],
+    "icon": "assets/icons/kalphite_king.png",
     "affinity": {
       "hybrid": 40,
       "melee": 40,
@@ -1204,7 +1378,7 @@
     "defenceLevel": 75,
     "armor": 1694,
     "susceptibleTo": "terrasaur",
-    "icon": "https://runescape.wiki/images/The_Ambassador.png",
+    "icon": "assets/icons/the_ambassador.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1225,7 +1399,7 @@
     "defenceLevel": 85,
     "armor": 2178,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Legiones.png",
+    "icon": "assets/icons/legiones.png",
     "affinity": {
       "hybrid": 15,
       "melee": 7,
@@ -1246,7 +1420,7 @@
     "defenceLevel": 85,
     "armor": 2178,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Raksha,_the_Shadow_Colossus.png",
+    "icon": "assets/icons/raksha,_the_shadow_colossus.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1277,7 +1451,7 @@
     "defenceLevel": 90,
     "armor": 2178,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Vorago.png",
+    "icon": "assets/icons/vorago.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
@@ -1298,7 +1472,7 @@
     "defenceLevel": 80,
     "armor": 1924,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Kerapac,_the_bound.png",
+    "icon": "assets/icons/kerapac,_the_bound.png",
     "hardModeStats": {
       "lifePoints": 450000
     },
@@ -1310,7 +1484,7 @@
     }
   },
   {
-    "name": "Barrows: Rise of the Six",
+    "name": "Ahrim (Rise of the Six)",
     "combatLevel": 650,
     "lifePoints": 50000,
     "slayerHelmable": false,
@@ -1321,40 +1495,149 @@
     "statdrainable": false,
     "defenceLevel": 90,
     "armor": 1924,
-    "susceptibleTo": "",
-    "icon": "https://runescape.wiki/images/Barrows:_Rise_of_the_Six.png",
+    "susceptibleTo": [
+      "hexhunter",
+      "undead",
+      "salve",
+      "ghosthunter"
+    ],
+    "icon": "assets/icons/ahrim_the_blighted.png",
     "affinity": {
       "hybrid": 40,
       "melee": null,
       "ranged": null,
       "magic": null
-    },
-    "phases": [
-      {
-        "name": "Ahrim",
-        "susceptibleTo": ["hexhunter", "undead", "salve", "ghosthunter"]
-      },
-      {
-        "name": "Karil",
-        "susceptibleTo": ["terrasaur", "undead", "salve", "ghosthunter"]
-      },
-      {
-        "name": "Dharok",
-        "susceptibleTo": ["inqstaff", "undead", "salve", "ghosthunter"]
-      },
-      {
-        "name": "Torag",
-        "susceptibleTo": ["inqstaff", "undead", "salve", "ghosthunter"]
-      },
-      {
-        "name": "Verac",
-        "susceptibleTo": ["inqstaff", "undead", "salve", "ghosthunter"]
-      },
-      {
-        "name": "Guthan",
-        "susceptibleTo": ["inqstaff", "undead", "salve", "ghosthunter"]
-      }
-    ]
+    }
+  },
+  {
+    "name": "Karil (Rise of the Six)",
+    "combatLevel": 650,
+    "lifePoints": 50000,
+    "slayerHelmable": false,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": false,
+    "stunnable": false,
+    "statdrainable": false,
+    "defenceLevel": 90,
+    "armor": 1924,
+    "susceptibleTo": [
+      "terrasaur",
+      "undead",
+      "salve",
+      "ghosthunter"
+    ],
+    "icon": "assets/icons/karil_the_tainted.png",
+    "affinity": {
+      "hybrid": 40,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
+  },
+  {
+    "name": "Dharok (Rise of the Six)",
+    "combatLevel": 650,
+    "lifePoints": 50000,
+    "slayerHelmable": false,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": false,
+    "stunnable": false,
+    "statdrainable": false,
+    "defenceLevel": 90,
+    "armor": 1924,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "salve",
+      "ghosthunter"
+    ],
+    "icon": "assets/icons/dharok_the_wretched.png",
+    "affinity": {
+      "hybrid": 40,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
+  },
+  {
+    "name": "Torag (Rise of the Six)",
+    "combatLevel": 650,
+    "lifePoints": 50000,
+    "slayerHelmable": false,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": false,
+    "stunnable": false,
+    "statdrainable": false,
+    "defenceLevel": 90,
+    "armor": 1924,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "salve",
+      "ghosthunter"
+    ],
+    "icon": "assets/icons/torag_the_corrupted.png",
+    "affinity": {
+      "hybrid": 40,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
+  },
+  {
+    "name": "Verac (Rise of the Six)",
+    "combatLevel": 650,
+    "lifePoints": 50000,
+    "slayerHelmable": false,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": false,
+    "stunnable": false,
+    "statdrainable": false,
+    "defenceLevel": 90,
+    "armor": 1924,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "salve",
+      "ghosthunter"
+    ],
+    "icon": "assets/icons/verac_the_defiled.png",
+    "affinity": {
+      "hybrid": 40,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
+  },
+  {
+    "name": "Guthan (Rise of the Six)",
+    "combatLevel": 650,
+    "lifePoints": 50000,
+    "slayerHelmable": false,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": false,
+    "stunnable": false,
+    "statdrainable": false,
+    "defenceLevel": 90,
+    "armor": 1924,
+    "susceptibleTo": [
+      "inqstaff",
+      "undead",
+      "salve",
+      "ghosthunter"
+    ],
+    "icon": "assets/icons/guthan_the_infested.png",
+    "affinity": {
+      "hybrid": 40,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    }
   },
   {
     "name": "Araxxor",
@@ -1369,7 +1652,7 @@
     "defenceLevel": 85,
     "armor": 2458,
     "susceptibleTo": "",
-    "icon": "https://runescape.wiki/images/Araxxor.png",
+    "icon": "assets/icons/araxxor.png",
     "affinity": {
       "hybrid": 55,
       "melee": 60,
@@ -1379,7 +1662,10 @@
     "phases": [
       {
         "name": "Melee",
-        "susceptibleTo": ["inqstaff", "3xNope"],
+        "susceptibleTo": [
+          "inqstaff",
+          "3xNope"
+        ],
         "affinity": {
           "hybrid": 50,
           "melee": null,
@@ -1389,8 +1675,11 @@
       },
       {
         "name": "Magic",
-        "susceptibleTo": ["hexhunter", "3xNope"],
-        "icon": "https://runescape.wiki/images/Araxxor_(magic).png",
+        "susceptibleTo": [
+          "hexhunter",
+          "3xNope"
+        ],
+        "icon": "assets/icons/araxxor_(magic).png",
         "affinity": {
           "hybrid": 50,
           "melee": null,
@@ -1400,8 +1689,11 @@
       },
       {
         "name": "Ranged",
-        "susceptibleTo": ["terrasaur", "3xNope"],
-        "icon": "https://runescape.wiki/images/Araxxor_(ranged).png",
+        "susceptibleTo": [
+          "terrasaur",
+          "3xNope"
+        ],
+        "icon": "assets/icons/araxxor_(ranged).png",
         "affinity": {
           "hybrid": 45,
           "melee": 60,
@@ -1412,8 +1704,11 @@
       {
         "name": "Araxxi",
         "combatLevel": 3000,
-        "susceptibleTo": ["hexhunter", "3xNope"],
-        "icon": "https://runescape.wiki/images/Araxxi.png",
+        "susceptibleTo": [
+          "hexhunter",
+          "3xNope"
+        ],
+        "icon": "assets/icons/araxxi.png",
         "defenceLevel": 80,
         "armor": 1924
       }
@@ -1431,7 +1726,7 @@
     "defenceLevel": 1,
     "armor": 0,
     "susceptibleTo": "",
-    "icon": "https://runescape.wiki/images/Croesus.png",
+    "icon": "assets/icons/croesus.png",
     "affinity": {
       "hybrid": 1,
       "melee": null,
@@ -1452,77 +1747,80 @@
     "defenceLevel": 90,
     "armor": 2458,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/Beastmaster_Durzag.png",
+    "icon": "assets/icons/beastmaster_durzag.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
       "ranged": null,
       "magic": null
-    },
-    "phases": [
-      {
-        "name": "Beastmaster Durzag"
-      },
-      {
-        "name": "Krar",
-        "lifePoints": 700000,
-        "combatLevel": 900,
-        "defenceLevel": 80,
-        "armor": 1924,
-        "icon": "https://runescape.wiki/images/Krar.png",
-        "weakness": "Water",
-        "poisonable": true,
-        "reflectable": true,
-        "stunnable": true,
-        "statdrainable": true,
-        "affinity": {
-          "hybrid": 55,
-          "melee": null,
-          "ranged": 45,
-          "magic": 65
-        }
-      },
-      {
-        "name": "Tuz",
-        "lifePoints": 700000,
-        "combatLevel": 900,
-        "defenceLevel": 80,
-        "armor": 2178,
-        "icon": "https://runescape.wiki/images/Tuz.png",
-        "weakness": "Ranged",
-        "poisonable": true,
-        "reflectable": true,
-        "stunnable": true,
-        "statdrainable": true,
-        "susceptibleTo": ["hexhunter"],
-        "affinity": {
-          "hybrid": 55,
-          "melee": 45,
-          "ranged": 65,
-          "magic": null
-        }
-      },
-      {
-        "name": "Cormes",
-        "lifePoints": 500000,
-        "combatLevel": 900,
-        "defenceLevel": 80,
-        "armor": 2178,
-        "icon": "https://runescape.wiki/images/Cormes.png",
-        "weakness": "Stab",
-        "poisonable": true,
-        "reflectable": true,
-        "stunnable": true,
-        "statdrainable": true,
-        "susceptibleTo": ["hexhunter"],
-        "affinity": {
-          "hybrid": 55,
-          "melee": 45,
-          "ranged": 65,
-          "magic": null
-        }
-      }
-    ]
+    }
+  },
+  {
+    "name": "Krar",
+    "combatLevel": 900,
+    "lifePoints": 700000,
+    "slayerHelmable": false,
+    "weakness": "Water",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 80,
+    "armor": 1924,
+    "susceptibleTo": "inqstaff",
+    "icon": "assets/icons/krar.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": 45,
+      "magic": 65
+    }
+  },
+  {
+    "name": "Tuz",
+    "combatLevel": 900,
+    "lifePoints": 700000,
+    "slayerHelmable": false,
+    "weakness": "Ranged",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 80,
+    "armor": 2178,
+    "susceptibleTo": [
+      "hexhunter"
+    ],
+    "icon": "assets/icons/tuz.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": 45,
+      "ranged": 65,
+      "magic": null
+    }
+  },
+  {
+    "name": "Cormes",
+    "combatLevel": 900,
+    "lifePoints": 500000,
+    "slayerHelmable": false,
+    "weakness": "Stab",
+    "poisonable": true,
+    "reflectable": true,
+    "stunnable": true,
+    "statdrainable": true,
+    "defenceLevel": 80,
+    "armor": 2178,
+    "susceptibleTo": [
+      "hexhunter"
+    ],
+    "icon": "assets/icons/cormes.png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": 45,
+      "ranged": 65,
+      "magic": null
+    }
   },
   {
     "name": "TzKal-Zuk",
@@ -1537,7 +1835,7 @@
     "defenceLevel": 80,
     "armor": 1924,
     "susceptibleTo": "inqstaff",
-    "icon": "https://runescape.wiki/images/TzKal-Zuk.png",
+    "icon": "assets/icons/tzkal-zuk.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1559,7 +1857,7 @@
         "lifePoints": 50000,
         "defenceLevel": 75,
         "armor": 1694,
-        "icon": "https://runescape.wiki/images/Conduit_of_Ful.png",
+        "icon": "assets/icons/conduit_of_ful.png",
         "reflectable": true,
         "stunnable": true,
         "statdrainable": true
@@ -1579,7 +1877,7 @@
     "defenceLevel": 99,
     "armor": 3031,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Yakamaru.png",
+    "icon": "assets/icons/yakamaru.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1600,7 +1898,7 @@
     "defenceLevel": 80,
     "armor": 1924,
     "susceptibleTo": "hexhunter",
-    "icon": "https://runescape.wiki/images/Zamorak,_Lord_of_Chaos.png",
+    "icon": "assets/icons/zamorak,_lord_of_chaos.png",
     "enrageLevel": 0,
     "affinity": {
       "hybrid": 55,
@@ -1610,7 +1908,7 @@
     }
   },
   {
-    "name": "Zemouregal & Vorkath",
+    "name": "Vorkath",
     "combatLevel": 789,
     "lifePoints": 750000,
     "slayerHelmable": true,
@@ -1621,40 +1919,48 @@
     "statdrainable": true,
     "defenceLevel": 65,
     "armor": 1299,
-    "susceptibleTo": ["hexhunter", "salve", "undead"],
-    "icon": "https://runescape.wiki/images/Zamorak,_Lord_of_Chaos.png",
+    "susceptibleTo": [
+      "hexhunter",
+      "salve",
+      "undead"
+    ],
+    "icon": "assets/icons/vorkath.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
       "ranged": null,
       "magic": null
     },
-    "phases": [
-      {
-        "name": "Vorkath",
-        "lifePoints": 750000,
-        "combatLevel": 789,
-        "defenceLevel": 65,
-        "armor": 1299,
-        "icon": "https://runescape.wiki/images/Vorkath.png",
-        "susceptibleTo": ["hexhunter", "salve", "undead"],
-        "hardModeStats": {
-          "lifePoints": 1500000
-        }
-      },
-      {
-        "name": "Zemouregal",
-        "lifePoints": 250000,
-        "combatLevel": 789,
-        "defenceLevel": 70,
-        "armor": 2765,
-        "icon": "https://runescape.wiki/images/Zemouregal_(skeletal).png",
-        "susceptibleTo": ["hexhunter", "undead"],
-        "hardModeStats": {
-          "lifePoints": 500000
-        }
-      }
-    ]
+    "hardModeStats": {
+      "lifePoints": 1500000
+    }
+  },
+  {
+    "name": "Zemouregal",
+    "combatLevel": 789,
+    "lifePoints": 250000,
+    "slayerHelmable": true,
+    "weakness": "Nothing",
+    "poisonable": false,
+    "reflectable": true,
+    "stunnable": false,
+    "statdrainable": true,
+    "defenceLevel": 70,
+    "armor": 2765,
+    "susceptibleTo": [
+      "hexhunter",
+      "undead"
+    ],
+    "icon": "assets/icons/zemouregal_(skeletal).png",
+    "affinity": {
+      "hybrid": 55,
+      "melee": null,
+      "ranged": null,
+      "magic": null
+    },
+    "hardModeStats": {
+      "lifePoints": 500000
+    }
   },
   {
     "name": "Amascut, the Devourer",
@@ -1668,8 +1974,11 @@
     "statdrainable": true,
     "defenceLevel": 95,
     "armor": 2765,
-    "susceptibleTo": ["hexhunter", "conckeris"],
-    "icon": "https://runescape.wiki/images/Amascut,_the_Devourer.png",
+    "susceptibleTo": [
+      "hexhunter",
+      "conckeris"
+    ],
+    "icon": "assets/icons/amascut,_the_devourer.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1690,7 +1999,7 @@
     "defenceLevel": 70,
     "armor": 1486,
     "susceptibleTo": "undead",
-    "icon": "https://runescape.wiki/images/Hermod,_the_Spirit_of_War.png",
+    "icon": "assets/icons/hermod,_the_spirit_of_war.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1711,7 +2020,7 @@
     "defenceLevel": 95,
     "armor": 2458,
     "susceptibleTo": "undead",
-    "icon": "https://runescape.wiki/images/Rasial,_the_First_Necromancer.png",
+    "icon": "assets/icons/rasial,_the_first_necromancer.png",
     "affinity": {
       "hybrid": 55,
       "melee": null,
@@ -1731,8 +2040,11 @@
     "statdrainable": true,
     "defenceLevel": 85,
     "armor": 2178,
-    "susceptibleTo": ["terrasaur", "conckeris"],
-    "icon": "https://runescape.wiki/images/Vermyx,_Brood_Mother.png",
+    "susceptibleTo": [
+      "terrasaur",
+      "conckeris"
+    ],
+    "icon": "assets/icons/vermyx,_brood_mother.png",
     "hardModeStats": {
       "lifePoints": 600000
     },
@@ -1755,8 +2067,11 @@
     "statdrainable": true,
     "defenceLevel": 85,
     "armor": 2178,
-    "susceptibleTo": ["inqstaff", "conckeris"],
-    "icon": "https://runescape.wiki/images/Kezalam,_the_Wanderer.png",
+    "susceptibleTo": [
+      "inqstaff",
+      "conckeris"
+    ],
+    "icon": "assets/icons/kezalam,_the_wanderer.png",
     "hardModeStats": {
       "lifePoints": 900000
     },
@@ -1779,8 +2094,11 @@
     "statdrainable": true,
     "defenceLevel": 95,
     "armor": 2765,
-    "susceptibleTo": ["hexhunter", "conckeris"],
-    "icon": "https://runescape.wiki/images/Nakatra,_Devourer_Eternal.png",
+    "susceptibleTo": [
+      "hexhunter",
+      "conckeris"
+    ],
+    "icon": "assets/icons/nakatra,_devourer_eternal.png",
     "hardModeStats": {
       "lifePoints": 1200000
     },
@@ -1804,7 +2122,7 @@
     "defenceLevel": 1,
     "armor": 0,
     "susceptibleTo": "",
-    "icon": "https://runescape.wiki/images/The_Gate_of_Elidinis.png",
+    "icon": "assets/icons/the_gate_of_elidinis.png",
     "affinity": {
       "hybrid": 1,
       "melee": null,

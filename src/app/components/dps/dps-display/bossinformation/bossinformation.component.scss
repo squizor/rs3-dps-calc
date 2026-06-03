@@ -104,11 +104,35 @@
     box-shadow: var(--shadow-md);
     animation: fadeInDown 0.2s ease-out;
 
+    // Custom scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--wiki-theme-darker);
+    
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: var(--wiki-theme-darker);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--border-color);
+        border-radius: 3px;
+    }
+
     .dropdown-item {
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
         color: var(--text-secondary);
         cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        .item-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
         
         &:hover {
             background-color: var(--active-color);

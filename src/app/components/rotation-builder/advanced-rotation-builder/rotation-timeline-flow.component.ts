@@ -35,13 +35,14 @@ interface LocalRotationStep {
 }
 
 import { AbilityListComponent } from '../ability-list/ability-list.component';
+import { PresetManagerComponent } from '../../shared/preset-manager/preset-manager.component';
 
 @Component({
   selector: 'app-rotation-timeline-flow',
 
   standalone: true,
 
-  imports: [CommonModule, DragDropModule, FormsModule, FontAwesomeModule, AbilityListComponent],
+  imports: [CommonModule, DragDropModule, FormsModule, FontAwesomeModule, AbilityListComponent, PresetManagerComponent],
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 
@@ -65,6 +66,7 @@ export class RotationTimelineFlowComponent implements OnChanges {
   public rotationNameInput = signal<string>('');
   public showSaveLoad = signal<boolean>(false);
   public showMobileAbilities = signal<boolean>(false);
+  public rotationPendingDeletion = signal<string | null>(null);
   
   public faPlus = faPlus;
 
@@ -167,7 +169,42 @@ export class RotationTimelineFlowComponent implements OnChanges {
       // Simulation ticks are integers. We should probably round.
       const tickOffset = Math.round(stepDuration * ratio);
       
+      this.rotationDpsService.isAutoFollowing.set(false);
       this.rotationDpsService.cursorTick.set(startTick + tickOffset);
+  }
+
+  public isStepDuringBerserk(index: number): boolean {
+    const step = this.rotationInternal()[index];
+    const firstItem = step?.items[0];
+    if (!firstItem || !firstItem.instanceId) return false;
+
+    const snapshot = this.rotationDpsService.stepSnapshots().get(firstItem.instanceId);
+    return !!snapshot?.buffs.includes('Berserk');
+  }
+
+  public getBloodlustStacks(index: number): number {
+    const step = this.rotationInternal()[index];
+    const firstItem = step?.items[0];
+    if (!firstItem || !firstItem.instanceId) return 0;
+
+    const snapshot = this.rotationDpsService.stepSnapshots().get(firstItem.instanceId);
+    return snapshot?.bloodlustStacks || 0;
+  }
+
+  public getBloodlustStacksForItem(item: RotationItem): number {
+    const tracked = item as any;
+    if (!tracked || !tracked.instanceId) return 0;
+
+    const snapshot = this.rotationDpsService.stepSnapshots().get(tracked.instanceId);
+    return snapshot?.bloodlustStacks || 0;
+  }
+
+  public getBloodlustDelta(item: RotationItem): number | null {
+    const tracked = item as any;
+    if (!tracked || !tracked.instanceId) return null;
+
+    const snapshot = this.rotationDpsService.stepSnapshots().get(tracked.instanceId);
+    return snapshot?.bloodlustDelta || null;
   }
 
 
@@ -223,13 +260,32 @@ export class RotationTimelineFlowComponent implements OnChanges {
   }
 
   private mapRotationToDisplayTicks(rotation: LocalRotationStep[]): DisplayRotationTick[] {
-    return rotation.map((step) => ({
-      id: step.id,
-      items: step.items.map((itemWithId) => {
-        // We MUST preserve instanceId so the service can report errors back to specific items
-        return itemWithId;
-      }),
-    }));
+    let currentTick = 0;
+    return rotation.map((step) => {
+        const tickId = currentTick;
+        
+        // Calculate the duration this step consumes
+        let stepDuration = 0;
+        step.items.forEach(item => {
+            if (this.isAbility(item)) {
+                // Determine if it triggers GCD (instant vs standard)
+                // For UI simplicity, we assume standard 3 ticks for abilities
+                // (Matches the simplified logic in simulateRotation)
+                    stepDuration = Math.max(stepDuration, 3);
+            } else if (this.isPause(item)) {
+                stepDuration = Math.max(stepDuration, item.duration);
+            }
+        });
+        
+        currentTick += stepDuration;
+        
+        return {
+            id: tickId,
+            items: step.items.map((itemWithId) => {
+                return itemWithId;
+            }),
+        };
+    });
   }
 
   // --- Instance & Utility ---
@@ -307,16 +363,16 @@ export class RotationTimelineFlowComponent implements OnChanges {
       this.savedRotations.set(this.persistenceService.getSavedBuilds());
   }
 
-  saveRotation() {
-      const name = this.rotationNameInput().trim();
-      if (!name) return;
+  saveRotation(name?: string) {
+      const saveName = name || this.rotationNameInput().trim();
+      if (!saveName) return;
       
       const currentRotation = this.mapRotationToDisplayTicks(this.rotationInternal());
       const playerState = this.playerDataService.snapshotState();
 
       const build: import('../../../types/player-build.types').PlayerBuild = {
           id: crypto.randomUUID(),
-          name: name,
+          name: saveName,
           lastModified: Date.now(),
           rotation: currentRotation,
           playerState: playerState
@@ -324,7 +380,6 @@ export class RotationTimelineFlowComponent implements OnChanges {
       
       this.persistenceService.saveBuild(build);
       this.refreshSavedList();
-      alert(`Saved build: ${name}`);
   }
 
   loadRotation(name: string) {
@@ -341,16 +396,26 @@ export class RotationTimelineFlowComponent implements OnChanges {
           this.rotationInternal.set(this.mapInputToInternal(loadedBuild.rotation));
           
           this.showSaveLoad.set(false);
-          alert(`Loaded build: ${name}`);
       }
   }
 
   deleteRotation(name: string) {
-      if(confirm(`Delete build '${name}'?`)) {
-          this.persistenceService.deleteBuild(name);
-          this.refreshSavedList();
-          if (this.rotationNameInput() === name) this.rotationNameInput.set('');
-      }
+      // Logic moved to confirmation methods
+  }
+
+  requestDeleteRotation(name: string) {
+      this.rotationPendingDeletion.set(name);
+  }
+
+  confirmDeleteRotation(name: string) {
+      this.persistenceService.deleteBuild(name);
+      this.rotationPendingDeletion.set(null);
+      this.refreshSavedList();
+      if (this.rotationNameInput() === name) this.rotationNameInput.set('');
+  }
+
+  cancelDeleteRotation() {
+      this.rotationPendingDeletion.set(null);
   }
 
   // --- Drag & Drop Handlers ---
@@ -443,6 +508,7 @@ export class RotationTimelineFlowComponent implements OnChanges {
 
   clearRotation() {
     this.rotationInternal.set([]);
+    this.rotationDpsService.isAutoFollowing.set(true);
   }
 
 

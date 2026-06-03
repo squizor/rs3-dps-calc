@@ -15,7 +15,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Ring_of_Wealth.png"
+    "icon": "assets/icons/ring_of_wealth.png"
   },
   {
     "name": "Ring of vigour",
@@ -33,7 +33,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Ring_of_vigour.png"
+    "icon": "assets/icons/ring_of_vigour.png"
   },
   {
     "name": "Ring of Fortune",
@@ -51,7 +51,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Ring_of_Fortune.png"
+    "icon": "assets/icons/ring_of_fortune.png"
   },
   {
     "name": "Warrior ring",
@@ -69,7 +69,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Warrior_ring.png"
+    "icon": "assets/icons/warrior_ring.png"
   },
   {
     "name": "Luck of the Dwarves",
@@ -87,7 +87,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Luck_of_the_Dwarves.png"
+    "icon": "assets/icons/luck_of_the_dwarves.png"
   },
   {
     "name": "Asylum surgeon's ring",
@@ -105,7 +105,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Asylum_surgeon's_ring.png"
+    "icon": "assets/icons/asylum_surgeon's_ring.png"
   },
   {
     "name": "Ring of death",
@@ -123,7 +123,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Ring_of_death.png"
+    "icon": "assets/icons/ring_of_death.png"
   },
   {
     "name": "Ring of death (i)",
@@ -141,7 +141,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Ring_of_death_(i).png"
+    "icon": "assets/icons/ring_of_death_(i).png"
   },
   {
     "name": "Reaver's ring",
@@ -159,7 +159,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Reaver's_ring.png"
+    "icon": "assets/icons/reaver's_ring.png"
   },
   {
     "name": "Champion's ring",
@@ -177,6 +177,6 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Champion's_ring.png"
+    "icon": "assets/icons/champion's_ring.png"
   }
 ]

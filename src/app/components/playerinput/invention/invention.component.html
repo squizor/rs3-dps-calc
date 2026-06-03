@@ -14,7 +14,7 @@
         class="getIconImg"
         [src]="getIconByName(getInventionItemIcon(augment))"
       />
-      <span *ngIf="augment.name === 'Two-Handed'" class="two-handed-text">2H</span>
+      <span *ngIf="augment.name.includes('Two-Handed')" class="two-handed-text">2H</span>
     </div>
     <div
       class="selector-item add-item-button"
@@ -35,6 +35,7 @@
                     class="getIconImg"
                     [src]="getIconByName(getInventionItemIcon(activeInventionItem))"
                 />
+                <span *ngIf="activeInventionItem.name.includes('Two-Handed')" class="two-handed-text">2H</span>
             </div>
             <div class="inspector-details">
                 <span class="item-name">{{ activeInventionItem.name }}</span>

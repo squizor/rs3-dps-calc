@@ -15,7 +15,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Zamorak's_Book_of_Chaos.png"
+    "icon": "assets/icons/zamorak's_book_of_chaos.png"
   },
   {
     "name": "Illuminated god book",
@@ -33,7 +33,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Illuminated_Book_of_Chaos.png"
+    "icon": "assets/icons/illuminated_book_of_chaos.png"
   },
   {
     "name": "Erethdor's Grimoire",
@@ -51,7 +51,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Erethdor's_grimoire.png"
+    "icon": "assets/icons/erethdor's_grimoire.png"
   },
   {
     "name": "Scripture of Ful",
@@ -69,7 +69,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Scripture_of_Ful.png"
+    "icon": "assets/icons/scripture_of_ful.png"
   },
   {
     "name": "Underworld Grimoire 4",
@@ -87,6 +87,6 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Underworld_Grimoire_4.png"
+    "icon": "assets/icons/underworld_grimoire_4.png"
   }
 ]

@@ -25,12 +25,16 @@ interface RunningState extends AttackerState {
   nextAttackTick: number;
   nextGcdTick: number;
   activeSpell?: string;
+  bloodlustStacks: number;
 }
 
 export interface RotationSnapshot {
     tick: number;
     adrenaline: number;
     cooldowns: Map<string, number>; // name -> expiry tick
+    buffs: string[];
+    bloodlustStacks: number;
+    bloodlustDelta?: number;
 }
 
 @Injectable({
@@ -53,7 +57,9 @@ export class RotationDpsService {
   public cursorTick = signal<number>(0);
   
   public simulationSnapshots = signal<Map<number, RotationSnapshot>>(new Map()); // tick -> snapshot
+  public stepSnapshots = signal<Map<string, RotationSnapshot>>(new Map()); // instanceId -> snapshot
   public simulationStepTicks = signal<Map<number, number>>(new Map()); // stepIndex -> startTick
+  public isAutoFollowing = signal<boolean>(true);
 
   public currentSnapshot$ = computed(() => {
       const targetTick = this.cursorTick();
@@ -184,7 +190,8 @@ export class RotationDpsService {
       currentAdrenaline: 100, // Default start at 100%
       cooldowns: new Map(),
       nextAttackTick: 0, // Tick when next ability CAN fire (GCD)
-      nextGcdTick: 0
+      nextGcdTick: 0,
+      bloodlustStacks: 0
     };
     
     if (rotationTicks.length === 0) {
@@ -206,12 +213,15 @@ export class RotationDpsService {
     const activeSimulationErrors = new Map<string, string>(); // Renamed for safety
     // const stepStatesMap = new Map<string, { cooldownRemaining: number, totalCooldown: number }>(); // Replaced
     const snapshots = new Map<number, RotationSnapshot>();
+    const finalSnapshots = new Map<string, RotationSnapshot>();
     
     // Initial Snapshot at tick 0
     snapshots.set(0, {
         tick: 0,
         adrenaline: 100,
-        cooldowns: new Map()
+        cooldowns: new Map(),
+        buffs: [],
+        bloodlustStacks: 0
     });
     
     // Track step execution times
@@ -262,11 +272,23 @@ export class RotationDpsService {
              }
              
              // Capture Snapshot for this step's start time
-             snapshots.set(tick, {
+             const buffsList = this.buffManager.playerBuffs().map(b => b.name);
+             const stepSnapshot: RotationSnapshot = {
                  tick: tick,
                  adrenaline: initialState.currentAdrenaline,
-                 cooldowns: new Map(initialState.cooldowns)
+                 cooldowns: new Map(initialState.cooldowns),
+                 buffs: buffsList,
+                 bloodlustStacks: initialState.bloodlustStacks || 0
+             };
+             
+             step.items.forEach(item => {
+                 const tracked = item as any;
+                 if (tracked && tracked.instanceId) {
+                     finalSnapshots.set(tracked.instanceId, stepSnapshot);
+                 }
              });
+
+             snapshots.set(tick, stepSnapshot);
              
              stepTicks.set(currentStepIndex, tick);
 
@@ -432,6 +454,7 @@ export class RotationDpsService {
     this.damageOverTime.set(damageEvents);
     this.simulationErrors.set(activeSimulationErrors);
     this.simulationSnapshots.set(snapshots);
+    this.stepSnapshots.set(finalSnapshots);
     this.simulationStepTicks.set(stepTicks);
     
     // Calculate Project DPM
@@ -456,6 +479,12 @@ export class RotationDpsService {
             state.equipment[slotIndex].selectedArmor!.name = swap.itemName;
             this.hydrateEquipmentSlot(state.equipment[slotIndex], swap.itemName);
         }
+    }
+    // Dynamically update weaponStyle during swap
+    if (swap.slot === 'twohand') {
+        state.weaponStyle = '2h';
+    } else if (swap.slot === 'mainhand' || swap.slot === 'offhand') {
+        state.weaponStyle = 'dual-wield';
     }
   }
 

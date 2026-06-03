@@ -1,10 +1,11 @@
+@use '../../playerinput/helpers';
+
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--wiki-theme-darker);
-  border-radius: 0 !important;
-  border: 1px solid var(--wiki-theme-bright);
+  @include helpers.card(0.75rem);
+  margin-bottom: 0;
 }
 
 .ability-pool-container {
@@ -12,7 +13,6 @@
   flex-direction: column;
   height: 100%;
   overflow: visible;
-  padding: 0.5rem;
 }
 
 .lists-container {
@@ -39,13 +39,13 @@
 }
 
 .group-title {
-  color: var(--text-color-light);
+  color: var(--text-secondary);
   font-size: 0.875rem;
   font-weight: 600;
   margin: 1rem 0 0.5rem 0;
   text-transform: uppercase;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--wiki-theme-bright);
+  border-bottom: 1px solid var(--border-color);
   letter-spacing: 0.5px;
 }
 
@@ -77,18 +77,21 @@
   border: 1px solid var(--wiki-theme-bright);
   border-radius: var(--border-radius);
   cursor: move;
-  transition: border-color 0.2s ease-out;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 48px;
   height: 48px;
   overflow: hidden;
 
   &:hover {
     border-color: var(--accent-color);
+    box-shadow: 0 0 8px rgba(255, 183, 0, 0.4);
   }
 
   &.action-button {
     cursor: pointer;
   }
+
+
 }
 
 .ability-icon-small {
@@ -124,7 +127,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-primary);
     font-size: 0.8rem;
     font-weight: bold;
     text-shadow: 0 0 4px black;
@@ -139,15 +142,15 @@
   margin: 1rem 0;
   width: 100%;
   padding: 0.75rem 1rem;
-  background: var(--wiki-theme-darkest);
-  border: 1px solid var(--wiki-theme-bright);
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   transition: all 0.2s ease;
 
   &::placeholder {
-    color: var(--text-color-light);
+    color: var(--text-secondary);
   }
 
   &:focus {
@@ -284,7 +287,7 @@
     background-color: var(--wiki-theme-dark);
     border: 1px solid var(--active-color);
     border-radius: var(--radius);
-    color: #fff;
+    color: var(--text-primary);
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     font-weight: 600;
     font-size: 0.9rem;
@@ -307,7 +310,7 @@
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
     background-color: var(--input-bg);
-    color: white;
+    color: var(--text-primary);
     
     &:focus {
         border-color: var(--active-color);
@@ -350,3 +353,5 @@
     font-size: 2rem;
   }
 }
+
+

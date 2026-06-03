@@ -25,6 +25,15 @@ export class AbilityService {
               return acc.concat(abilities);
             }, [] as Ability[]);
           }),
+          map((abilities) => {
+            // Last-resort filter for duplicates in JSON/Logic
+            const seen = new Set<number>();
+            return abilities.filter((a) => {
+              if (seen.has(a.id)) return false;
+              seen.add(a.id);
+              return true;
+            });
+          }),
           shareReplay(1),
           catchError((error) => {
             console.error('Error loading abilities:', error);

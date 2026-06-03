@@ -791,6 +791,7 @@ export class PlayerinputComponent implements OnInit {
     } else {
       this.selectedEnemyMode = null;
     }
+    this.playerDataService.updateBoss(this.selectedEnemy);
     this.calculateStats();
   }
 
@@ -799,12 +800,12 @@ export class PlayerinputComponent implements OnInit {
   weaponSpeedMultiplier: number = 1;
 
   styleIconMap: { [key: string]: string } = {
-    stab: 'https://runescape.wiki/images/Stab_weakness_icon.png',
-    slash: 'https://runescape.wiki/images/Slash_weakness_icon.png',
-    crush: 'https://runescape.wiki/images/Crush_weakness_icon.png',
-    arrows: 'https://runescape.wiki/images/Arrow_weakness_icon.png',
-    bolts: 'https://runescape.wiki/images/Bolt_weakness_icon.png',
-    thrown: 'https://runescape.wiki/images/Thrown_weakness_icon.png',
+    stab: 'assets/icons/attack.png',
+    slash: 'assets/icons/attack.png',
+    crush: 'assets/icons/attack.png',
+    arrows: 'assets/icons/ranged.png',
+    bolts: 'assets/icons/ranged.png',
+    thrown: 'assets/icons/ranged.png',
   };
 
   getStyleIcon(style: string): string {

@@ -84,6 +84,11 @@ export interface IGearPreset {
   equipment: IEquipmentSlot[];
 }
 
+export interface ITogglePreset {
+  name: string;
+  toggles: IPlayerToggles;
+}
+
 export interface ISummoningFamiliar {
   name: string;
   icon: string;
@@ -182,14 +187,9 @@ export interface IPlayerToggles {
   // Items/Passives
   anachroniaSkillcapeStand: boolean;
   slayerHelmetStand: boolean;
-  slayerHelmet: boolean;
   stoneOfJas: boolean;
   dreadnip: boolean;
   dominionMine: boolean;
-  ancientGizmo: boolean;
-  ringOfVigour: boolean;
-  zorgothsSoulRing: boolean;
-  asylumSurgeonsRing: boolean;
   spiritCape: boolean;
 
   // Abilities/Codexes
@@ -227,6 +227,10 @@ export interface IPlayerToggles {
   dragonSlayer: boolean;
   demonSlayer: boolean;
   undeadSlayer: boolean;
+  flankingRank: number;
+  lungingRank: number;
+  isWalking: boolean;
+  mobilePerk: boolean;
 }
 
 export const DEFAULT_TOGGLES: IPlayerToggles = {
@@ -239,14 +243,9 @@ export const DEFAULT_TOGGLES: IPlayerToggles = {
 
   anachroniaSkillcapeStand: false,
   slayerHelmetStand: false,
-  slayerHelmet: false,
   stoneOfJas: false,
   dreadnip: false,
   dominionMine: false,
-  ancientGizmo: false,
-  ringOfVigour: false,
-  zorgothsSoulRing: false,
-  asylumSurgeonsRing: false,
   spiritCape: false,
 
   deathsSwiftness: false,
@@ -282,4 +281,8 @@ export const DEFAULT_TOGGLES: IPlayerToggles = {
   dragonSlayer: false,
   demonSlayer: false,
   undeadSlayer: false,
+  flankingRank: 0,
+  lungingRank: 0,
+  isWalking: false,
+  mobilePerk: false
 };

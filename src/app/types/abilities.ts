@@ -19,9 +19,9 @@ export interface Ability {
   id: number;
   name: string;
   icon?: string;
-  type: 'auto' | 'basic' | 'threshold' | 'ultimate' | 'special' | 'other' | 'basic attack';
+  type: 'auto' | 'basic' | 'threshold' | 'ultimate' | 'special' | 'other' | 'basic attack' | 'utility' | 'enhanced' | 'passive';
   skill: Skill;
-  gear: 'none' | 'shield' | '2h' | 'dual-wield';
+  gear: 'none' | 'shield' | '2h' | 'dual-wield' | 'all';
   adrenaline: number; // Positive for generation, negative for cost
   cooldown: number; // In ticks
   damage: {
@@ -35,6 +35,7 @@ export interface Ability {
   bleed?: {
     ticks: number;
     interval?: number; // some bleeds hit faster? usually 1 tick or 2 ticks. default 1.
+    damage?: { min: number; max: number }; // Optional override for bleed ticks (e.g. Massacre)
   };
   channel?: {
     ticks: number; // Duration of channel
@@ -42,6 +43,8 @@ export interface Ability {
   };
   effects?: Effect[];
   flags?: AbilityFlags;
+  bloodlust?: number;
+  hits?: number;
 }
 
 export interface RotationAbility extends Ability {

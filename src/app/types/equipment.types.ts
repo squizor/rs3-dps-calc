@@ -35,6 +35,7 @@ export interface Weapon {
   slot: 'mainhand' | 'offhand' | 'twohand';
   auto_damage: number;
   ability_damage: number;
+  damage: number;
   accuracy: number;
   style: 'melee' | 'ranged' | 'magic' | 'necromancy';
   attack_speed: number;
@@ -43,6 +44,7 @@ export interface Weapon {
 
 export interface Boss {
   name: string;
+  lifePoints?: number;
   def: number;
   defenceLevel?: number;
   armor?: number;

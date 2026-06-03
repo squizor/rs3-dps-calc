@@ -15,7 +15,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Obsidian_cape.png"
+    "icon": "assets/icons/obsidian_cape.png"
   },
   {
     "name": "Cape of legends",
@@ -33,7 +33,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Cape_of_legends.png"
+    "icon": "assets/icons/cape_of_legends.png"
   },
   {
     "name": "Spirit cape",
@@ -51,7 +51,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Spirit_cape.png"
+    "icon": "assets/icons/spirit_cape.png"
   },
   {
     "name": "Cape of Accomplishment",
@@ -69,7 +69,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Agility_cape.png"
+    "icon": "assets/icons/agility_cape.png"
   },
   {
     "name": "Expert cape of Accomplishment",
@@ -87,7 +87,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Combatant's_cape.png"
+    "icon": "assets/icons/combatant's_cape.png"
   },
   {
     "name": "Fire cape",
@@ -105,7 +105,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Fire_cape.png"
+    "icon": "assets/icons/fire_cape.png"
   },
   {
     "name": "Max cape",
@@ -123,7 +123,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Max_cape.png"
+    "icon": "assets/icons/max_cape.png"
   },
   {
     "name": "TokHaar-Kal-Ket",
@@ -141,7 +141,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/TokHaar-Kal-Ket.png"
+    "icon": "assets/icons/tokhaar-kal-ket.png"
   },
   {
     "name": "Igneous Kal-Ket",
@@ -159,7 +159,7 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Igneous_Kal-Ket.png"
+    "icon": "assets/icons/igneous_kal-ket.png"
   },
   {
     "name": "Igneous Kal-Zuk",
@@ -177,6 +177,6 @@
       "magic": 0,
       "necromancy": 0
     },
-    "icon": "https://runescape.wiki/images/Igneous_Kal-Zuk.png"
+    "icon": "assets/icons/igneous_kal-zuk.png"
   }
 ]

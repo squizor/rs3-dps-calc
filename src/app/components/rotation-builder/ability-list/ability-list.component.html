@@ -6,7 +6,7 @@
       cdkDropList
       id="actions-list"
       [cdkDropListData]="[]"
-      [cdkDropListData]="[]"
+      [cdkDropListConnectedTo]="connectedTo()"
       [cdkDropListSortingDisabled]="true"
     >
       <div class="action-group">
@@ -14,49 +14,54 @@
           <div class="ability-item action-button" (click)="toggleDropdown('gear')">
             <img [src]="playerDataService.getIconByName('equipment')" class="ability-icon-small" />
           </div>
-          <div class="gear-swap-dropdown" *ngIf="activeDropdown === 'gear'">
-            <div class="preset-item" (click)="showSavePreset()">Save current gear</div>
-            <div class="save-preset-form" *ngIf="isSavingPreset">
-              <input type="text" [(ngModel)]="newPresetName" placeholder="Preset name" (click)="$event.stopPropagation()" />
-              <div class="form-actions">
-                  <button (click)="saveCurrentGear(); $event.stopPropagation()">Save</button>
-                  <button (click)="isSavingPreset = false; $event.stopPropagation()">Cancel</button>
-              </div>
+          @if (activeDropdown === 'gear') {
+            <div class="gear-swap-dropdown">
+              <div class="preset-item" (click)="showSavePreset()">Save current gear</div>
+              @if (isSavingPreset) {
+                <div class="save-preset-form">
+                  <input type="text" [(ngModel)]="newPresetName" placeholder="Preset name" (click)="$event.stopPropagation()" />
+                  <div class="form-actions">
+                      <button (click)="saveCurrentGear(); $event.stopPropagation()">Save</button>
+                      <button (click)="isSavingPreset = false; $event.stopPropagation()">Cancel</button>
+                  </div>
+                </div>
+              }
+              @for (preset of gearPresetsSignal(); track preset.name) {
+                <div
+                  class="preset-item"
+                  cdkDrag
+                  [cdkDragData]="getGearPresetAction(preset)"
+                  (click)="applyGearPreset(preset)"
+                  (cdkDragStarted)="onDragStart()"
+                >
+                  <div class="preset-content">
+                      <span class="preset-name">{{ preset.name }}</span>
+                      <span class="action-icons">
+                        <button
+                          class="add-to-rotation-icon"
+                          (click)="addPresetToRotation(preset, $event)"
+                          title="Add to rotation"
+                        >
+                          +
+                        </button>
+                        <button
+                          class="delete-preset-icon"
+                          (click)="deleteGearPreset(preset.name, $event)"
+                          title="Delete preset"
+                        >
+                          x
+                        </button>
+                      </span>
+                  </div>
+                  
+                  <!-- Custom Drag Preview -->
+                  <div *cdkDragPreview class="preset-drag-preview">
+                     {{ preset.name }}
+                  </div>
+                </div>
+              }
             </div>
-            <div
-              class="preset-item"
-              *ngFor="let preset of gearPresets$ | async"
-              cdkDrag
-              [cdkDragData]="getGearPresetAction(preset)"
-              (click)="applyGearPreset(preset)"
-              (cdkDragStarted)="onDragStart()"
-            >
-              <div class="preset-content">
-                  <span class="preset-name">{{ preset.name }}</span>
-                  <span class="action-icons">
-                    <button
-                      class="add-to-rotation-icon"
-                      (click)="addPresetToRotation(preset, $event)"
-                      title="Add to rotation"
-                    >
-                      +
-                    </button>
-                    <button
-                      class="delete-preset-icon"
-                      (click)="deleteGearPreset(preset.name, $event)"
-                      title="Delete preset"
-                    >
-                      x
-                    </button>
-                  </span>
-              </div>
-              
-              <!-- Custom Drag Preview -->
-              <div *cdkDragPreview class="preset-drag-preview">
-                 {{ preset.name }}
-              </div>
-            </div>
-          </div>
+          }
         </div>
       </div>
 
@@ -65,23 +70,26 @@
           <div class="ability-item action-button" (click)="toggleDropdown('prayer')">
             <img [src]="playerDataService.getIconByName('tab_prayer')" class="ability-icon-small" />
           </div>
-          <div class="prayer-swap-modal" *ngIf="activeDropdown === 'prayer'">
-            <div class="modal-content action-grid">
-              <div
-                class="ability-item"
-                *ngFor="let prayer of availablePrayers$ | async"
-                cdkDrag
-                [cdkDragData]="getPrayerSwapAction(prayer)"
-                [title]="prayer.name"
-                (click)="addAbilityToTimeline(getPrayerSwapAction(prayer), $event)"
-              >
-                <img
-                  [src]="playerDataService.getIconByName(prayer.name)"
-                  class="ability-icon-small"
-                />
+          @if (activeDropdown === 'prayer') {
+            <div class="prayer-swap-modal">
+              <div class="modal-content action-grid">
+                @for (prayer of availablePrayersSignal(); track prayer.name) {
+                  <div
+                    class="ability-item"
+                    cdkDrag
+                    [cdkDragData]="getPrayerSwapAction(prayer)"
+                    [title]="prayer.name"
+                    (click)="addAbilityToTimeline(getPrayerSwapAction(prayer), $event)"
+                  >
+                    <img
+                      [src]="playerDataService.getIconByName(prayer.name)"
+                      class="ability-icon-small"
+                    />
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
 
@@ -90,23 +98,26 @@
           <div class="ability-item action-button" (click)="toggleDropdown('magic')">
             <img [src]="playerDataService.getIconByName('tab_magic')" class="ability-icon-small" />
           </div>
-          <div class="magic-swap-modal" *ngIf="activeDropdown === 'magic'">
-            <div class="modal-content action-grid">
-              <div
-                class="ability-item"
-                *ngFor="let spell of availableSpells$ | async"
-                cdkDrag
-                [cdkDragData]="getMagicSwapAction(spell)"
-                [title]="spell.name"
-                (click)="addAbilityToTimeline(getMagicSwapAction(spell), $event)"
-              >
-                <img
-                  [src]="playerDataService.getIconByName(spell.name)"
-                  class="ability-icon-small"
-                />
+          @if (activeDropdown === 'magic') {
+            <div class="magic-swap-modal">
+              <div class="modal-content action-grid">
+                @for (spell of availableSpellsSignal(); track spell.name) {
+                  <div
+                    class="ability-item"
+                    cdkDrag
+                    [cdkDragData]="getMagicSwapAction(spell)"
+                    [title]="spell.name"
+                    (click)="addAbilityToTimeline(getMagicSwapAction(spell), $event)"
+                  >
+                    <img
+                      [src]="playerDataService.getIconByName(spell.name)"
+                      class="ability-icon-small"
+                    />
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
       <div class="action-group">
@@ -114,23 +125,26 @@
           <div class="ability-item action-button" (click)="toggleDropdown('potions')">
             <img src="assets/icons/adrenaline_renewal_potion.png" class="ability-icon-small" />
           </div>
-          <div class="magic-swap-modal" *ngIf="activeDropdown === 'potions'">
-            <div class="modal-content action-grid">
-              <div
-                class="ability-item"
-                *ngFor="let potion of availablePotions$ | async"
-                cdkDrag
-                [cdkDragData]="getPotionAction(potion)"
-                [title]="potion.name"
-                (click)="addAbilityToTimeline(getPotionAction(potion), $event)"
-              >
-                <img
-                  [src]="getIcon(potion)"
-                  class="ability-icon-small"
-                />
+          @if (activeDropdown === 'potions') {
+            <div class="magic-swap-modal">
+              <div class="modal-content action-grid">
+                @for (potion of availablePotionsSignal(); track potion.name) {
+                  <div
+                    class="ability-item"
+                    cdkDrag
+                    [cdkDragData]="getPotionAction(potion)"
+                    [title]="potion.name"
+                    (click)="addAbilityToTimeline(getPotionAction(potion), $event)"
+                  >
+                    <img
+                      [src]="getIcon(potion)"
+                      class="ability-icon-small"
+                    />
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
       <div class="action-group">
@@ -157,50 +171,54 @@
     />
 
     <mat-tab-group (selectedTabChange)="selectTab(abilityTabs[$event.index].name)">
-      <mat-tab *ngFor="let tab of abilityTabs">
-        <ng-template mat-tab-label>
-          <img [src]="tab.icon" [title]="tab.name" class="ability-tab-icon" />
-        </ng-template>
+      @for (tab of abilityTabs; track tab.name) {
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <img [src]="tab.icon" [title]="tab.name" class="ability-tab-icon" />
+          </ng-template>
 
-        <div
-          cdkDropList
-          id="ability-list"
-          [cdkDropListData]="(filteredAbilities$ | async) || []"
-          class="ability-grid"
-          class="ability-grid"
-          [cdkDropListConnectedTo]="connectedTo"
-          [cdkDropListSortingDisabled]="true"
-        >
           <div
-            class="ability-item"
-            *ngFor="let ability of filteredAbilities$ | async"
-            cdkDrag
-            [cdkDragData]="ability"
-            [title]="getAbilityTooltip(ability)"
-            (cdkDragStarted)="onDragStart()"
-            (click)="addAbilityToTimeline(ability, $event)"
+            cdkDropList
+            id="ability-list"
+            [cdkDropListData]="filteredAbilitiesSignal()"
+            class="ability-grid"
+            [cdkDropListConnectedTo]="connectedTo()"
+            [cdkDropListSortingDisabled]="true"
           >
-            @if (ability.icon) {
-                 <div class="ability-icon-wrapper" [style.--cooldown-percent]="getCooldownPercent(ability) + '%'">
-                    <img
-                      [src]="getIcon(ability)"
-                      [alt]="ability.name"
-                      class="ability-icon-small"
-                    />
-                    @if(getCooldownPercent(ability) < 100 && (settingsService.showCooldownText$ | async)) {
-                        <div class="cooldown-text">{{ getCooldownText(ability) }}</div>
-                    }
-                    @if(getCooldownPercent(ability) < 100) {
-                        <div class="cooldown-overlay"></div>
-                    }
-                 </div>
+            @for (ability of filteredAbilitiesSignal(); track ability.name) {
+              <div
+                class="ability-item"
+                cdkDrag
+                [cdkDragData]="ability"
+                [title]="getAbilityTooltip(ability)"
+                (cdkDragStarted)="onDragStart()"
+                (click)="addAbilityToTimeline(ability, $event)"
+              >
+                @if (ability.icon) {
+                     <div class="ability-icon-wrapper" [style.--cooldown-percent]="getCooldownPercent(ability) + '%'">
+                        <img
+                          [src]="getIcon(ability)"
+                          [alt]="ability.name"
+                          class="ability-icon-small"
+                        />
+                        @if(getCooldownPercent(ability) < 100 && (settingsService.showCooldownText$ | async)) {
+                            <div class="cooldown-text">{{ getCooldownText(ability) }}</div>
+                        }
+                        @if(getCooldownPercent(ability) < 100) {
+                            <div class="cooldown-overlay"></div>
+                        }
+                     </div>
+                }
+              </div>
+            }
+            @if (filteredAbilitiesSignal().length === 0) {
+              <div class="no-results">
+                No abilities found.
+              </div>
             }
           </div>
-          <div *ngIf="(filteredAbilities$ | async)?.length === 0" class="no-results">
-            No abilities found.
-          </div>
-        </div>
-      </mat-tab>
+        </mat-tab>
+      }
     </mat-tab-group>
   </div>
 </div>

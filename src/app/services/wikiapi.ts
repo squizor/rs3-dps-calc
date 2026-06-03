@@ -10,7 +10,7 @@ export class Wikiapi {
   constructor(private http: HttpClient) { }
 
   getPerksData(): Observable<any> {
-    const url = 'https://runescape.wiki/api.php?action=query&format=json&prop=revisions&titles=Perks&rvprop=content&rvslots=*';
+    const url = 'https://runescape.wiki/api.php?action=query&format=json&prop=revisions&titles=Perks&rvprop=content&rvslots=*&origin=*';
     return this.http.get(url).pipe(
       map((response: any) => {
         const pages = response.query.pages;
